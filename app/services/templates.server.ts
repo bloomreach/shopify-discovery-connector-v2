@@ -8,7 +8,7 @@ import searchTemplate from "~/templates/searchTemplate";
 import recommendationTemplate from "~/templates/recommendationTemplate";
 import packageJson from "../../package.json";
 
-import type { AdminApiContext } from "node_modules/@shopify/shopify-app-remix/build/ts/server/clients";
+import type { AdminApiContext } from "node_modules/@shopify/shopify-app-remix/dist/ts/server/clients";
 
 const { sdkVersion } = packageJson;
 const templatesMap = {

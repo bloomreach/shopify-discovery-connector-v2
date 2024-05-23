@@ -1,7 +1,7 @@
 import { GraphQLError } from "~/models";
 import type { Session } from "@shopify/shopify-api";
 import type { RestResources } from "@shopify/shopify-api/rest/admin/2024-01";
-import type { AdminApiContext } from "node_modules/@shopify/shopify-app-remix/build/ts/server/clients";
+import type { AdminApiContext } from "node_modules/@shopify/shopify-app-remix/dist/ts/server/clients";
 import type { MetafieldsSetInput } from "~/types/admin.types";
 import type { Headers } from "@shopify/shopify-api/runtime";
 

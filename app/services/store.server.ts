@@ -2,10 +2,11 @@ import prisma from "../db.server";
 import { getMetafields, upsertAppDataMetafield } from "./admin.server";
 import { setDefaultTemplates } from "./templates.server";
 
-import type { AdminApiContext } from "node_modules/@shopify/shopify-app-remix/build/ts/server/clients";
+
 import type { Account, Recommendations, Store } from "~/types/store";
 import type { Prisma } from "@prisma/client";
 import type { MetafieldsSetInput } from "~/types/admin.types";
+import type { AdminApiContext } from "node_modules/@shopify/shopify-app-remix/dist/ts/server/clients";
 
 const sensitiveKeys: (keyof Store)[] = ["id", "created_at", "updated_at"];
 

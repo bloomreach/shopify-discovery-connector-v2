@@ -10,6 +10,7 @@ node_modules
 /prisma/dev.sqlite
 /prisma/dev.sqlite-journal
 /db
+/app/types/*.schema.json
 database.sqlite
 
 .env

@@ -1,36 +1,26 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable eslint-comments/no-unlimited-disable */
 /* eslint-disable */
-import * as AdminTypes from './admin.types.d.ts';
+import * as StorefrontAPI from '@shopify/hydrogen/storefront-api-types';
 
-export type PopulateProductMutationVariables = AdminTypes.Exact<{
-  input: AdminTypes.ProductInput;
+export type CurrentAppInstallationQueryVariables = StorefrontAPI.Exact<{ [key: string]: never; }>;
+
+
+export type CurrentAppInstallationQuery = { currentAppInstallation: Pick<StorefrontAPI.AppInstallation, 'id'> };
+
+export type CurrentAppInstallationMetafieldsQueryVariables = StorefrontAPI.Exact<{
+  namespace: StorefrontAPI.Scalars['String']['input'];
 }>;
 
 
-export type PopulateProductMutation = { productCreate?: AdminTypes.Maybe<{ product?: AdminTypes.Maybe<(
-      Pick<AdminTypes.Product, 'id' | 'title' | 'handle' | 'status'>
-      & { variants: { edges: Array<{ node: Pick<AdminTypes.ProductVariant, 'id' | 'price' | 'barcode' | 'createdAt'> }> } }
-    )> }> };
+export type CurrentAppInstallationMetafieldsQuery = { currentAppInstallation: { metafields: { nodes: Array<Pick<StorefrontAPI.Metafield, 'id' | 'namespace' | 'key' | 'value' | 'type'>> } } };
 
-export type CurrentAppInstallationQueryVariables = AdminTypes.Exact<{ [key: string]: never; }>;
-
-
-export type CurrentAppInstallationQuery = { currentAppInstallation: Pick<AdminTypes.AppInstallation, 'id'> };
-
-export type CurrentAppInstallationMetafieldsQueryVariables = AdminTypes.Exact<{
-  namespace: AdminTypes.Scalars['String']['input'];
+export type UpsertAppDataMetafieldMutationVariables = StorefrontAPI.Exact<{
+  metafieldsSetInput: Array<StorefrontAPI.MetafieldsSetInput> | StorefrontAPI.MetafieldsSetInput;
 }>;
 
 
-export type CurrentAppInstallationMetafieldsQuery = { currentAppInstallation: { metafields: { nodes: Array<Pick<AdminTypes.Metafield, 'id' | 'namespace' | 'key' | 'value' | 'type'>> } } };
-
-export type UpsertAppDataMetafieldMutationVariables = AdminTypes.Exact<{
-  metafieldsSetInput: Array<AdminTypes.MetafieldsSetInput> | AdminTypes.MetafieldsSetInput;
-}>;
-
-
-export type UpsertAppDataMetafieldMutation = { metafieldsSet?: AdminTypes.Maybe<{ metafields?: AdminTypes.Maybe<Array<Pick<AdminTypes.Metafield, 'namespace' | 'key' | 'value'>>>, userErrors: Array<Pick<AdminTypes.MetafieldsSetUserError, 'field' | 'message'>> }> };
+export type UpsertAppDataMetafieldMutation = { metafieldsSet?: StorefrontAPI.Maybe<{ metafields?: StorefrontAPI.Maybe<Array<Pick<StorefrontAPI.Metafield, 'namespace' | 'key' | 'value'>>>, userErrors: Array<Pick<StorefrontAPI.MetafieldsSetUserError, 'field' | 'message'>> }> };
 
 interface GeneratedQueryTypes {
   "#graphql\n      query CurrentAppInstallation {\n        currentAppInstallation {\n          id\n        }\n      }\n    ": {return: CurrentAppInstallationQuery, variables: CurrentAppInstallationQueryVariables},
@@ -38,7 +28,6 @@ interface GeneratedQueryTypes {
 }
 
 interface GeneratedMutationTypes {
-  "#graphql\n      mutation populateProduct($input: ProductInput!) {\n        productCreate(input: $input) {\n          product {\n            id\n            title\n            handle\n            status\n            variants(first: 10) {\n              edges {\n                node {\n                  id\n                  price\n                  barcode\n                  createdAt\n                }\n              }\n            }\n          }\n        }\n      }": {return: PopulateProductMutation, variables: PopulateProductMutationVariables},
   "#graphql\n      mutation UpsertAppDataMetafield($metafieldsSetInput: [MetafieldsSetInput!]!) {\n        metafieldsSet(metafields: $metafieldsSetInput) {\n          metafields {\n            namespace\n            key\n            value\n          }\n          userErrors {\n            field\n            message\n          }\n        }\n      }": {return: UpsertAppDataMetafieldMutation, variables: UpsertAppDataMetafieldMutationVariables},
 }
 declare module '@shopify/admin-api-client' {
