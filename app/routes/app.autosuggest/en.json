@@ -1,0 +1,12 @@
+{
+  "AutosuggestPage": {
+    "theme": {
+      "title": "Enable Bloomreach Autosuggest on a Theme",
+      "description": "Click on a theme to open theme editor and configure Bloomreach Autosuggest App embeds to replace the built in Shopify Autosuggest."
+    },
+    "template": {
+      "title": "Template",
+      "description": "Configure the template for displaying your autosuggests powered by Bloomreach API's"
+    }
+  }
+}

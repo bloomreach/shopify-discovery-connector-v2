@@ -1,0 +1,82 @@
+{% render "bloomreach-config" %}
+<script>
+  bloomreachConnector.config.autosuggest = {
+    enabled: true,
+    endpoint: "{{ block.settings.endpoint }}",
+    selector: "{{ block.settings.css_selector | replace: '"', '\"'}}",
+    template: "{{ app.metafields.templates.autosuggest | url_decode | strip_newlines | replace: '"', '\"' }}",
+    number_of_terms: {{ block.settings.number_of_terms }},
+    number_of_products: {{ block.settings.number_of_products }},
+    number_of_collections: {{ block.settings.number_of_collections }},
+  };
+</script>
+{% unless block.settings.custom_css == blank %}
+{% style %}
+  {{ block.settings.custom_css }}
+{% endstyle %}
+{% endunless %}
+
+{% schema %}
+  {
+    "name": "t:autosuggestConfig.settings.name",
+    "target": "head",
+    "javascript": "autosuggest.js",
+    "stylesheet": "autosuggest.css",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:autosuggestConfig.settings.description"
+      },
+      {
+        "type": "header",
+        "content": "t:autosuggestConfig.reference.title",
+        "info": "t:autosuggestConfig.reference.info"
+      },
+      {
+        "id": "endpoint",
+        "label": "t:autosuggestConfig.endpoint.label",
+        "type": "select",
+        "options": [
+          {
+            "label": "Staging",
+            "value": "https://staging-suggest.dxpapi.com/api/v1/suggest/"
+          },
+          {
+            "label": "Production",
+            "value": "https://suggest.dxpapi.com/api/v1/suggest/"
+          }
+        ]
+      },
+      {
+        "id": "css_selector",
+        "label": "t:autosuggestConfig.cssSelector.label",
+        "type": "text",
+        "default": "form[action=\"/search\"] input[type=\"text\"], form[action=\"/search\"] input[type=\"search\"]"
+      },
+      {
+        "id": "number_of_terms",
+        "label": "t:autosuggestConfig.numberOfTerms.label",
+        "type": "number",
+        "default": 4
+      },
+      {
+        "id": "number_of_products",
+        "label": "t:autosuggestConfig.numberOfProducts.label",
+        "type": "number",
+        "default": 8
+      },
+      {
+        "id": "number_of_collections",
+        "label": "t:autosuggestConfig.numberOfCollections.label",
+        "type": "number",
+        "default": 8
+      },
+      {
+        "id": "custom_css",
+        "label": "t:autosuggestConfig.customCss.label",
+        "type": "textarea"
+      }
+
+    ]
+  }
+{% endschema %}

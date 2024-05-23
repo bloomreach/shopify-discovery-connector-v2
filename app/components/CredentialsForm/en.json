@@ -1,0 +1,31 @@
+{
+  "CredentialsForm": {
+    "fields": {
+      "accountID": {
+        "title": "Account ID",
+        "description": "",
+        "validation": "This field is required"
+      },
+      "domainKey": {
+        "title": "Domain Key",
+        "description": "",
+        "validation": "This field is required"
+      },
+      "authKey": {
+        "title": "Auth Key",
+        "description": "",
+        "validation": "This field is required"
+      },
+      "searchPageUrl": {
+        "title": "Search Page",
+        "description": "",
+        "validation": "This field is required"
+      }
+    },
+    "primaryAction": "Save",
+    "toaster": {
+      "success": "Settings Saved",
+      "error": "Something went wrong"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{% render "bloomreach-config" %}
+{% capture data_extra %}data-category-id="{% if request.page_type == "collection" %}{{ collection.handle | escape }}{% else %}{{ block.settings.category_id }}{% endif %}"{% endcapture %}
+{% render "bloomreach-widget", data_extra: data_extra, widget_type: "category" %}
+{% schema %}
+  {
+    "name": "t:recommendations.category.name",
+    "target": "section",
+    "javascript": "recommendations.js",
+    "stylesheet": "recommendations.css",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:recommendations.category.description"
+      },
+      {
+        "id": "title",
+        "type": "text",
+        "label": "t:recommendations.title.label"
+      },
+      {
+        "id": "widget_id",
+        "type": "text",
+        "label": "t:recommendations.widgetId.label"
+      },
+      {
+        "id": "category_id",
+        "type": "text",
+        "label": "t:recommendations.categoryId.label"
+      },
+      {
+        "type": "range",
+        "id": "items_to_show",
+        "label": "t:recommendations.itemsToShow.label",
+        "default": 4,
+        "min": 4,
+        "max": 12,
+        "step": 1
+      },
+      {
+        "type": "range",
+        "id": "items_to_fetch",
+        "label": "t:recommendations.itemsToFetch.label",
+        "default": 16,
+        "min": 4,
+        "max": 32,
+        "step": 1
+      },
+      {
+        "id": "custom_css",
+        "label": "t:recommendations.customCss.label",
+        "type": "textarea"
+      }
+    ]
+  }
+{% endschema %}

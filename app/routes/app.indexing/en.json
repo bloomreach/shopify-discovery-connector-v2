@@ -1,0 +1,13 @@
+{
+  "IndexingPage": {
+    "title": "Run Product Index",
+    "description": "Extract your product feed from Shopify and push into Bloomreach's index.",
+    "welcome": {
+      "title": "How to Index?",
+      "body": "Contact your Integration Specialist to create an indexing job for your feed.",
+      "primaryAction": "Contact Integrations",
+      "primaryActionUrl": "mailto:support@bloomreach.com",
+      "illustration": "https://cdn.shopify.com/s/files/1/0559/9726/8160/files/illustrations-indexing.png?v=1620317582"
+    }
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "searchConfig": {
+    "settings": {
+      "name": "Bloomreach Search",
+      "description": "Configure the way Bloomreach API's are displayed on your Search Results"
+    },
+    "cssSelector": {
+      "label": "CSS Selector"
+    },
+    "itemsPerPage": {
+      "label": "Items per Page"
+    },
+    "displayVariants": {
+      "label": "Display Variants?"
+    },
+    "includeFacets": {
+      "label": "Include Facets?"
+    },
+    "numberOfFacets": {
+      "label": "Number of Facets?"
+    },
+    "numberOfFacetValues": {
+      "label": "Number of Facet Values?"
+    },
+    "infiniteScroll": {
+      "label": "Infinite Scroll?"
+    },
+    "flFields": {
+      "label": "Fields"
+    },
+    "customCss": {
+      "label": "Custom CSS"
+    },
+    "endpoint": {
+      "label": "Endpoint"
+    }
+  },
+  "autosuggestConfig": {
+    "settings": {
+      "name": "Bloomreach Autosuggest",
+      "description": "Configure the way Bloomreach API's are displayed on your Autosuggest"
+    },
+    "endpoint": {
+      "label": "Endpoint"
+    },
+    "cssSelector": {
+      "label": "CSS Selector"
+    },
+    "numberOfTerms": {
+      "label": "Number of Terms"
+    },
+    "numberOfProducts": {
+      "label": "Number of Products"
+    },
+    "numberOfCollections": {
+      "label": "Number of Collections"
+    },
+    "customCss": {
+      "label": "Custom CSS"
+    },
+    "reference": {
+      "title": "Reference",
+      "info": "We've designed the Autosuggest to be highly flexible within Shopify. If you'd like to learn more, or customize what is happening with Autosuggest, check out our documentation. [Learn more](https://documentation.bloomreach.com/)"
+    }
+  },
+  "pixelConfig": {
+    "settings": {
+      "name": "Bloomreach Pixel",
+      "description": "Turn on the Bloomreach Pixel on your site to enable our AI optimization engine."
+    }
+  },
+  "categoryConfig": {
+    "settings": {
+      "name": "Bloomreach Collections",
+      "description": "Enable Bloomreach to power the product ranking on your collections pages."
+    },
+    "cssSelector": {
+      "label": "CSS Selector"
+    },
+    "itemsPerPage": {
+      "label": "Items per Page"
+    },
+    "includeFacets": {
+      "label": "Include Facets?"
+    },
+    "numberOfFacets": {
+      "label": "Number of Facets?"
+    },
+    "numberOfFacetValues": {
+      "label": "Number of Facet Values?"
+    },
+    "infiniteScroll": {
+      "label": "Infinite Scroll?"
+    },
+    "flFields": {
+      "label": "Fields"
+    },
+    "customCss": {
+      "label": "Custom CSS"
+    },
+    "endpoint": {
+      "label": "Endpoint"
+    }
+  },
+  "recommendations": {
+    "category": {
+      "name": "Bloomreach Category Widget",
+      "description": "Configure the look & feel of your Bloomreach Category recommendations widget."
+    },
+    "keyword": {
+      "name": "Bloomreach Keyword Widget",
+      "description": "Configure the look & feel of your Bloomreach Keyword recommendations widget."
+    },
+    "personalized": {
+      "name": "Bloomreach Personalized Widget",
+      "description": "Configure the look & feel of your Bloomreach Personalized recommendations widget."
+    },
+    "item": {
+      "name": "Bloomreach Items Widget",
+      "description": "Configure the look & feel of your Bloomreach Items recommendations widget."
+    },
+    "global": {
+      "name": "Bloomreach Global Widget",
+      "description": "Configure the look & feel of your Bloomreach Global recommendations widget."
+    },
+    "title": {
+      "label": "Title"
+    },
+    "widgetId": {
+      "label": "Widget ID"
+    },
+    "categoryId": {
+      "label": "Category ID"
+    },
+    "query": {
+      "label": "Keyword"
+    },
+    "itemIds": {
+      "label": "Items IDs"
+    },
+    "itemsToShow": {
+      "label": "How Many Items to Show"
+    },
+    "itemsToFetch": {
+      "label": "How Many Items to Fetch"
+    },
+    "flFields": {
+      "label": "Fields"
+    },
+    "customCss": {
+      "label": "Custom CSS"
+    },
+    "endpoint": {
+      "label": "Endpoint"
+    }
+  }
+}

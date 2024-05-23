@@ -1,0 +1,44 @@
+{
+  "RecommendationsPage": {
+    "welcome": {
+      "title": "Why Use Recommendations?",
+      "body": "96% of visitors to your website are there to browse, not buy. With recommendations, you can present relevant products and nudge more visitors to convert.",
+      "primaryAction": "Learn More",
+      "primaryActionUrl": "https://www.bloomreach.com/en/products/bloomreach-experience/recommendations",
+      "illustration": "https://cdn.shopify.com/s/files/1/0559/9726/8160/files/illustrations-recommendations.png?v=1620317583"
+    },
+    "recommendations": {
+      "title": "Recommendations Settings",
+      "description": "Customize the endpoint and fields for your Bloomreach recommendations widgets."
+    },
+    "theme": {
+      "title": "Add Bloomreach Recommendations Widgets to a Theme",
+      "description": "Select a theme and widget to open theme editor and add the widget to a page.",
+      "editForm": {
+        "title": "Installed theme(s)",
+        "action": "Add Widget"
+      }
+    },
+    "widgets": {
+      "category": {
+        "displayName": "Category"
+      },
+      "keyword": {
+        "displayName": "Keyword"
+      },
+      "item": {
+        "displayName": "Item"
+      },
+      "personalized": {
+        "displayName": "Personalized"
+      },
+      "global": {
+        "displayName": "Global"
+      }
+    },
+    "template": {
+      "title": "Template",
+      "description": "Configure the template for displaying your Bloomreach recommendations widgets."
+    }
+  }
+}

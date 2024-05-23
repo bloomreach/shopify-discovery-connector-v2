@@ -1,0 +1,25 @@
+{
+  "OptimizePage": {
+    "welcome": {
+      "title": "Ready to Optimize Your Site?",
+      "body": "Do more with less data by leveraging already trained algorithms to optimize the serch results out of the box. Automatically optimize customer journeys based on query and performance data of your storefront. Optimize every search query for your business goals.",
+      "primaryAction": "Leverage Optimization Strategies",
+      "primaryActionUrl": "https://documentation.bloomreach.com/user-guides/search-and-merchandising/product-grid-merchandising/product-grid-merchandising.html",
+      "illustration": "https://cdn.shopify.com/s/files/1/0559/9726/8160/files/illustrations-optimize.png?v=1620317582"
+    },
+    "searchRanking": {
+      "title": "Search Ranking",
+      "description": "Improve the search results powered by Bloomreach search.",
+      "body": "Refine search quality, set global or query specific ranking adjustments, and refine performance within the dashboard.",
+      "primaryAction": "Set up in Bloomreach Dashboard",
+      "primaryActionUrl": "https://tools.bloomreach.com/navapp/commerce/tools/RankingManager/searchterm"
+    },
+    "merchandising": {
+      "title": "Merchandising",
+      "description": "Curate collections & refine product ranking within Bloomreach.",
+      "body": "Identify top performing collections & improve product ranking. Bloomreach must be enabled on Collections to benefit from Merchandising adjustments.",
+      "primaryAction": "Set up in Bloomreach Dashboard",
+      "primaryActionUrl": "https://tools.bloomreach.com/navapp/commerce/tools/RankingManager/category"
+    }
+  }
+}

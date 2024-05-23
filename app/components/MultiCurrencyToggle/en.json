@@ -1,0 +1,15 @@
+{
+  "MultiCurrencyToggle": {
+    "description": "This setting will convert prices from your stores default currency to the user selected currency, if your store supports multiple currencies. Please note if you are using custom templates, this feature might not work as expected.",
+    "label": "Multi-currency is ",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "loading": "Loading",
+    "primaryAction": "Learn More",
+    "primaryActionUrl": "https://help.shopify.com/en/manual/payments/shopify-payments/multi-currency/setup",
+    "toaster": {
+      "success": "Settings Saved",
+      "error": "Something went wrong"
+    }
+  }
+}

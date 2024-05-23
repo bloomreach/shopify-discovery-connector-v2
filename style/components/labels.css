@@ -1,0 +1,16 @@
+.Bloomreach-Label {
+  display: inline-flex;
+  font-weight: normal;
+}
+
+.Bloomreach-Label__text {
+  padding-left: 1em;
+  vertical-align: middle;
+  font-weight: normal;
+}
+
+.Bloomreach-Label__spinner {
+  padding-left: 0.5em;
+  vertical-align: middle;
+  font-weight: normal;
+}

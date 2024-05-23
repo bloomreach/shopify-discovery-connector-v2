@@ -1,0 +1,20 @@
+{
+  "RecommendationsForm": {
+    "fields": {
+      "endpoint": {
+        "title": "Endpoint",
+        "description": ""
+      },
+      "flFields": {
+        "title": "Fields",
+        "description": "",
+        "validation": "This field is required"
+      }
+    },
+    "primaryAction": "Save",
+    "toaster": {
+      "success": "Settings Saved",
+      "error": "Something went wrong"
+    }
+  }
+}

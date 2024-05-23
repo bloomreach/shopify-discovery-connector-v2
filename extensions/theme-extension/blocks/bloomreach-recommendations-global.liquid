@@ -1,0 +1,49 @@
+{% render "bloomreach-config" %}
+{% render "bloomreach-widget", widget_type: "global" %}
+{% schema %}
+  {
+    "name": "t:recommendations.global.name",
+    "target": "section",
+    "javascript": "recommendations.js",
+    "stylesheet": "recommendations.css",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:recommendations.global.description"
+      },
+      {
+        "id": "title",
+        "type": "text",
+        "label": "t:recommendations.title.label"
+      },
+      {
+        "id": "widget_id",
+        "type": "text",
+        "label": "t:recommendations.widgetId.label"
+      },
+      {
+        "type": "range",
+        "id": "items_to_show",
+        "label": "t:recommendations.itemsToShow.label",
+        "default": 4,
+        "min": 4,
+        "max": 12,
+        "step": 1
+      },
+      {
+        "type": "range",
+        "id": "items_to_fetch",
+        "label": "t:recommendations.itemsToFetch.label",
+        "default": 16,
+        "min": 4,
+        "max": 32,
+        "step": 1
+      },
+      {
+        "id": "custom_css",
+        "label": "t:recommendations.customCss.label",
+        "type": "textarea"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,16 @@
+{
+  "SearchPage": {
+    "theme": {
+      "title": "Enable Bloomreach Search on a Theme",
+      "description": "Click on a theme to open theme editor and configure Bloomreach Search App embeds to replace the built in Shopify search results page."
+    },
+    "searchTemplate": {
+      "title": "Template",
+      "description": "Configure the template for displaying your search results powered by Bloomreach API's."
+    },
+    "searchListTemplate": {
+      "title": "Product List Template",
+      "description": "Configure the template for displaying the product grid within your search results powered by Bloomreach API's."
+    }
+  }
+}

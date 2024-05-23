@@ -1,0 +1,27 @@
+{
+  "SettingsPage": {
+    "credentials": {
+      "title": "Credentials",
+      "description": "Add your API credentials to authenticate Shopify with your Bloomreach Account."
+    },
+    "endpoints": {
+      "title": "Endpoints",
+      "description": "Select the endpoints for each Bloomreach feature."
+    },
+    "pixel": {
+      "title": "Pixel",
+      "description": "Turn on the Bloomreach Pixel on your site to enable our AI optimization engine."
+    },
+    "MulitCurrency": {
+      "title": "Multi-currency",
+      "description": "Turn on the multi-currency support within Bloomreach templates."
+    },
+    "sync": {
+      "title": "Sync Themes",
+      "description": "Re-install Bloomreach on all your themes."
+    },
+    "version": {
+      "title": "App Version"
+    }
+  }
+}

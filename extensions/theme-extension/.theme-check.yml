@@ -1,0 +1,4 @@
+AssetSizeAppBlockJavaScript:
+  enabled: true
+  severity: suggestion
+  threshold_in_bytes: 100000

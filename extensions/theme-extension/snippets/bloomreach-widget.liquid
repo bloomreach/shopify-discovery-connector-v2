@@ -1,0 +1,40 @@
+<script>
+  if (!window.bloomreachConnector.config.widget) {
+    bloomreachConnector.config.widget = {
+      endpoint: "{{ app.metafields.recommendations.endpoint }}",
+      fields: "{{ app.metafields.recommendations.fl_fields }}",
+      template: "{{ app.metafields.templates.recommendations | url_decode | strip_newlines | replace: '"', '\"' }}",
+    };
+  }
+</script>
+{% if block.settings.widget_id %}
+  <section
+    id="blm-recommendations-{{ block.id }}"
+    class="blm-recommendations"
+  >
+    {% if block.settings.title %}
+      <header class="blm-recommendations__header">
+        <h2 class="blm-recommendations__title">
+          {{ block.settings.title }}
+        </h2>
+      </header>
+    {% endif %}
+    <div
+      class="blm-recommendations-widget blm-recommendations-widget-{{ widget_type }}"
+      data-type="{{ widget_type }}"
+      data-title="{{ block.settings.title }}"
+      data-id="{{ block.settings.widget_id }}"
+      data-number-of-items-to-show="{{ block.settings.items_to_show }}"
+      data-number-of-items-to-fetch="{{ block.settings.items_to_fetch }}"
+      {% if data_extra %}{{ data_extra }}{% endif %}>
+    </div>
+  </section>
+{% endif %}
+
+{% style %}
+  .blm-recommendations {}
+  .blm-recommendations__container {}
+  .blm-recommendations__header { padding: 1.5em; text-align: center; }
+  .blm-recommendations__title { max-width: 32em; margin: 0 auto; }
+  {{ block.settings.custom_css }}
+{% endstyle %}

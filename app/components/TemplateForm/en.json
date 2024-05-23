@@ -1,0 +1,30 @@
+{
+  "TemplateForm": {
+    "templateVersion": "Template Version",
+    "primaryAction": "Save",
+    "updateBanner": {
+      "title": "There is an update available for this template",
+      "body1": "Click \"Update Automatically\" to automatically update the template. You will lose any existing modifications.",
+      "body2": "Click \"Download\" to download the new template, and update it manually. After that, paste the updated template in the textbox above, and check \"I have manually updated this template\".",
+      "currentVersion": "Current Version",
+      "availableVersion": "Available Version",
+      "download": "Download",
+      "primaryAction": "Update Automatically",
+      "checkbox": "I have manually updated this template",
+      "warning": {
+        "title": "Are you sure?",
+        "body": "Are you sure you want to automatically update this template? You will lose any existing modifications.",
+        "confirm": {
+          "label": "Confirm"
+        },
+        "dismiss": {
+          "label": "Cancel"
+        }
+      }
+    },
+    "toaster": {
+      "success": "Settings Saved",
+      "error": "Something went wrong"
+    }
+  }
+}

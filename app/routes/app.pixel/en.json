@@ -1,0 +1,21 @@
+{
+  "PixelPage": {
+    "theme": {
+      "title": "Enable Bloomreach Pixel on a Theme",
+      "description": "Click on a theme to open theme editor and configure Bloomreach Pixel App embeds to inject the Bloomreach Javascript pixel into your front end to track how users interact with products across your site."
+    },
+    "conversion": {
+      "title": "Additional Scripts",
+      "description": "",
+      "content": {
+        "description": "In order to track conversions with the Bloomreach pixel you must also add a tracking script to the additional scripts field within your store admin. To do this:",
+        "list1": "From your Shopify admin, go to <strong>Settings > Checkout</strong>.",
+        "list2": "Under <strong>Order processing</strong>, go to the <strong>Additional scripts</strong> text box.",
+        "list3": "Paste the following tracking code into the <stron>Additional scripts</strong> text box and click <strong>Save</strong>.",
+        "label": "Conversion tracking snippet"
+      },
+      "primaryAction": "Learn More",
+      "primaryActionUrl": "https://documentation.bloomreach.com/discovery/docs/conversion-page-view-pixel"
+    }
+  }
+}

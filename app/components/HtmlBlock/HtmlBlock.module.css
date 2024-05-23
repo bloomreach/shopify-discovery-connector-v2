@@ -1,0 +1,9 @@
+@import "@shopify/polaris-tokens/css/styles.css";
+
+.HtmlBlock {
+  color: var(--p-color-text-secondary);
+}
+
+.HtmlBlock p:not(:last-child) {
+  padding-bottom: 1.25em;
+}

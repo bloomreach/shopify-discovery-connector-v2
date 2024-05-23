@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model store {
+  id                                      Int       @id @default(autoincrement())
+  created_at                              DateTime? @default(now()) @db.Timestamp(0)
+  updated_at                              DateTime? @default(now()) @db.DateTime(0)
+  shop_url                                String?   @unique @db.VarChar(250)
+  autosuggest_template_version            String?   @db.VarChar(100)
+  search_template_version                 String?   @db.VarChar(100)
+  search_product_list_template_version    String?   @db.VarChar(100)
+  category_template_version               String?   @db.VarChar(100)
+  category_product_list_template_version  String?   @db.VarChar(100)
+  recommendations_template_version        String?   @db.VarChar(100)
+  default_templates_added                 Boolean   @default(false)
+}
+
+model session {
+  id               String     @id @db.VarChar(250)
+  shop             String     @db.VarChar(250)
+  state            String     @db.VarChar(250)
+  scope            String?    @db.VarChar(250)
+  expires          DateTime?  @db.DateTime(3)
+  isOnline         Boolean    @default(false)
+  accessToken      String     @db.VarChar(250)
+  userId           BigInt?    @db.BigInt
+}

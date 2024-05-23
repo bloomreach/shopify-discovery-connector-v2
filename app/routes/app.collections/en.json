@@ -1,0 +1,16 @@
+{
+  "CollectionsPage": {
+    "theme": {
+      "title": "Enable Bloomreach Collections on a Theme",
+      "description": "Click on a theme to open theme editor and configure Bloomreach Collections App embeds to replace the built in Shopify collections pages."
+    },
+    "categoryTemplate": {
+      "title": "Template",
+      "description": "Configure the template for displaying your Bloomreach ranked collections pages."
+    },
+    "categoryListTemplate": {
+      "title": "Product List Template",
+      "description": "Configure the template for displaying the product grid within your Bloomreach ranked collections pages."
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "DashboardPage": {
+    "welcome": {
+      "title": "Quickstart Guides",
+      "body": "Not sure where to get started? Look at our Documentation & Quick Start guide for Bloomreach and Shopify. It'll get you started in no time.",
+      "primaryAction": "See Documentation",
+      "primaryActionUrl": "https://documentation.bloomreach.com/",
+      "illustration": "https://cdn.shopify.com/s/files/1/0559/9726/8160/files/illustrations-dashboard.png?v=1620317582"
+    },
+    "enterprise": {
+      "title": "Enterprise grade AI",
+      "description": "Our 12 years of investment into our AI will help significantly improve product discovery.",
+      "body1": "Bloomreach's AI-driven Search for eCommerce allows your teams to create a sophisticated seach and product discovery experience that drives conversions and revenue.",
+      "body2": "Our set of AI-driven merchandising tools help you make impactful and effective changes that convert more traffic.",
+      "primaryAction": "Learn More",
+      "primaryActionUrl": "https://www.bloomreach.com/en/products/bloomreach-experience/search"
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "We're here to help you be successful, reach out with any questions.",
+      "body": "Most questions can be addressed to your onboarding team of account specialists. If other questions arise, feel free to reach out to our global team.",
+      "address": "+1 (877) 414-4776<br/>82 Pioneer Way,<br/>Mountain View, CA",
+      "primaryAction": "Contact Us",
+      "primaryActionUrl": "https://support.bloomreach.com/"
+    },
+    "configureBanner": {
+      "title": "Set Up Bloomreach",
+      "primaryAction": "Add API Keys",
+      "secondaryAction": "Learn More",
+      "secondaryActionUrl": "https://documentation.bloomreach.com/",
+      "body": "We're excited for you to get started with industry leading Search, Merchandising & Recommendations! To begin, go to the Settings tab and enter your API credentials."
+    }
+  }
+}
