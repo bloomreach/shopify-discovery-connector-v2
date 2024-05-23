@@ -1,7 +1,6 @@
 import type { HeadersFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, Outlet, useLoaderData, useRouteError } from "@remix-run/react";
-import polarisTranslations from "@shopify/polaris/locales/en.json";
 import { I18nContext, I18nManager, useI18n } from "@shopify/react-i18n";
 import { boundary } from "@shopify/shopify-app-remix/server";
 import { AppProvider } from "@shopify/shopify-app-remix/react";
@@ -42,7 +41,7 @@ export default function App() {
   const { setupComplete, apiKey } = useLoaderData<typeof loader>();
 
   return (
-    <AppProvider isEmbeddedApp apiKey={apiKey} i18n={polarisTranslations}>
+    <AppProvider isEmbeddedApp apiKey={apiKey}>
       <I18nContext.Provider value={i18nManager}>
         <ui-nav-menu>
           <Link to="/app" rel="home">

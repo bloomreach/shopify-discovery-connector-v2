@@ -75,11 +75,6 @@ const deleteStore = async (shopUrl: string) => {
   console.log("log: deleteStore");
   console.log("log: deleteStore: shopUrl", shopUrl);
   await prisma.store.delete({ where: { shop_url: shopUrl } });
-  await prisma.session.deleteMany({
-    where: {
-      shop: shopUrl,
-    },
-  });
   return;
 };
 
@@ -123,6 +118,11 @@ const uninstallStore = async (shopUrl: string) => {
   console.log("log: uninstallStore");
   console.log("log: uninstallStore: shop", shopUrl);
   await deleteStore(shopUrl);
+  await prisma.session.deleteMany({
+    where: {
+      shop: shopUrl,
+    },
+  });
   return;
 };
 
