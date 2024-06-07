@@ -76,13 +76,10 @@ export default function PixelPage() {
   br_data.ptype = "conversion";
   br_data.title = "{{ page_title | escape }}";
   br_data.domain_key = "${account.domain_key || "YOUR_DOMAIN_KEY"}";
-  br_data.catalogs = [""];
-  br_data.view_id = "";
   br_data.user_id = "{{ customer.id }}";
   br_data.is_conversion = 1;
   br_data.basket_value = {{ checkout.subtotal_price | money_without_currency }};
   br_data.order_id = "{{ checkout.order_id }}";
-  br_data.cookie2 = "";
   br_data.basket = {
     "items": [
       {% for line_item in checkout.line_items %}

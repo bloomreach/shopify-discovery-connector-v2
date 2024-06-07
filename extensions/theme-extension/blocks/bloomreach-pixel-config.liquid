@@ -22,12 +22,10 @@
   br_data.acct_id = "{{ app.metafields.account.account_id }}";
   br_data.ptype = "{{ page_type }}";
   br_data.title = "{{ page_title | escape }}";
-  br_data.domain_key = "{{ app.metafields.account.domain_key }}";
-  br_data.catalogs = ["{{ 'NEED_MORE_INFO' }}"];
-  br_data.view_id = "{{ 'NEED_MORE_INFO' }}";
   br_data.user_id = "{{ customer.id }}";
-  br_data.tms = "{{ 'NEED_MORE_INFO' }}";
-  br_data.cookie2 = "";
+  // br_data.domain_key = "{{ app.metafields.account.domain_key }}";
+  // br_data.view_id = "";
+  // br_data.tms = "{{ 'NEED_MORE_INFO' }}";
   {% if page_type == "product" -%}
   // Product page view
   br_data.prod_id = "{{ product.handle | escape }}";
