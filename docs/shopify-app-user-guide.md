@@ -1,5 +1,11 @@
-## Getting started
+---
+title: Shopify App v2 User Guide
+category: 61b785225c1c75017a430718
+slug: shopify-app-user-guide
+parentDocSlug: discovery-connectors
+---
 
+## Getting started
 
 ### Installation
 
@@ -348,8 +354,10 @@ data-blm-quickview-prod-name="{{ product.name }}"
 
 #### Pixel Validator
 
-To validate and inspect the data captured by Bloomreach pixel events, you can install the [Bloomreach Pixel Validator](https://chrome.google.com/webstore/detail/bloomreach-pixel-validato/bednpgnjlfnlipjmglfhfbmjhecjeghc?hl=en) for Google Chrome. For more details on the Pixel Validator, read the [Pixel Validator documentation](https://documentation.bloomreach.com/discovery/docs/validating-pixels).
+To validate and inspect the data captured by Bloomreach pixel events, you can:
 
+- Install the [Bloomreach Pixel Validator](https://chrome.google.com/webstore/detail/bloomreach-pixel-validato/bednpgnjlfnlipjmglfhfbmjhecjeghc?hl=en) for Google Chrome. For more details on the Pixel Validator, read the [Pixel Validator documentation](https://documentation.bloomreach.com/discovery/docs/validating-pixels).
+- Use the new [Events Management](https://documentation.bloomreach.com/discovery/docs/events-management) view to [test Pixel Tracking with Debug Events](https://documentation.bloomreach.com/discovery/docs/track-debug-events-in-integration-mode).
 
 ### Product feed delivery
 
