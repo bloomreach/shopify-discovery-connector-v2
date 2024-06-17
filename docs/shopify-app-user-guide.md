@@ -19,11 +19,11 @@ When getting started with Bloomreach, you will first work with a member of our I
 
 Once you finish the initial account setup and configuration, you will receive access to your environment from the Support team. You can then use your Bloomreach account to authenticate with your Shopify app. To do this, enter your Bloomreach account credentials into the Shopify app. Your credentials are found on your Bloomreach Dashboard, under the **Internal Admin** > **Discovery** **API Details** menu item.
 
-![Discovery API details](images/link-keys.png)
+![Discovery API details](https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/link-keys.png)
 
 Copy the keys into the Shopify app credentials form on the Settings page:
 
-![Credentials settings](images/link-settings.png)
+![Credentials settings](https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/link-settings.png)
 
 The following fields are all needed for a successful integration:
 
@@ -56,11 +56,11 @@ There are nine sections with configuration options:
 
 To customize and start using a Bloomreach **search**/**collections** feature, navigate to the corresponding page. You will find a list of themes installed in your Shopify store in the **Enable [Bloomreach Feature] on a Theme** section. Click on a theme to open the Shopify theme editor in a new tab and enable the corresponding Bloomreach feature on that theme. Below shows an example of the **Bloomreach Search** feature:
 
-![Enable Bloomreach Search on a theme](images/theme-enable.png)
+![Enable Bloomreach Search on a theme](https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/theme-enable.png)
 
 You can then customize the Bloomreach feature in the Shopify theme editor, using the **App embeds** tab:
 
-![Bloomreach Search settings](images/search-app-embeds.png)
+![Bloomreach Search settings](https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/search-app-embeds.png)
 
 You can customize the following options:
 
@@ -80,7 +80,7 @@ You can customize the following options:
 
 You can also customize the templates for Bloomreach search/collections to better suit your storefront design. To do that, navigate to the corresponding page, then go to the **Template** or **Product List Template** section:
 
-![Customize templates](images/edit-templates.png)
+![Customize templates](https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/edit-templates.png)
 
 The **Template** is used for product grid containers (including headers, toolbar, etc.) and facets, while the **Product List Template** is used for each item in the product grid. The templates are based on [EJS](https://ejs.co/) format.
 
@@ -90,7 +90,7 @@ When you have finished editing each template in the text box, click the **Save**
 
 Bloomreach may release new templates from time to time. Those may contain new features, bug fixes, new API supports, etc. When the app detects a new version for a template, you will be notified with an info box like below:
 
-![New template version notification](images/template-version.png)
+![New template version notification](https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/template-version.png)
 
 You then have two options to proceed:
 
@@ -107,7 +107,7 @@ You then have two options to proceed:
 
 Similar to the **Search**/**Collections**, to customize and start using the Bloomreach **autosuggest** feature, navigate to the **Autosuggest** page. You will find a list of themes installed in your Shopify store in the **Enable Bloomreach Autosuggest on a Theme** section. Click on a theme to open the Shopify theme editor in a new tab and enable the autosuggest feature on that theme. You can then customize the Bloomreach autosuggest feature in the Shopify theme editor, using the **App embeds** tab:
 
-![Autosuggest settings](images/autosuggest-app-embeds.png)
+![Autosuggest settings](https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/autosuggest-app-embeds.png)
 
 You can customize the following options:
 
@@ -142,7 +142,7 @@ When you have finished editing the template in the text box, click the **Save** 
 
 To start using the Bloomreach **Recommendations & Pathways** Widgets, navigate to the **Recommendations** page. You will find a list of themes installed in your Shopify store in the **Add Bloomreach Recommendations Widgets to a Theme** section.
 
-![Add widget to a theme](images/add-widget-to-theme.png)
+![Add widget to a theme](https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/add-widget-to-theme.png)
 
 Click the **Add Widget** dropdown next to the theme you want to add a widget to, and select a widget from the menu. It will open the theme editor where you can add or edit your widget.
 
@@ -167,7 +167,7 @@ Once you have added a Bloomreach widget to your page, you’ll be able to pair t
 
 then click **Save** to see the widget display.
 
-![Widget properties](images/widget-settings.png)
+![Widget properties](https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/widget-settings.png)
 
 #### Add a widget to any page
 
@@ -182,7 +182,7 @@ You can also add a widget to any other page using the theme editor. To do that:
 >
 > Bloomreach widgets must be included in an **Apps** section. You can however put multiple widgets in the same section.
 
-![Add a widget using theme editor](images/add-widget-to-page.png)
+![Add a widget using theme editor](https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/add-widget-to-page.png)
 
 #### Customize widgets
 
@@ -190,7 +190,7 @@ You can also add a widget to any other page using the theme editor. To do that:
 
 The following options apply to all widgets in your store, and can only be customized in the app’s **Recommendations** page:
 
-![Recommendations settings](images/recommendations-settings.png)
+![Recommendations settings](https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/recommendations-settings.png)
 
 - **Endpoint**: Choose the Bloomreach Discovery endpoint for the widgets. This can be either **Staging** or **Production**. 
 - **Fields**: Set the **attribute fields** that you want returned from Bloomreach, such as product IDs and prices.
@@ -218,7 +218,7 @@ Each widget also has its own customizable options depending on its type. They ca
 
 Similar to the **Search**/**Collections**, to customize and start using the Bloomreach **pixel** feature, navigate to the **Pixel** page. You will find a list of themes installed in your Shopify store in the **Enable Bloomreach Pixel on a Theme** section. Click on a theme to open the Shopify theme editor in a new tab and enable the pixel feature on that theme. You can then toggle the Bloomreach pixel feature on or off globally for your store in the Shopify theme editor, using the **App embeds** tab:
 
-![Pixel settings](images/pixel-app-embeds.png)
+![Pixel settings](https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/pixel-app-embeds.png)
 
 Once **enabled**, the app will inject the pixel into your theme. The pixel will track users as they navigate and interact with your site. This information is passed back to Bloomreach and adds behavioral learning data to the Bloomreach algorithm.
 
@@ -254,7 +254,7 @@ In order to track conversions with the Bloomreach pixel, you must also add a tra
 - Navigate to the **Pixel** page and scroll down to the **Additional Scripts** section.
 - Copy all this tracking script to your clipboard.
 
-![Additional tracking scripts](images/pixel-scripts.png)
+![Additional tracking scripts](https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/pixel-scripts.png)
 
 - From your Shopify admin, go to **Settings** > **Checkout**.
 - Under **Order processing**, go to the **Additional scripts** text box.
