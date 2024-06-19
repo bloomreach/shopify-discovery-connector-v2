@@ -397,10 +397,10 @@ Please follow the steps below to migrate your data from v1.x to v2:
 
 After enabling the app, users can occasionally see both the default Shopify autosuggest & the Bloomreach Autosuggest on their frontend. Each Shopify theme handles the Shopify autosuggest slightly differently. To avoid this, we recommend hiding the predictive search overlay.
 
-For example, if you are using Shopify’s Debut theme, you can hide the **default Autosuggest overlay** by adding the following **Custom CSS**:
+For example, if you are using Shopify’s Dawn theme, you can hide the **default Autosuggest overlay** by adding the following **Custom CSS**:
 
 ```css Hide default Autosuggest overlay
-.predictive-search-wrapper { display: none !important; }
+predictive-search .predictive-search { display: none !important; }
 ```
 
 #### Brief display of default Search & Collections pages
@@ -410,8 +410,8 @@ Because of the way Bloomreach loads & displays results on your theme, you may oc
 For example, if you are using Shopify’s Dawn theme, you can hide the **Search CSS selector** by adding the following **Custom CSS**:
 
 ```css Hide Search CSS selector
-.template-search #ProductGridContainer { visibility: hidden; }
-.template-search #ProductGridContainer.blm-has-loaded { visibility: visible; }
+#MainContent { visibility: hidden; }
+#MainContent.blm-has-loaded { visibility: visible; }
 ```
 
 This CSS will hide the container initially and show it when Bloomreach has loaded and displayed the results.
