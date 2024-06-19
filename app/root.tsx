@@ -10,7 +10,7 @@ export default function App() {
   return (
     <html>
       <head>
-        <title>Bloomreach Connector</title>
+        <title>Bloomreach Connector v2</title>
         <link rel="icon" href="/favicon.ico" />
         <link rel="icon" href="/icon.svg" type="images/svg+xml" />
         <link

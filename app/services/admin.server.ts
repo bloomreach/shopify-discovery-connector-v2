@@ -1,9 +1,8 @@
 import { GraphQLError } from "~/models";
 import type { Session } from "@shopify/shopify-api";
-import type { RestResources } from "@shopify/shopify-api/rest/admin/2024-01";
-import type { AdminApiContext } from "node_modules/@shopify/shopify-app-remix/dist/ts/server/clients";
 import type { MetafieldsSetInput } from "~/types/admin.types";
 import type { Headers } from "@shopify/shopify-api/runtime";
+import type { AdminApiContext } from "@shopify/shopify-app-remix/server";
 
 /**
  *
@@ -162,7 +161,7 @@ const upsertAppDataMetafield = async (admin: AdminApiContext, metafields: Omit<M
   return data?.metafieldsSet?.metafields;
 };
 
-const getThemes = async (admin: AdminApiContext<RestResources>, session: Session) => {
+const getThemes = async (admin: AdminApiContext, session: Session) => {
   console.log("log: getThemes");
   const themes = await admin.rest.resources.Theme.all({ session });
   console.log("log: getThemes: response data: ", themes);

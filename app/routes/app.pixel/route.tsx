@@ -4,12 +4,12 @@ import { BlockStack, Card, Layout, List, Page, Text, TextField } from "@shopify/
 import { useI18n } from "@shopify/react-i18n";
 import { PageWrapper, ThemeEditForm, HtmlBlock, LoadingPage, ExternalLink } from "~/components";
 import { getThemes, getAccount } from "~/services";
-import { authenticate } from "../../shopify.server";
+import { authenticate, extensionId } from "../../shopify.server";
 
 import en from "./en.json";
 
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import type { Theme } from "node_modules/@shopify/shopify-api/rest/admin/2024-01/theme";
+import type { Theme } from "node_modules/@shopify/shopify-api/dist/ts/rest/admin/2024-04/theme";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { admin, session } = await authenticate.admin(request);
@@ -17,7 +17,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const shopUrl = session.shop;
   const themes = await getThemes(admin, session);
   const account = await getAccount(admin);
-  const extensionId = process.env.SHOPIFY_THEME_EXTENSION_ID;
   console.log("log: PixelPage: loader: themes: ", themes);
   return json({ themes, shopUrl, extensionId, account });
 };

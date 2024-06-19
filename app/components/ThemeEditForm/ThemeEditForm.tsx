@@ -6,7 +6,7 @@ import { ConsoleLogger } from "../ConsoleLogger";
 
 import en from "./en.json";
 
-import type { Theme } from "node_modules/@shopify/shopify-api/rest/admin/2024-01/theme";
+import type { Theme } from "node_modules/@shopify/shopify-api/dist/ts/rest/admin/2024-04/theme";
 
 interface ThemeEditProps {
   themes?: Theme[];

@@ -22,10 +22,10 @@
   },
   "type": "module",
   "engines": {
-    "node": ">=16.0.0 <22.0.0"
+    "node": "^20.10 || >=21.0.0"
   },
   "dependencies": {
-    "@prisma/client": "^5.8.0",
+    "@prisma/client": "^5.11.0",
     "@remix-run/dev": "^2.7.1",
     "@remix-run/node": "^2.7.1",
     "@remix-run/react": "^2.7.1",
@@ -34,12 +34,12 @@
     "@shopify/app-bridge-react": "^4.0.0",
     "@shopify/cli": "^3.60.1",
     "@shopify/polaris": "^12.22.1",
-    "@shopify/polaris-icons": "^8.8.0",
+    "@shopify/polaris-icons": "^9.1.1",
     "@shopify/react-form": "^2.5.5",
     "@shopify/react-i18n": "^7.10.1",
-    "@shopify/shopify-api": "^9.2.0",
-    "@shopify/shopify-app-remix": "^2.7.0",
-    "@shopify/shopify-app-session-storage-prisma": "^4.0.5",
+    "@shopify/shopify-api": "^11.0.0",
+    "@shopify/shopify-app-remix": "^3.0.0",
+    "@shopify/shopify-app-session-storage-prisma": "^5.0.0",
     "isbot": "^5.1.0",
     "prisma": "^5.8.0",
     "react": "^18.2.0",
@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@remix-run/eslint-config": "^2.7.1",
-    "@shopify/api-codegen-preset": "^0.0.7",
+    "@shopify/api-codegen-preset": "^1.0.0",
     "@shopify/app-bridge-types": "^0.0.13",
     "@types/eslint": "^8.40.0",
     "@types/node": "^20.6.3",
@@ -71,9 +71,11 @@
     "@shopify/plugin-cloudflare"
   ],
   "resolutions": {
-    "undici": "6.13.0"
+    "undici": "6.13.0",
+    "ws": "8.17.1"
   },
   "overrides": {
-    "undici": "6.13.0"
+    "undici": "6.13.0",
+    "ws": "8.17.1"
   }
 }

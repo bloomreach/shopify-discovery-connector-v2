@@ -9,7 +9,7 @@ import { authenticate, extensionId } from "../../shopify.server";
 import en from "./en.json";
 
 import type { ActionFunctionArgs, LoaderFunctionArgs, TypedResponse } from "@remix-run/node";
-import type { Theme } from "node_modules/@shopify/shopify-api/rest/admin/2024-01/theme";
+import type { Theme } from "node_modules/@shopify/shopify-api/dist/ts/rest/admin/2024-04/theme";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { admin, session } = await authenticate.admin(request);

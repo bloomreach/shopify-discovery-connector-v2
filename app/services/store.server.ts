@@ -6,7 +6,7 @@ import { setDefaultTemplates } from "./templates.server";
 import type { Account, Recommendations, Store } from "~/types/store";
 import type { Prisma } from "@prisma/client";
 import type { MetafieldsSetInput } from "~/types/admin.types";
-import type { AdminApiContext } from "node_modules/@shopify/shopify-app-remix/dist/ts/server/clients";
+import type { AdminApiContext } from "@shopify/shopify-app-remix/server";
 
 const sensitiveKeys: (keyof Store)[] = ["id", "created_at", "updated_at"];
 
