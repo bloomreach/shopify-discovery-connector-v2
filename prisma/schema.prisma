@@ -33,4 +33,11 @@ model session {
   isOnline         Boolean    @default(false)
   accessToken      String     @db.VarChar(250)
   userId           BigInt?    @db.BigInt
+  firstName        String?    @db.VarChar(250)
+  lastName         String?    @db.VarChar(250)
+  email            String?    @db.VarChar(250)
+  accountOwner     Boolean    @default(false)
+  locale           String?    @db.VarChar(250)
+  collaborator     Boolean?   @default(false)
+  emailVerified    Boolean?   @default(false)
 }
