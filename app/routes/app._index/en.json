@@ -25,7 +25,7 @@
     },
     "configureBanner": {
       "title": "Set Up Bloomreach",
-      "primaryAction": "Add API Keys",
+      "primaryAction": "Add API Details",
       "secondaryAction": "Learn More",
       "secondaryActionUrl": "https://documentation.bloomreach.com/",
       "body": "We're excited for you to get started with industry leading Search, Merchandising & Recommendations! To begin, go to the Settings tab and enter your API credentials."
