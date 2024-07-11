@@ -2,6 +2,7 @@
 <script>
   bloomreachConnector.config.autosuggest = {
     enabled: true,
+    catalog_views: "{{ app.metafields.account.domain_key }}",
     endpoint: "{{ block.settings.endpoint }}",
     selector: "{{ block.settings.css_selector | replace: '"', '\"'}}",
     template: "{{ app.metafields.templates.autosuggest | url_decode | strip_newlines | replace: '"', '\"' }}",

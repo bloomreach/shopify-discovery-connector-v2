@@ -2,7 +2,7 @@
 
 client_id = "9743ee39eb325a36313284d832b97945"
 name = "Bloomreach Discovery v2"
-application_url = "https://shopify-discovery-connector-v2-fb9ab37123ef.herokuapp.com"
+application_url = "https://bloomreach-discovery-v2-c85471a4033c.herokuapp.com/"
 embedded = true
 
 [build]
@@ -15,9 +15,9 @@ scopes = "read_themes"
 
 [auth]
 redirect_urls = [
-  "https://shopify-discovery-connector-v2-fb9ab37123ef.herokuapp.com/auth/callback",
-  "https://shopify-discovery-connector-v2-fb9ab37123ef.herokuapp.com/auth/shopify/callback",
-  "https://shopify-discovery-connector-v2-fb9ab37123ef.herokuapp.com/api/auth/callback"
+  "https://bloomreach-discovery-v2-c85471a4033c.herokuapp.com/auth/callback",
+  "https://bloomreach-discovery-v2-c85471a4033c.herokuapp.com/auth/shopify/callback",
+  "https://bloomreach-discovery-v2-c85471a4033c.herokuapp.com/api/auth/callback"
 ]
 
 [webhooks]
@@ -27,6 +27,6 @@ api_version = "2024-04"
 embedded = false
 
 [webhooks.privacy_compliance]
-customer_deletion_url = "https://shopify-discovery-connector-v2-fb9ab37123ef.herokuapp.com/webhooks/customer_deletion"
-customer_data_request_url = "https://shopify-discovery-connector-v2-fb9ab37123ef.herokuapp.com/webhooks/customer_request"
-shop_deletion_url = "https://shopify-discovery-connector-v2-fb9ab37123ef.herokuapp.com/webhooks/deletion"
+customer_deletion_url = "https://bloomreach-discovery-v2-c85471a4033c.herokuapp.com/webhooks/customer_deletion"
+customer_data_request_url = "https://bloomreach-discovery-v2-c85471a4033c.herokuapp.com/webhooks/customer_request"
+shop_deletion_url = "https://bloomreach-discovery-v2-c85471a4033c.herokuapp.com/webhooks/deletion"
