@@ -11,7 +11,7 @@ parentDocSlug: discovery-connectors
 
 The app can be easily installed from the Shopify App Store. Head to the Bloomreach Discovery v2 Shopify app page and click **Add app**. You will be prompted with an Authorization screen. Click **Install** to install our application on your store.
 
-[Placeholder: Shopify app page screen]
+![Shopify app page](https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/shopify-app-install.png)
 
 ### Linking the app to your Bloomreach account
 
