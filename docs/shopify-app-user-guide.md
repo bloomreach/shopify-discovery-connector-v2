@@ -416,6 +416,11 @@ For example, if you are using Shopify’s Dawn theme, you can hide the **Search 
 
 This CSS will hide the container initially and show it when Bloomreach has loaded and displayed the results.
 
+#### Why am I seeing an empty widget with no products?
+Widgets fetch product data (from your Bloomreach catalog(s)) via client side JavaScript. Because this process happens client side (in your browser) if there are breaking errors in your JavaScript code (unrelated to the connector) you could see an empty result set within some of your widgets.
+
+If you have any concerns related to the functionality of the connector, try to make sure that you don't have any console errors in the browser before raising an issue with our support team.
+
 ## Change Log / Release Notes
 
 2.0.0
