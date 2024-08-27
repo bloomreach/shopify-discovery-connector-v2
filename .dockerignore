@@ -2,3 +2,11 @@
 build
 node_modules
 docs
+.github
+.editorconfig
+.env*
+.eslint*
+.prettierignore
+docker-compose.yml
+shopify.*.toml
+README.md
