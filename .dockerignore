@@ -9,4 +9,4 @@ docs
 .prettierignore
 docker-compose.yml
 shopify.*.toml
-README.md
+*.md
