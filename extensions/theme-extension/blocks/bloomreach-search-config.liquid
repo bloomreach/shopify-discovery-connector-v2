@@ -21,6 +21,7 @@
       {label: "Price (high - low)", value: "sale_price+desc"}
     ],
     is_search_page: {% if request.page_type == "search" %}true{% else %}false{% endif %},
+    force_v3_facets: {{ block.settings.force_v3_facets }},
   };
 </script>
 {% unless block.settings.custom_css == blank %}
@@ -93,6 +94,12 @@
         "label": "t:searchConfig.numberOfFacetValues.label",
         "type": "number",
         "default": 6
+      },
+      {
+        "id": "force_v3_facets",
+        "label": "Force V3 Facets?",
+        "type": "checkbox",
+        "default": false
       },
       {
         "id": "infinite_scroll",

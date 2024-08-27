@@ -1,0 +1,40 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "b24120d153af45ae89ab672fed5b60d7"
+name = "Bloomreach Connector QA"
+handle = "bloomreachconnector"
+application_url = "https://bloomreach-discovery-v2-qa-975ae9b0aa97.herokuapp.com/"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = false
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_themes"
+
+[auth]
+redirect_urls = [
+  "https://bloomreach-discovery-v2-qa-975ae9b0aa97.herokuapp.com/auth/callback",
+  "https://bloomreach-discovery-v2-qa-975ae9b0aa97.herokuapp.com/auth/shopify/callback",
+  "https://bloomreach-discovery-v2-qa-975ae9b0aa97.herokuapp.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-04"
+
+  [[webhooks.subscriptions]]
+  uri = "https://bloomreach-discovery-v2-qa-975ae9b0aa97.herokuapp.com/webhooks/customers_redact"
+  compliance_topics = [ "customers/redact" ]
+
+  [[webhooks.subscriptions]]
+  uri = "https://bloomreach-discovery-v2-qa-975ae9b0aa97.herokuapp.com/webhooks/customers_data"
+  compliance_topics = [ "customers/data_request" ]
+
+  [[webhooks.subscriptions]]
+  uri = "https://bloomreach-discovery-v2-qa-975ae9b0aa97.herokuapp.com/webhooks/shop_redact"
+  compliance_topics = [ "shop/redact" ]
+
+[pos]
+embedded = false
