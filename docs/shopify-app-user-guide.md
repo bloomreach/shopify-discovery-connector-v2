@@ -423,6 +423,9 @@ If you have any concerns related to the functionality of the connector, try to m
 
 ## Change Log / Release Notes
 
+2.1.0
+- Added support for [Bloomreach Discovery Facet Response V3](https://documentation.bloomreach.com/discovery/reference/facet-response-v3-unified-ranking).
+
 2.0.0
 - Completely rewriting of the app using the new Theme App Extensions.
 - Removed usages of the Assets API. This is a breaking change.
