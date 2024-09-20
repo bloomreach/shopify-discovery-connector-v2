@@ -363,7 +363,9 @@ To validate and inspect the data captured by Bloomreach pixel events, you can:
 
 Please refer to the [Data Delivery](https://documentation.bloomreach.com/discovery/docs/milestone-3-data-delivery) milestone of the Discovery Technical Integration for guidance on delivering your feed via our [Catalog Management APIs](https://documentation.bloomreach.com/discovery/reference/api-based-catalog-data-management#product-catalog).
 
-If interested, you may contact our *Services team* for a beta version of the feed reference architecture available for Shopify integrations.
+Our suggested approach is to use our [Shopify Reference Architecture](https://github.com/bloomreach/shopify-to-discovery-catalog-export), which includes a set of reference codes that you can download, customize, and host.
+
+This uses the most reliable and fast mechanism to pull the product feeds out of Shopify's Bulk Operations endpoint.
 
 ## Migration from v1.x
 
