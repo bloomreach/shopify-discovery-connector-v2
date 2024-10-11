@@ -361,7 +361,7 @@ To validate and inspect the data captured by Bloomreach pixel events, you can:
 
 ### Product feed delivery
 
-Please refer to the [Data Delivery](https://documentation.bloomreach.com/discovery/docs/milestone-3-data-delivery) milestone of the Discovery Technical Integration for guidance on delivering your feed via our [Catalog Management APIs](https://documentation.bloomreach.com/discovery/reference/api-based-catalog-data-management#product-catalog).
+Please refer to the [Data Delivery](https://documentation.bloomreach.com/discovery/docs/milestone-3-data-delivery) milestone of the Discovery Technical Integration for guidance on delivering your feed via the community-developed [Catalog Management APIs](https://documentation.bloomreach.com/discovery/reference/api-based-catalog-data-management#product-catalog).
 
 Our suggested approach is to use our [Shopify Reference Architecture](https://github.com/bloomreach/shopify-to-discovery-catalog-export), which includes a set of reference codes that you can download, customize, and host.
 
@@ -425,59 +425,63 @@ If you have any concerns related to the functionality of the connector, try to m
 
 ## Change Log / Release Notes
 
-2.1.0
+### 2.1.1
+
+- Fix customized Autosuggest template not loaded by the storefront.
+
+### 2.1.0
 
 - Added support for [Bloomreach Discovery Facet Response V3](https://documentation.bloomreach.com/discovery/reference/facet-response-v3-unified-ranking).
 - Remove the useless `sort` parameter from autosuggest to avoid potential API issues.
 - Fix Pathways & Recommendations widgets not picking up the `fields` config.
 
-2.0.0
+### 2.0.0
 
 - Completely rewriting of the app using the new Theme App Extensions.
 - Removed usages of the Assets API. This is a breaking change.
 
-1.0.10
+### 1.0.10
 
 - Pass Dynamic IDs to Recommendations Widgets
 - Remove character limits on input boxes
 - Add HTML, CSS, & Fields customization to Recommendation Widgets
 - Add version 2.1.0 of the SDK (Add user driven customization support for Recommendation widgets)
 
-1.0.9
+### 1.0.9
 
 - SDK version 2.0.6 (Remove scroll to top when performing search & category page loads, fix incorrect scrolling behavior when filtering)
 
-1.0.8
+### 1.0.8
 
 - Node version update, Shopify authentication update.
 - SDK version 2.0 (separate API client & UI Template code. Fixed infinite scroll behavior, swatch loading function)
 
-1.0.7
+### 1.0.7
 
 - Performance updates when saving new values in the Shopify app
 
-1.0.6
+### 1.0.6
 
 - SDK version 1.3.2 (enable brSegmentation value to pick up data from Bloomreach Engagement for personalized searches)
 - Show SDK version & App version in the UI
 - Enable Staging / Production endpoint selectors.
 
-1.0.5
+### 1.0.5
 
 - Add HTML & CSS Customization capability for Search & Categories
 
-1.0.4
+### 1.0.4
 
 - Add HTML & CSS Customization capability for Autosuggest
 
-1.0.3
+### 1.0.3
 
 - Fix pixel inconsistencies for Recommendations widget.
 
-1.0.2
+### 1.0.2
 
 - New App upgrade process to upgrade between new versions.
 
-1.0.1
+### 1.0.1
 
 - Initial version - includes ability to inject sample UI into Shopify app front end for Search, Category, Recommendations, & Autosuggest calls into a Liquid powered Shopify theme.

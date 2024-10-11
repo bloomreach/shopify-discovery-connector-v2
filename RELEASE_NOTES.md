@@ -1,3 +1,9 @@
+## 2.1.1
+
+### Fixed
+
+- [`FIXED`]: Customized Autosuggest template not loaded by the storefront.
+
 ## 2.1.0
 
 ### Added
