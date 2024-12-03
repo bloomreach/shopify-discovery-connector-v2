@@ -20,6 +20,7 @@
     is_category_page: {% if request.page_type == "collection" %}true{% else %}false{% endif %},
     category_id: "{{ collection.handle | escape }}",
     additional_parameters: "{{ settings.additional_parameters | replace: '"', '\"' }}",
+    force_v3_facets: {{ block.settings.force_v3_facets | default: false }},
   };
 
   {% render "bloomreach-template", template_name: "category" %}
@@ -105,6 +106,12 @@
         "label": "t:categoryConfig.numberOfFacetValues.label",
         "type": "number",
         "default": 6
+      },
+      {
+        "id": "force_v3_facets",
+        "label": "Force V3 Facets?",
+        "type": "checkbox",
+        "default": false
       },
       {
         "id": "infinite_scroll",

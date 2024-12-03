@@ -20,6 +20,7 @@
     sorting_options: {{ app.metafields.search.sorting_options }},
     is_search_page: {% if request.page_type == "search" %}true{% else %}false{% endif %},
     additional_parameters: "{{ settings.additional_parameters | replace: '"', '\"' }}",
+    force_v3_facets: {{ block.settings.force_v3_facets | default: false }},
 {%- if request.design_mode %}
     test_query: "{{ block.settings.test_query | replace: '"', '\"' }}",
 {%- endif %}
@@ -120,6 +121,12 @@
         "label": "t:searchConfig.numberOfFacetValues.label",
         "type": "number",
         "default": 6
+      },
+      {
+        "id": "force_v3_facets",
+        "label": "Force V3 Facets?",
+        "type": "checkbox",
+        "default": false
       },
       {
         "id": "infinite_scroll",
