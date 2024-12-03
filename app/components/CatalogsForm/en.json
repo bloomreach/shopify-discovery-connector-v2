@@ -1,0 +1,35 @@
+{
+  "CatalogsForm": {
+    "fields": {
+      "multiCatalogEnabled": {
+        "title": "Enable multi-catalog support",
+        "disabled": "Multi-catalog is only supported when there is at least one market"
+      },
+      "defaultCatalog": {
+        "title": "Default Bloomreach Catalog",
+        "description": "",
+        "validation": "Default Bloomreach Catalog is required"
+      },
+      "mappings": {
+        "description1": "For market-language pairs that have been indexed in Bloomreach, please fill in the corresponding Bloomreach Catalog names.",
+        "description2": "Bloomreach will fallback to your default catalog if one is not specified for a matching market/language pair on the storefront.",
+        "market": {
+          "title": "Market"
+        },
+        "language": {
+          "title": "Language"
+        },
+        "catalog": {
+          "title": "Bloomreach Catalog"
+        },
+        "validation": "This field is required"
+      }
+    },
+    "primaryAction": "Save",
+    "reset": "Reset",
+    "toaster": {
+      "success": "Settings Saved",
+      "error": "Something went wrong"
+    }
+  }
+}

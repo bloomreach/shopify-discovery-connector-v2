@@ -46,10 +46,13 @@ export default function OptimizePage() {
             <Card>
               <BlockStack gap="400">
                 <Text as="p" tone="subdued">{i18n.translate("OptimizePage.searchRanking.body")}</Text>
-                <ExternalLink
-                  url={i18n.translate("OptimizePage.searchRanking.primaryActionUrl")}
-                  text={i18n.translate("OptimizePage.searchRanking.primaryAction")}
-                />
+                <div>
+                  <ExternalLink
+                    url={i18n.translate("OptimizePage.searchRanking.primaryActionUrl")}
+                    text={i18n.translate("OptimizePage.searchRanking.primaryAction")}
+                    variant="primary"
+                  />
+                </div>
               </BlockStack>
             </Card>
           </Layout.AnnotatedSection>
@@ -62,10 +65,13 @@ export default function OptimizePage() {
             <Card>
               <BlockStack gap="400">
                 <Text as="p" tone="subdued">{i18n.translate("OptimizePage.merchandising.body")}</Text>
-                <ExternalLink
-                  url={i18n.translate("OptimizePage.merchandising.primaryActionUrl")}
-                  text={i18n.translate("OptimizePage.merchandising.primaryAction")}
-                />
+                <div>
+                  <ExternalLink
+                    url={i18n.translate("OptimizePage.merchandising.primaryActionUrl")}
+                    text={i18n.translate("OptimizePage.merchandising.primaryAction")}
+                    variant="primary"
+                  />
+                </div>
               </BlockStack>
             </Card>
           </Layout.AnnotatedSection>

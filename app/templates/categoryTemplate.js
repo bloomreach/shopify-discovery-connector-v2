@@ -219,4 +219,6 @@ const CategoryTemplate = `<% if (did_you_mean.length) { %>
     </section>
   </div>`;
 
-export default CategoryTemplate;
+const CategoryTemplateVersion = "3";
+
+export { CategoryTemplate, CategoryTemplateVersion };

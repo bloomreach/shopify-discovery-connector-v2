@@ -127,4 +127,6 @@ const CategoryListTemplate = `<% function printProduct(product) { %>
 
 <% } %>`;
 
-export default CategoryListTemplate;
+const CategoryListTemplateVersion = "3";
+
+export { CategoryListTemplate, CategoryListTemplateVersion };

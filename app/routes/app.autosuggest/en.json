@@ -1,8 +1,16 @@
 {
   "AutosuggestPage": {
     "theme": {
-      "title": "Enable Bloomreach Autosuggest on a Theme",
-      "description": "Click on a theme to open theme editor and configure Bloomreach Autosuggest App embeds to replace the built in Shopify Autosuggest."
+      "title": "Enable Bloomreach Autosuggest on a theme",
+      "description": "Bloomreach needs to integrate into your theme to handle search on your store. Read more in our ",
+      "reference": {
+        "primaryAction": "Documentation",
+        "primaryActionUrl": "https://documentation.bloomreach.com/discovery/docs/shopify-app-user-guide#autosuggest"
+      },
+      "primaryAction": {
+        "label": "Add Bloomreach Configurations Embed Block",
+        "description": "To enable Bloomreach and Autosuggest on your theme, click on the button below. This will add Bloomreach to your theme and will allow you to customize the autosuggest experience."
+      }
     },
     "template": {
       "title": "Template",

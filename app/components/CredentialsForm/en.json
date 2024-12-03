@@ -23,6 +23,7 @@
       }
     },
     "primaryAction": "Save",
+    "reset": "Reset",
     "toaster": {
       "success": "Settings Saved",
       "error": "Something went wrong"

@@ -7,16 +7,16 @@
       "primaryActionUrl": "https://www.bloomreach.com/en/products/bloomreach-experience/recommendations",
       "illustration": "https://cdn.shopify.com/s/files/1/0559/9726/8160/files/illustrations-recommendations.png?v=1620317583"
     },
-    "recommendations": {
-      "title": "Recommendations Settings",
-      "description": "Customize the endpoint and fields for your Bloomreach recommendations widgets."
-    },
     "theme": {
       "title": "Add Bloomreach Recommendations Widgets to a Theme",
-      "description": "Select a theme and widget to open theme editor and add the widget to a page.",
-      "editForm": {
-        "title": "Installed theme(s)",
-        "action": "Add Widget"
+      "description": "Bloomreach needs to integrate into your theme to function on your store. Read more in our ",
+      "reference": {
+        "primaryAction": "Documentation",
+        "primaryActionUrl": "https://documentation.bloomreach.com/discovery/docs/shopify-app-user-guide#recommendations"
+      },
+      "primaryAction": {
+        "label": "Add Bloomreach Recommendations App Block",
+        "description": "Select a Bloomreach Recommendations widget below to add it to your working theme. This will allow you to customize its settings."
       }
     },
     "widgets": {

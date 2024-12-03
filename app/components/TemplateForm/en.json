@@ -2,6 +2,9 @@
   "TemplateForm": {
     "templateVersion": "Template Version",
     "primaryAction": "Save",
+    "saveAll": "Save All",
+    "reset": "Reset",
+    "resetAll": "Reset All",
     "updateBanner": {
       "title": "There is an update available for this template",
       "body1": "Click \"Update Automatically\" to automatically update the template. You will lose any existing modifications.",
@@ -25,6 +28,13 @@
     "toaster": {
       "success": "Settings Saved",
       "error": "Something went wrong"
+    },
+    "marketSelector": {
+      "label": "Select Market or Default Template",
+      "description": "You can customize template for each Shopify Market individually, or customize and use the default template"
+    },
+    "useDefault": {
+      "label": "Use Default"
     }
   }
 }

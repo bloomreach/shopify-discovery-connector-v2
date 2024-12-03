@@ -1,0 +1,12 @@
+
+{% liquid
+  assign component = template_name | remove: "_product_list"
+  if component == "recommendations"
+    assign component = "widget"
+  endif
+  assign field_name = "template"
+  if template_name contains "_product_list"
+    assign field_name = "product_list_template"
+  endif
+%}
+bloomreachConnector.config.{{ component }}.{{ field_name }} = "{{ localization.market.metafields["$app:templates"][template_name] | default: app.metafields.templates[template_name] | url_decode | strip_newlines | replace: '"', '\"' }}";

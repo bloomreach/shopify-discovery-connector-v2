@@ -1,0 +1,24 @@
+{
+  "ViewsForm": {
+    "fields": {
+      "mappings": {
+        "description": "For countries that have views setup in Bloomreach, please fill in the corresponding Bloomreach ViewID.",
+        "market": {
+          "title": "Market"
+        },
+        "country": {
+          "title": "Country"
+        },
+        "viewId": {
+          "title": "Bloomreach View ID"
+        }
+      }
+    },
+    "primaryAction": "Save",
+    "reset": "Reset",
+    "toaster": {
+      "success": "Settings Saved",
+      "error": "Something went wrong"
+    }
+  }
+}

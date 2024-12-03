@@ -1,11 +1,12 @@
 import prisma from "../db.server";
-import { getMetafields, upsertAppDataMetafield } from "./admin.server";
+import { deleteMetafields, getAppDataMetafields, getAppOwnerId, getOrCreateMetaDefinitions, MetafieldOwnerType, upsertAppDataMetafields, upsertMetafields, upsertWebPixel } from "./admin.server";
 import { setDefaultTemplates } from "./templates.server";
+import { defaults, metaDefinitions, NAMESPACE_ACCOUNT, NAMESPACE_AUTOSUGGEST, NAMESPACE_CATEGORY, NAMESPACE_RECOMMENDATIONS, NAMESPACE_SEARCH } from "~/models";
+import { metafieldsReducer } from "~/utils";
 
-
-import type { Account, Recommendations, Store } from "~/types/store";
+import type { Account, SettingsAction, Store } from "~/types/store";
 import type { Prisma } from "@prisma/client";
-import type { MetafieldsSetInput } from "~/types/admin.types";
+import type { MetafieldIdentifierInput, MetafieldsSetInput } from "~/types/admin.types";
 import type { AdminApiContext } from "@shopify/shopify-app-remix/server";
 
 const sensitiveKeys: (keyof Store)[] = ["id", "created_at", "updated_at"];
@@ -103,6 +104,7 @@ const installStore = async (admin: AdminApiContext, shopUrl: string) => {
     });
   }
   await setDefaultTemplates(admin, shopUrl);
+  await setDefaultSettings(admin, shopUrl);
 };
 
 /**
@@ -149,73 +151,194 @@ const updateStore = async (shopUrl: string, data: Prisma.storeUpdateInput) => {
   return removeSensitiveKeys(updatedStore);
 };
 
-const getAccount = async (admin: AdminApiContext): Promise<Account> => {
-  console.log("log: getAccount");
-  const accountFields = await getMetafields(admin, "account");
-  const account = accountFields?.reduce((prev, curr) => {
-    if (curr.type === "boolean") {
-      prev[curr.key] = curr.value === "true";
-    } else {
-      prev[curr.key] = curr.value;
-    }
-    return prev;
-  }, {} as Record<string, any>) as Account;
-  console.log("log: getAccount: account: ", account);
-  return account;
+const setDefaultSettings = async (admin: AdminApiContext, shopUrl: string) => {
+  console.log("log: setDefaultSettings: shopUrl: ", shopUrl);
+  const store = await getStore(shopUrl);
+  if (!store) {
+    console.log("log: setDefaultSettings: store %s not found", shopUrl);
+    return;
+  }
+
+  const { setup_complete } = store;
+  if (setup_complete) {
+    console.log("log: setDefaultSettings: default settings already added");
+    return;
+  }
+  console.log("log: setDefaultSettings: adding default settings");
+
+  const inputs = createMetafieldInputs(defaults.autosuggest, NAMESPACE_AUTOSUGGEST);
+  inputs.push(...createMetafieldInputs(defaults.search, NAMESPACE_SEARCH));
+  inputs.push(...createMetafieldInputs(defaults.search, NAMESPACE_CATEGORY));
+  inputs.push(...createMetafieldInputs(defaults.recommendations, NAMESPACE_RECOMMENDATIONS));
+  // the maximum metafields input limit is 25
+  while (inputs.length) {
+    const results = await upsertAppDataMetafields(admin, inputs.splice(0, 25));
+    console.log("log: setDefaultSettings: results: ", results);
+  }
+  console.log("log: setDefaultSettings: setting `setup_complete` flag");
+  await updateStore(shopUrl, { setup_complete: true });
+};
+
+const getAppSettings = async <T> (admin: AdminApiContext, namespace: string): Promise<T> => {
+  console.log("log: getAppSettings: namespace: ", namespace);
+  const fields = await getAppDataMetafields(admin, namespace) ?? [];
+  const settings = metafieldsReducer(fields) as T;
+  console.log("log: getAppSettings: result: ", settings);
+  return settings;
 };
 
 const updateAccount = async (admin: AdminApiContext, account: Account) => {
   console.log("log: updateAccount: account: ", account);
 
-  const input = Object.keys(account).map((key) => {
-    const value = account[key as keyof Account];
-    if (typeof value === 'string') {
+  const inputs = createMetafieldInputs(account, NAMESPACE_ACCOUNT);
+
+  if (inputs.length > 0) {
+    const metafields = await upsertAppDataMetafields(admin, inputs);
+    console.log("log: updateAccount: response data from upsert: ", metafields);
+
+    const accountId = metafields?.find((metafield) => metafield.key === "account_id")?.value;
+    if (accountId) {
+      console.log("log: updateAccount: upsert webPixel: account_id: %s", accountId);
+      await upsertWebPixel(admin, { settings: { account_id: accountId } });
+    }
+  }
+};
+
+const updateSettings = async <T> (admin: AdminApiContext, settings: T, namespace: string, marketId?: string) => {
+  console.log("log: updateSettings: settings: %s, namespace: %s, marketId: %s", settings, namespace, marketId);
+
+  const appNamespace = marketId ? `$app:${namespace}` : namespace;
+  const ownerId = marketId || await getAppOwnerId(admin);
+  if (!ownerId) {
+    throw Error("App ID could not be fetched");
+  }
+
+  const inputs = createMetafieldInputs(settings as Record<string, any>, namespace).map(input => ({
+    ...input,
+    namespace: appNamespace,
+    ownerId,
+  }));
+
+  if (marketId) {
+    await getOrCreateMetaDefinitions(admin, appNamespace, MetafieldOwnerType.Market);
+  }
+
+  const metafields = await upsertMetafields(admin, inputs);
+  console.log("log: updateSettings: response data: ", metafields);
+};
+
+const deleteSettings = async (admin: AdminApiContext, marketId: string, namespace: string) => {
+  console.log("log: deleteSettings: marketId: %s, namespace: %s", marketId, namespace);
+  const appNamespace = `$app:${namespace}`;
+  const inputs = metaDefinitions[namespace].map(definition => ({
+    ownerId: marketId,
+    namespace: appNamespace,
+    key: definition.key,
+  }));
+
+  const metafields = await deleteMetafields(admin, inputs);
+  console.log("log: deleteSettings: response: ", metafields);
+  return metafields;
+};
+
+const updateAllMarketSettings = async (admin: AdminApiContext, actions: SettingsAction[], namespace: string) => {
+  console.log("log: updateAllMarketSettings: actions: ", actions);
+  const appOwnerId = await getAppOwnerId(admin);
+  if (!appOwnerId) {
+    throw Error("App ID could not be fetched");
+  }
+
+  const saveInputs: MetafieldsSetInput[] = [];
+  const deleteInputs: MetafieldIdentifierInput[] = [];
+  actions.forEach((action) => {
+    const { _action, marketId, ...settings } = action;
+    const appNamespace = marketId ? `$app:${namespace}` : namespace;
+    const ownerId = marketId ?? appOwnerId;
+
+    if (_action === 'saveSettings') {
+      const inputs = createMetafieldInputs(settings[namespace], namespace).map(input => ({
+        ...input,
+        namespace: appNamespace,
+        ownerId,
+      }));
+      saveInputs.push(...inputs);
+    } else if (_action === 'deleteSettings') {
+      const inputs = metaDefinitions[namespace].map(definition => ({
+        ownerId: marketId,
+        namespace: appNamespace,
+        key: definition.key,
+      }));
+      deleteInputs.push(...inputs);
+    } else {
+      console.log("warn: updateAllMarketSettings: Invalid action: ", action._action);
+    }
+  });
+
+  await getOrCreateMetaDefinitions(admin, `$app:${namespace}`, MetafieldOwnerType.Market);
+  if (saveInputs.length) {
+    const metafields = await upsertMetafields(admin, saveInputs);
+    console.log("log: updateAllMarketTemplates: saved metafields: ", metafields);
+  }
+  if (deleteInputs.length) {
+    const metafields = await deleteMetafields(admin, deleteInputs);
+    console.log("log: updateAllMarketTemplates: deleted metafields: ", metafields);
+  }
+};
+
+const createMetafieldInputs = (obj: Record<string, any>, namespace: string): Omit<MetafieldsSetInput, "ownerId">[] => {
+  const definitions = metaDefinitions[namespace];
+
+  return Object.keys(obj).map((key) => {
+    const value = obj[key];
+    const type = definitions.find((definition) => definition.key === key)?.type;
+
+    if (value === null || value === undefined || !type) {
+      return null;
+    }
+
+    if (type === "boolean") {
       return {
-        namespace: "account",
+        namespace,
         key,
-        type: "single_line_text_field",
-        value,
-      };
-    } else if (typeof value === 'boolean') {
-      return {
-        namespace: "account",
-        key,
-        type: "boolean",
-        value: `${value}`,
+        type,
+        value: `${Boolean(value)}`,
       };
     }
-    return null;
+
+    if (type === "number_integer") {
+      return {
+        namespace,
+        key,
+        type,
+        value: Number(value).toFixed(0),
+      };
+    }
+
+    if (type === "number_decimal") {
+      return {
+        namespace,
+        key,
+        type,
+        value: Number(value).toString(),
+      };
+    }
+
+    if (type === "json") {
+      return {
+        namespace,
+        key,
+        type,
+        value: JSON.stringify(value),
+      };
+    }
+
+    return {
+      namespace,
+      key,
+      type,
+      value: `${value}`,
+    };
   }).filter(Boolean) as Omit<MetafieldsSetInput, "ownerId">[];
-
-  const metafields = await upsertAppDataMetafield(admin, input);
-  console.log("log: updateAccount: response data: ", metafields);
-  return metafields;
-};
-
-const getRecommendationsSettings = async (admin: AdminApiContext): Promise<Recommendations> => {
-  console.log("log: getRecommendationsSettings");
-  const recommendationsFields = await getMetafields(admin, "recommendations");
-  const recommendations = recommendationsFields?.reduce((prev, curr) => {
-    prev[curr.key] = curr.value;
-    return prev;
-  }, {} as Record<string, any>) as Recommendations;
-  console.log("log: getRecommendations: recommendations settings: ", recommendations);
-  return recommendations;
-};
-
-const updateRecommendationsSettings = async (admin: AdminApiContext, recommendations: Recommendations) => {
-  console.log("log: updateRecommendationsSettings: recommendations settings: ", recommendations);
-
-  const input = Object.keys(recommendations).map((key) => ({
-    namespace: "recommendations",
-    key,
-    type: "single_line_text_field",
-    value: recommendations[key as keyof Recommendations],
-  })).filter(Boolean) as Omit<MetafieldsSetInput, "ownerId">[];
-
-  const metafields = await upsertAppDataMetafield(admin, input);
-  console.log("log: updateRecommendationsSettings: response data: ", metafields);
-  return metafields;
 };
 
 export {
@@ -224,9 +347,10 @@ export {
   uninstallStore,
   deleteStore,
   installStore,
-  getAccount,
+  getAppSettings,
   updateAccount,
   removeSensitiveKeys,
-  getRecommendationsSettings,
-  updateRecommendationsSettings,
+  updateSettings,
+  deleteSettings,
+  updateAllMarketSettings,
 };

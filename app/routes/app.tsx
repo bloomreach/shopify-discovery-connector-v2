@@ -8,19 +8,22 @@ import "@shopify/polaris/build/esm/styles.css";
 import "react-toggle/style.css";
 import "../../style/index.css";
 import { authenticate } from "../shopify.server";
-import { getAccount, getStore, installStore } from "~/services";
+import { getAppSettings, getStore, installStore } from "~/services";
+import { NAMESPACE_ACCOUNT } from "~/models";
 
 import en from "./app.en.json";
+
+import type { Account } from "~/types/store";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { admin, session } = await authenticate.admin(request);
   console.log("log: Index: loader");
   const shopUrl = session.shop;
   const store = await getStore(shopUrl);
-  if (!store?.default_templates_added) {
+  if (!store?.default_templates_added || !store?.setup_complete) {
     await installStore(admin, shopUrl);
   }
-  const account = await getAccount(admin);
+  const account = await getAppSettings<Account>(admin, NAMESPACE_ACCOUNT);
   const setupComplete = !!(account && (account.account_id || account.domain_key || account.auth_key));
   return json({ setupComplete, apiKey: process.env.SHOPIFY_API_KEY || "" });
 };

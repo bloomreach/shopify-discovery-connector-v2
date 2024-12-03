@@ -1,3 +1,24 @@
+## 2.2.0
+
+### Added
+
+- [`ADDED`]: Added support for Bloomreach Discovery multi-catalog and multi-view, based on Shopify Markets.
+- [`ADDED`]: Allow default configurations in the App for Search, Collections, Autosuggest, and Recommendations components.
+- [`ADDED`]: Allow market-specific configurations in the App for Autosuggest components.
+- [`ADDED`]: Allow market-specific templates for all components. Existing templates are treated as defaults.
+
+### Changed
+
+- [`CHANGED`]: Changed Search and Collections components from App Embeds to App Blocks. Their App Block configurations can override the default ones from the app, similar to how Recommendations widgets work.
+- [`CHANGED`]: Combined Autosuggest and Pixel App Embeds to one "Bloomreach Configuration" App Embeds, which functions as a master switch for all Bloomreach components. This avoids repeated defining of the global config object.
+- [`CHANGED`]: Moved Autosuggest configs to the app. This allows per-market configurations.
+- [`CHANGED`]: Changed pixel implementation to use Shopify Webpixels. This removes the needs for custom scripts in checkout pages (for conversion pixels).
+- [`CHANGED`]: Other usability changes.
+
+### Fixed
+
+- [`Fixed`] Infinite scroll issues (https://bloomreach.atlassian.net/browse/DCONN-79).
+
 ## 2.1.1
 
 ### Fixed

@@ -1,4 +1,10 @@
 {
+  "bloomreachConfig": {
+    "settings": {
+      "name": "Bloomreach Configurations",
+      "description": "Required for all Bloomreach components to work"
+    },
+  },
   "searchConfig": {
     "settings": {
       "name": "Bloomreach Search",
@@ -33,12 +39,31 @@
     },
     "endpoint": {
       "label": "Endpoint"
+    },
+    "sortingOptions": {
+      "label": "Sorting Options",
+      "info": "You can customize the label and value for each sorting option. Value should be an `fl` field name, followed by asc/desc for ascending/descending order respectively. For example, \"sale_price+desc\" sorts in descending order of the sale price."
+    },
+    "testQuery": {
+      "label": "Search Query for preview",
+      "info": "Enter a search query for previewing the app block in theme editor. This setting does not apply in preview or live site."
+    },
+    "useDefault": {
+      "label": "Use default settings",
+      "info": "If checked, the default settings from the App will be used. And all the settings below will be ignored."
+    },
+    "additionalParameters": {
+      "label": "Additional Parameters",
+      "info": "Any additional parameters you would like to send to the Bloomreach Search API."
     }
   },
   "autosuggestConfig": {
     "settings": {
       "name": "Bloomreach Autosuggest",
-      "description": "Configure the way Bloomreach API's are displayed on your Autosuggest"
+      "description": "Use Bloomreach API to power your autosuggest results"
+    },
+    "enable": {
+      "label": "Enable Bloomreach Autosuggest"
     },
     "endpoint": {
       "label": "Endpoint"
@@ -67,6 +92,17 @@
     "settings": {
       "name": "Bloomreach Pixel",
       "description": "Turn on the Bloomreach Pixel on your site to enable our AI optimization engine."
+    },
+    "enable": {
+      "label": "Enable Bloomreach Pixel"
+    },
+    "debug": {
+      "label": "Enable debug mode",
+      "info": "Flag the pixel data as test data for real-time debugging purpose. You can track debug events using Integration mode in [Events Management](https://documentation.bloomreach.com/discovery/docs/events-management#21-mode). Note that debug events are discarded and don’t impact any production features."
+    },
+    "pid": {
+      "label": "Product ID field",
+      "info": "Shopify product field used as the unique product_id sent in the Bloomreach feed."
     }
   },
   "categoryConfig": {
@@ -100,6 +136,14 @@
     },
     "endpoint": {
       "label": "Endpoint"
+    },
+    "useDefault": {
+      "label": "Use default settings",
+      "info": "If checked, the default settings from the App will be used. And all the settings below will be ignored."
+    },
+    "additionalParameters": {
+      "label": "Additional Parameters",
+      "info": "Any additional parameters you would like to send to the Bloomreach Search API."
     }
   },
   "recommendations": {
@@ -145,13 +189,22 @@
       "label": "How Many Items to Fetch"
     },
     "flFields": {
-      "label": "Fields"
+      "label": "Fields",
+      "info": "Leave it blank to use the default value configured in the app"
     },
     "customCss": {
       "label": "Custom CSS"
     },
     "endpoint": {
       "label": "Endpoint"
+    },
+    "useDefault": {
+      "label": "Use default settings",
+      "info": "If checked, the default settings from the App will be used. And all the settings below will be ignored."
+    },
+    "additionalParameters": {
+      "label": "Additional Parameters",
+      "info": "Any additional parameters you would like to send to the Bloomreach Pathways & Recommendations API."
     }
   }
 }
