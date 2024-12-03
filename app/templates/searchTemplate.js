@@ -219,4 +219,6 @@ const SearchTemplate = `<% if (did_you_mean.length) { %>
     </section>
   </div>`;
 
-export default SearchTemplate;
+const SearchTemplateVersion = "3";
+
+export { SearchTemplate, SearchTemplateVersion };

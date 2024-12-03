@@ -1,1 +1,1 @@
-export { default as AutoSuggestForm } from "./AutosuggestForm";
+export { default as AutosuggestForm } from "./AutosuggestForm";

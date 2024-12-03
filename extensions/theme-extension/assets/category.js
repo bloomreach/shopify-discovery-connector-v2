@@ -1,10 +1,3524 @@
-!function(){"use strict";const e=Object.assign(Object.assign({},window.BloomreachModules?window.BloomreachModules:{}),{version:"3.1.3"});var t="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{};function n(e){var t=e.default;if("function"==typeof t){var n=function(){return t.apply(this,arguments)};n.prototype=t.prototype}else n={};return Object.defineProperty(n,"__esModule",{value:!0}),Object.keys(e).forEach((function(t){var r=Object.getOwnPropertyDescriptor(e,t);Object.defineProperty(n,t,r.get?r:{enumerable:!0,get:function(){return e[t]}})})),n}var r={},i=n(Object.freeze({__proto__:null,default:{}}));function a(e,t){for(var n=0,r=e.length-1;r>=0;r--){var i=e[r];"."===i?e.splice(r,1):".."===i?(e.splice(r,1),n++):n&&(e.splice(r,1),n--)}if(t)for(;n--;n)e.unshift("..");return e}var o=/^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/,c=function(e){return o.exec(e).slice(1)};function s(){for(var e="",t=!1,n=arguments.length-1;n>=-1&&!t;n--){var r=n>=0?arguments[n]:"/";if("string"!=typeof r)throw new TypeError("Arguments to path.resolve must be strings");r&&(e=r+"/"+e,t="/"===r.charAt(0))}return(t?"/":"")+(e=a(g(e.split("/"),(function(e){return!!e})),!t).join("/"))||"."}function l(e){var t=u(e),n="/"===v(e,-1);return(e=a(g(e.split("/"),(function(e){return!!e})),!t).join("/"))||t||(e="."),e&&n&&(e+="/"),(t?"/":"")+e}function u(e){return"/"===e.charAt(0)}function d(){return l(g(Array.prototype.slice.call(arguments,0),(function(e,t){if("string"!=typeof e)throw new TypeError("Arguments to path.join must be strings");return e})).join("/"))}function p(e,t){function n(e){for(var t=0;t<e.length&&""===e[t];t++);for(var n=e.length-1;n>=0&&""===e[n];n--);return t>n?[]:e.slice(t,n-t+1)}e=s(e).substr(1),t=s(t).substr(1);for(var r=n(e.split("/")),i=n(t.split("/")),a=Math.min(r.length,i.length),o=a,c=0;c<a;c++)if(r[c]!==i[c]){o=c;break}var l=[];for(c=o;c<r.length;c++)l.push("..");return(l=l.concat(i.slice(o))).join("/")}function m(e){var t=c(e),n=t[0],r=t[1];return n||r?(r&&(r=r.substr(0,r.length-1)),n+r):"."}function f(e,t){var n=c(e)[2];return t&&n.substr(-1*t.length)===t&&(n=n.substr(0,n.length-t.length)),n}function h(e){return c(e)[3]}var _={extname:h,basename:f,dirname:m,sep:"/",delimiter:":",relative:p,join:d,isAbsolute:u,normalize:l,resolve:s};function g(e,t){if(e.filter)return e.filter(t);for(var n=[],r=0;r<e.length;r++)t(e[r],r,e)&&n.push(e[r]);return n}var v="b"==="ab".substr(-1)?function(e,t,n){return e.substr(t,n)}:function(e,t,n){return t<0&&(t=e.length+t),e.substr(t,n)},b=n(Object.freeze({__proto__:null,resolve:s,normalize:l,isAbsolute:u,join:d,relative:p,sep:"/",delimiter:":",dirname:m,basename:f,extname:h,default:_})),y={};!function(e){var t=/[|\\{}()[\]^$+*?.]/g,n=Object.prototype.hasOwnProperty,r=function(e,t){return n.apply(e,[t])};e.escapeRegExpChars=function(e){return e?String(e).replace(t,"\\$&"):""};var i={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&#34;","'":"&#39;"},a=/[&<>'"]/g;function o(e){return i[e]||e}function c(){return Function.prototype.toString.call(this)+';\nvar _ENCODE_HTML_RULES = {\n      "&": "&amp;"\n    , "<": "&lt;"\n    , ">": "&gt;"\n    , \'"\': "&#34;"\n    , "\'": "&#39;"\n    }\n  , _MATCH_HTML = /[&<>\'"]/g;\nfunction encode_char(c) {\n  return _ENCODE_HTML_RULES[c] || c;\n};\n'}e.escapeXML=function(e){return null==e?"":String(e).replace(a,o)};try{"function"==typeof Object.defineProperty?Object.defineProperty(e.escapeXML,"toString",{value:c}):e.escapeXML.toString=c}catch(e){console.warn("Unable to set escapeXML.toString (is the Function prototype frozen?)")}e.shallowCopy=function(e,t){if(t=t||{},null!=e)for(var n in t)r(t,n)&&"__proto__"!==n&&"constructor"!==n&&(e[n]=t[n]);return e},e.shallowCopyFromList=function(e,t,n){if(n=n||[],t=t||{},null!=e)for(var i=0;i<n.length;i++){var a=n[i];if(void 0!==t[a]){if(!r(t,a))continue;if("__proto__"===a||"constructor"===a)continue;e[a]=t[a]}}return e},e.cache={_data:{},set:function(e,t){this._data[e]=t},get:function(e){return this._data[e]},remove:function(e){delete this._data[e]},reset:function(){this._data={}}},e.hyphenToCamel=function(e){return e.replace(/-[a-z]/g,(function(e){return e[1].toUpperCase()}))},e.createNullProtoObjWherePossible="function"==typeof Object.create?function(){return Object.create(null)}:{__proto__:null}instanceof Object?function(){return{}}:function(){return{__proto__:null}},e.hasOwnOnlyObject=function(t){var n=e.createNullProtoObjWherePossible();for(var i in t)r(t,i)&&(n[i]=t[i]);return n}}(y);var w="3.1.10";!function(e){
-/**
+(function () {
+  'use strict';
+
+  const globalBloomreachModules = {
+    ...(window.BloomreachModules ? window.BloomreachModules : {}),
+    version: '3.2.0'
+  };
+
+  var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+  function getAugmentedNamespace(n) {
+    var f = n.default;
+  	if (typeof f == "function") {
+  		var a = function () {
+  			return f.apply(this, arguments);
+  		};
+  		a.prototype = f.prototype;
+    } else a = {};
+    Object.defineProperty(a, '__esModule', {value: true});
+  	Object.keys(n).forEach(function (k) {
+  		var d = Object.getOwnPropertyDescriptor(n, k);
+  		Object.defineProperty(a, k, d.get ? d : {
+  			enumerable: true,
+  			get: function () {
+  				return n[k];
+  			}
+  		});
+  	});
+  	return a;
+  }
+
+  var ejs = {};
+
+  var _polyfillNode_fs = {};
+
+  var _polyfillNode_fs$1 = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    'default': _polyfillNode_fs
+  });
+
+  var require$$0 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_fs$1);
+
+  // Copyright Joyent, Inc. and other Node contributors.
+  //
+  // Permission is hereby granted, free of charge, to any person obtaining a
+  // copy of this software and associated documentation files (the
+  // "Software"), to deal in the Software without restriction, including
+  // without limitation the rights to use, copy, modify, merge, publish,
+  // distribute, sublicense, and/or sell copies of the Software, and to permit
+  // persons to whom the Software is furnished to do so, subject to the
+  // following conditions:
+  //
+  // The above copyright notice and this permission notice shall be included
+  // in all copies or substantial portions of the Software.
+  //
+  // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+  // OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+  // NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+  // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+  // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+  // USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+  // resolves . and .. elements in a path array with directory names there
+  // must be no slashes, empty elements, or device names (c:\) in the array
+  // (so also no leading and trailing slashes - it does not distinguish
+  // relative and absolute paths)
+  function normalizeArray(parts, allowAboveRoot) {
+    // if the path tries to go above the root, `up` ends up > 0
+    var up = 0;
+    for (var i = parts.length - 1; i >= 0; i--) {
+      var last = parts[i];
+      if (last === '.') {
+        parts.splice(i, 1);
+      } else if (last === '..') {
+        parts.splice(i, 1);
+        up++;
+      } else if (up) {
+        parts.splice(i, 1);
+        up--;
+      }
+    }
+
+    // if the path is allowed to go above the root, restore leading ..s
+    if (allowAboveRoot) {
+      for (; up--; up) {
+        parts.unshift('..');
+      }
+    }
+
+    return parts;
+  }
+
+  // Split a filename into [root, dir, basename, ext], unix version
+  // 'root' is just a slash, or nothing.
+  var splitPathRe =
+      /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+  var splitPath = function(filename) {
+    return splitPathRe.exec(filename).slice(1);
+  };
+
+  // path.resolve([from ...], to)
+  // posix version
+  function resolve() {
+    var resolvedPath = '',
+        resolvedAbsolute = false;
+
+    for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+      var path = (i >= 0) ? arguments[i] : '/';
+
+      // Skip empty and invalid entries
+      if (typeof path !== 'string') {
+        throw new TypeError('Arguments to path.resolve must be strings');
+      } else if (!path) {
+        continue;
+      }
+
+      resolvedPath = path + '/' + resolvedPath;
+      resolvedAbsolute = path.charAt(0) === '/';
+    }
+
+    // At this point the path should be resolved to a full absolute path, but
+    // handle relative paths to be safe (might happen when process.cwd() fails)
+
+    // Normalize the path
+    resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
+      return !!p;
+    }), !resolvedAbsolute).join('/');
+
+    return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+  }
+  // path.normalize(path)
+  // posix version
+  function normalize(path) {
+    var isPathAbsolute = isAbsolute(path),
+        trailingSlash = substr(path, -1) === '/';
+
+    // Normalize the path
+    path = normalizeArray(filter(path.split('/'), function(p) {
+      return !!p;
+    }), !isPathAbsolute).join('/');
+
+    if (!path && !isPathAbsolute) {
+      path = '.';
+    }
+    if (path && trailingSlash) {
+      path += '/';
+    }
+
+    return (isPathAbsolute ? '/' : '') + path;
+  }
+  // posix version
+  function isAbsolute(path) {
+    return path.charAt(0) === '/';
+  }
+
+  // posix version
+  function join() {
+    var paths = Array.prototype.slice.call(arguments, 0);
+    return normalize(filter(paths, function(p, index) {
+      if (typeof p !== 'string') {
+        throw new TypeError('Arguments to path.join must be strings');
+      }
+      return p;
+    }).join('/'));
+  }
+
+
+  // path.relative(from, to)
+  // posix version
+  function relative(from, to) {
+    from = resolve(from).substr(1);
+    to = resolve(to).substr(1);
+
+    function trim(arr) {
+      var start = 0;
+      for (; start < arr.length; start++) {
+        if (arr[start] !== '') break;
+      }
+
+      var end = arr.length - 1;
+      for (; end >= 0; end--) {
+        if (arr[end] !== '') break;
+      }
+
+      if (start > end) return [];
+      return arr.slice(start, end - start + 1);
+    }
+
+    var fromParts = trim(from.split('/'));
+    var toParts = trim(to.split('/'));
+
+    var length = Math.min(fromParts.length, toParts.length);
+    var samePartsLength = length;
+    for (var i = 0; i < length; i++) {
+      if (fromParts[i] !== toParts[i]) {
+        samePartsLength = i;
+        break;
+      }
+    }
+
+    var outputParts = [];
+    for (var i = samePartsLength; i < fromParts.length; i++) {
+      outputParts.push('..');
+    }
+
+    outputParts = outputParts.concat(toParts.slice(samePartsLength));
+
+    return outputParts.join('/');
+  }
+
+  var sep = '/';
+  var delimiter = ':';
+
+  function dirname(path) {
+    var result = splitPath(path),
+        root = result[0],
+        dir = result[1];
+
+    if (!root && !dir) {
+      // No dirname whatsoever
+      return '.';
+    }
+
+    if (dir) {
+      // It has a dirname, strip trailing slash
+      dir = dir.substr(0, dir.length - 1);
+    }
+
+    return root + dir;
+  }
+
+  function basename(path, ext) {
+    var f = splitPath(path)[2];
+    // TODO: make this comparison case-insensitive on windows?
+    if (ext && f.substr(-1 * ext.length) === ext) {
+      f = f.substr(0, f.length - ext.length);
+    }
+    return f;
+  }
+
+
+  function extname(path) {
+    return splitPath(path)[3];
+  }
+  var _polyfillNode_path = {
+    extname: extname,
+    basename: basename,
+    dirname: dirname,
+    sep: sep,
+    delimiter: delimiter,
+    relative: relative,
+    join: join,
+    isAbsolute: isAbsolute,
+    normalize: normalize,
+    resolve: resolve
+  };
+  function filter (xs, f) {
+      if (xs.filter) return xs.filter(f);
+      var res = [];
+      for (var i = 0; i < xs.length; i++) {
+          if (f(xs[i], i, xs)) res.push(xs[i]);
+      }
+      return res;
+  }
+
+  // String.prototype.substr - negative index don't work in IE8
+  var substr = 'ab'.substr(-1) === 'b' ?
+      function (str, start, len) { return str.substr(start, len) } :
+      function (str, start, len) {
+          if (start < 0) start = str.length + start;
+          return str.substr(start, len);
+      }
+  ;
+
+  var _polyfillNode_path$1 = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    resolve: resolve,
+    normalize: normalize,
+    isAbsolute: isAbsolute,
+    join: join,
+    relative: relative,
+    sep: sep,
+    delimiter: delimiter,
+    dirname: dirname,
+    basename: basename,
+    extname: extname,
+    'default': _polyfillNode_path
+  });
+
+  var require$$1 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_path$1);
+
+  var utils = {};
+
+  /*
+   * EJS Embedded JavaScript templates
+   * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *         http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *
+  */
+
+  (function (exports) {
+
+  	var regExpChars = /[|\\{}()[\]^$+*?.]/g;
+  	var hasOwnProperty = Object.prototype.hasOwnProperty;
+  	var hasOwn = function (obj, key) { return hasOwnProperty.apply(obj, [key]); };
+
+  	/**
+  	 * Escape characters reserved in regular expressions.
+  	 *
+  	 * If `string` is `undefined` or `null`, the empty string is returned.
+  	 *
+  	 * @param {String} string Input string
+  	 * @return {String} Escaped string
+  	 * @static
+  	 * @private
+  	 */
+  	exports.escapeRegExpChars = function (string) {
+  	  // istanbul ignore if
+  	  if (!string) {
+  	    return '';
+  	  }
+  	  return String(string).replace(regExpChars, '\\$&');
+  	};
+
+  	var _ENCODE_HTML_RULES = {
+  	  '&': '&amp;',
+  	  '<': '&lt;',
+  	  '>': '&gt;',
+  	  '"': '&#34;',
+  	  "'": '&#39;'
+  	};
+  	var _MATCH_HTML = /[&<>'"]/g;
+
+  	function encode_char(c) {
+  	  return _ENCODE_HTML_RULES[c] || c;
+  	}
+
+  	/**
+  	 * Stringified version of constants used by {@link module:utils.escapeXML}.
+  	 *
+  	 * It is used in the process of generating {@link ClientFunction}s.
+  	 *
+  	 * @readonly
+  	 * @type {String}
+  	 */
+
+  	var escapeFuncStr =
+  	  'var _ENCODE_HTML_RULES = {\n'
+  	+ '      "&": "&amp;"\n'
+  	+ '    , "<": "&lt;"\n'
+  	+ '    , ">": "&gt;"\n'
+  	+ '    , \'"\': "&#34;"\n'
+  	+ '    , "\'": "&#39;"\n'
+  	+ '    }\n'
+  	+ '  , _MATCH_HTML = /[&<>\'"]/g;\n'
+  	+ 'function encode_char(c) {\n'
+  	+ '  return _ENCODE_HTML_RULES[c] || c;\n'
+  	+ '};\n';
+
+  	/**
+  	 * Escape characters reserved in XML.
+  	 *
+  	 * If `markup` is `undefined` or `null`, the empty string is returned.
+  	 *
+  	 * @implements {EscapeCallback}
+  	 * @param {String} markup Input string
+  	 * @return {String} Escaped string
+  	 * @static
+  	 * @private
+  	 */
+
+  	exports.escapeXML = function (markup) {
+  	  return markup == undefined
+  	    ? ''
+  	    : String(markup)
+  	      .replace(_MATCH_HTML, encode_char);
+  	};
+
+  	function escapeXMLToString() {
+  	  return Function.prototype.toString.call(this) + ';\n' + escapeFuncStr;
+  	}
+
+  	try {
+  	  if (typeof Object.defineProperty === 'function') {
+  	  // If the Function prototype is frozen, the "toString" property is non-writable. This means that any objects which inherit this property
+  	  // cannot have the property changed using an assignment. If using strict mode, attempting that will cause an error. If not using strict
+  	  // mode, attempting that will be silently ignored.
+  	  // However, we can still explicitly shadow the prototype's "toString" property by defining a new "toString" property on this object.
+  	    Object.defineProperty(exports.escapeXML, 'toString', { value: escapeXMLToString });
+  	  } else {
+  	    // If Object.defineProperty() doesn't exist, attempt to shadow this property using the assignment operator.
+  	    exports.escapeXML.toString = escapeXMLToString;
+  	  }
+  	} catch (err) {
+  	  console.warn('Unable to set escapeXML.toString (is the Function prototype frozen?)');
+  	}
+
+  	/**
+  	 * Naive copy of properties from one object to another.
+  	 * Does not recurse into non-scalar properties
+  	 * Does not check to see if the property has a value before copying
+  	 *
+  	 * @param  {Object} to   Destination object
+  	 * @param  {Object} from Source object
+  	 * @return {Object}      Destination object
+  	 * @static
+  	 * @private
+  	 */
+  	exports.shallowCopy = function (to, from) {
+  	  from = from || {};
+  	  if ((to !== null) && (to !== undefined)) {
+  	    for (var p in from) {
+  	      if (!hasOwn(from, p)) {
+  	        continue;
+  	      }
+  	      if (p === '__proto__' || p === 'constructor') {
+  	        continue;
+  	      }
+  	      to[p] = from[p];
+  	    }
+  	  }
+  	  return to;
+  	};
+
+  	/**
+  	 * Naive copy of a list of key names, from one object to another.
+  	 * Only copies property if it is actually defined
+  	 * Does not recurse into non-scalar properties
+  	 *
+  	 * @param  {Object} to   Destination object
+  	 * @param  {Object} from Source object
+  	 * @param  {Array} list List of properties to copy
+  	 * @return {Object}      Destination object
+  	 * @static
+  	 * @private
+  	 */
+  	exports.shallowCopyFromList = function (to, from, list) {
+  	  list = list || [];
+  	  from = from || {};
+  	  if ((to !== null) && (to !== undefined)) {
+  	    for (var i = 0; i < list.length; i++) {
+  	      var p = list[i];
+  	      if (typeof from[p] != 'undefined') {
+  	        if (!hasOwn(from, p)) {
+  	          continue;
+  	        }
+  	        if (p === '__proto__' || p === 'constructor') {
+  	          continue;
+  	        }
+  	        to[p] = from[p];
+  	      }
+  	    }
+  	  }
+  	  return to;
+  	};
+
+  	/**
+  	 * Simple in-process cache implementation. Does not implement limits of any
+  	 * sort.
+  	 *
+  	 * @implements {Cache}
+  	 * @static
+  	 * @private
+  	 */
+  	exports.cache = {
+  	  _data: {},
+  	  set: function (key, val) {
+  	    this._data[key] = val;
+  	  },
+  	  get: function (key) {
+  	    return this._data[key];
+  	  },
+  	  remove: function (key) {
+  	    delete this._data[key];
+  	  },
+  	  reset: function () {
+  	    this._data = {};
+  	  }
+  	};
+
+  	/**
+  	 * Transforms hyphen case variable into camel case.
+  	 *
+  	 * @param {String} string Hyphen case string
+  	 * @return {String} Camel case string
+  	 * @static
+  	 * @private
+  	 */
+  	exports.hyphenToCamel = function (str) {
+  	  return str.replace(/-[a-z]/g, function (match) { return match[1].toUpperCase(); });
+  	};
+
+  	/**
+  	 * Returns a null-prototype object in runtimes that support it
+  	 *
+  	 * @return {Object} Object, prototype will be set to null where possible
+  	 * @static
+  	 * @private
+  	 */
+  	exports.createNullProtoObjWherePossible = (function () {
+  	  if (typeof Object.create == 'function') {
+  	    return function () {
+  	      return Object.create(null);
+  	    };
+  	  }
+  	  if (!({__proto__: null} instanceof Object)) {
+  	    return function () {
+  	      return {__proto__: null};
+  	    };
+  	  }
+  	  // Not possible, just pass through
+  	  return function () {
+  	    return {};
+  	  };
+  	})();
+
+  	exports.hasOwnOnlyObject = function (obj) {
+  	  var o = exports.createNullProtoObjWherePossible();
+  	  for (var p in obj) {
+  	    if (hasOwn(obj, p)) {
+  	      o[p] = obj[p];
+  	    }
+  	  }
+  	  return o;
+  	};
+  } (utils));
+
+  var name = "ejs";
+  var description = "Embedded JavaScript templates";
+  var keywords = [
+  	"template",
+  	"engine",
+  	"ejs"
+  ];
+  var version = "3.1.10";
+  var author = "Matthew Eernisse <mde@fleegix.org> (http://fleegix.org)";
+  var license = "Apache-2.0";
+  var bin = {
+  	ejs: "./bin/cli.js"
+  };
+  var main = "./lib/ejs.js";
+  var jsdelivr = "ejs.min.js";
+  var unpkg = "ejs.min.js";
+  var repository = {
+  	type: "git",
+  	url: "git://github.com/mde/ejs.git"
+  };
+  var bugs = "https://github.com/mde/ejs/issues";
+  var homepage = "https://github.com/mde/ejs";
+  var dependencies = {
+  	jake: "^10.8.5"
+  };
+  var devDependencies = {
+  	browserify: "^16.5.1",
+  	eslint: "^6.8.0",
+  	"git-directory-deploy": "^1.5.1",
+  	jsdoc: "^4.0.2",
+  	"lru-cache": "^4.0.1",
+  	mocha: "^10.2.0",
+  	"uglify-js": "^3.3.16"
+  };
+  var engines = {
+  	node: ">=0.10.0"
+  };
+  var scripts = {
+  	test: "npx jake test"
+  };
+  var require$$3 = {
+  	name: name,
+  	description: description,
+  	keywords: keywords,
+  	version: version,
+  	author: author,
+  	license: license,
+  	bin: bin,
+  	main: main,
+  	jsdelivr: jsdelivr,
+  	unpkg: unpkg,
+  	repository: repository,
+  	bugs: bugs,
+  	homepage: homepage,
+  	dependencies: dependencies,
+  	devDependencies: devDependencies,
+  	engines: engines,
+  	scripts: scripts
+  };
+
+  /*
+   * EJS Embedded JavaScript templates
+   * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *         http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *
+  */
+
+  (function (exports) {
+
+  	/**
   	 * @file Embedded JavaScript templating engine. {@link http://ejs.co}
   	 * @author Matthew Eernisse <mde@fleegix.org>
   	 * @author Tiancheng "Timothy" Gu <timothygu99@gmail.com>
   	 * @project EJS
   	 * @license {@link http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0}
   	 */
-var t=i,n=b,r=y,a=!1,o=w,c="locals",s=["delimiter","scope","context","debug","compileDebug","client","_with","rmWhitespace","strict","filename","async"],l=s.concat("cache"),u=/^\uFEFF/,d=/^[a-zA-Z_$][0-9a-zA-Z_$]*$/;function p(n,r){var i;if(r.some((function(r){return i=e.resolveInclude(n,r,!0),t.existsSync(i)})))return i}function m(t,n){var r,i=t.filename,a=arguments.length>1;if(t.cache){if(!i)throw new Error("cache option requires a filename");if(r=e.cache.get(i))return r;a||(n=f(i).toString().replace(u,""))}else if(!a){if(!i)throw new Error("Internal EJS error: no file name or template provided");n=f(i).toString().replace(u,"")}return r=e.compile(n,t),t.cache&&e.cache.set(i,r),r}function f(t){return e.fileLoader(t)}function h(n,i){var a=r.shallowCopy(r.createNullProtoObjWherePossible(),i);if(a.filename=function(n,r){var i,a,o=r.views,c=/^[A-Za-z]+:\\|^\//.exec(n);if(c&&c.length)n=n.replace(/^\/*/,""),i=Array.isArray(r.root)?p(n,r.root):e.resolveInclude(n,r.root||"/",!0);else if(r.filename&&(a=e.resolveInclude(n,r.filename),t.existsSync(a)&&(i=a)),!i&&Array.isArray(o)&&(i=p(n,o)),!i&&"function"!=typeof r.includer)throw new Error('Could not find the include file "'+r.escapeFunction(n)+'"');return i}(n,a),"function"==typeof i.includer){var o=i.includer(n,a.filename);if(o&&(o.filename&&(a.filename=o.filename),o.template))return m(a,o.template)}return m(a)}function _(e,t,n,r,i){var a=t.split("\n"),o=Math.max(r-3,0),c=Math.min(a.length,r+3),s=i(n),l=a.slice(o,c).map((function(e,t){var n=t+o+1;return(n==r?" >> ":"    ")+n+"| "+e})).join("\n");throw e.path=s,e.message=(s||"ejs")+":"+r+"\n"+l+"\n\n"+e.message,e}function g(e){return e.replace(/;(\s*$)/,"$1")}function v(t,n){var i=r.hasOwnOnlyObject(n),a=r.createNullProtoObjWherePossible();this.templateText=t,this.mode=null,this.truncate=!1,this.currentLine=1,this.source="",a.client=i.client||!1,a.escapeFunction=i.escape||i.escapeFunction||r.escapeXML,a.compileDebug=!1!==i.compileDebug,a.debug=!!i.debug,a.filename=i.filename,a.openDelimiter=i.openDelimiter||e.openDelimiter||"<",a.closeDelimiter=i.closeDelimiter||e.closeDelimiter||">",a.delimiter=i.delimiter||e.delimiter||"%",a.strict=i.strict||!1,a.context=i.context,a.cache=i.cache||!1,a.rmWhitespace=i.rmWhitespace,a.root=i.root,a.includer=i.includer,a.outputFunctionName=i.outputFunctionName,a.localsName=i.localsName||e.localsName||c,a.views=i.views,a.async=i.async,a.destructuredLocals=i.destructuredLocals,a.legacyInclude=void 0===i.legacyInclude||!!i.legacyInclude,a.strict?a._with=!1:a._with=void 0===i._with||i._with,this.opts=a,this.regex=this.createRegex()}e.cache=r.cache,e.fileLoader=t.readFileSync,e.localsName=c,e.promiseImpl=new Function("return this;")().Promise,e.resolveInclude=function(e,t,r){var i=n.dirname,a=n.extname,o=(0,n.resolve)(r?t:i(t),e);return a(e)||(o+=".ejs"),o},e.compile=function(e,t){return t&&t.scope&&(a||(console.warn("`scope` option is deprecated and will be removed in EJS 3"),a=!0),t.context||(t.context=t.scope),delete t.scope),new v(e,t).compile()},e.render=function(e,t,n){var i=t||r.createNullProtoObjWherePossible(),a=n||r.createNullProtoObjWherePossible();return 2==arguments.length&&r.shallowCopyFromList(a,i,s),m(a,e)(i)},e.renderFile=function(){var t,n,i,a=Array.prototype.slice.call(arguments),o=a.shift(),c={filename:o};return"function"==typeof arguments[arguments.length-1]&&(t=a.pop()),a.length?(n=a.shift(),a.length?r.shallowCopy(c,a.pop()):(n.settings&&(n.settings.views&&(c.views=n.settings.views),n.settings["view cache"]&&(c.cache=!0),(i=n.settings["view options"])&&r.shallowCopy(c,i)),r.shallowCopyFromList(c,n,l)),c.filename=o):n=r.createNullProtoObjWherePossible(),function(t,n,r){var i;if(!r){if("function"==typeof e.promiseImpl)return new e.promiseImpl((function(e,r){try{e(i=m(t)(n))}catch(e){r(e)}}));throw new Error("Please provide a callback function")}try{i=m(t)(n)}catch(e){return r(e)}r(null,i)}(c,n,t)},e.Template=v,e.clearCache=function(){e.cache.reset()},v.modes={EVAL:"eval",ESCAPED:"escaped",RAW:"raw",COMMENT:"comment",LITERAL:"literal"},v.prototype={createRegex:function(){var e="(<%%|%%>|<%=|<%-|<%_|<%#|<%|%>|-%>|_%>)",t=r.escapeRegExpChars(this.opts.delimiter),n=r.escapeRegExpChars(this.opts.openDelimiter),i=r.escapeRegExpChars(this.opts.closeDelimiter);return e=e.replace(/%/g,t).replace(/</g,n).replace(/>/g,i),new RegExp(e)},compile:function(){var e,t,i,a=this.opts,o="",c="",s=a.escapeFunction,l=a.filename?JSON.stringify(a.filename):"undefined";if(!this.source){if(this.generateSource(),o+='  var __output = "";\n  function __append(s) { if (s !== undefined && s !== null) __output += s }\n',a.outputFunctionName){if(!d.test(a.outputFunctionName))throw new Error("outputFunctionName is not a valid JS identifier.");o+="  var "+a.outputFunctionName+" = __append;\n"}if(a.localsName&&!d.test(a.localsName))throw new Error("localsName is not a valid JS identifier.");if(a.destructuredLocals&&a.destructuredLocals.length){for(var u="  var __locals = ("+a.localsName+" || {}),\n",p=0;p<a.destructuredLocals.length;p++){var m=a.destructuredLocals[p];if(!d.test(m))throw new Error("destructuredLocals["+p+"] is not a valid JS identifier.");p>0&&(u+=",\n  "),u+=m+" = __locals."+m}o+=u+";\n"}!1!==a._with&&(o+="  with ("+a.localsName+" || {}) {\n",c+="  }\n"),c+="  return __output;\n",this.source=o+this.source+c}e=a.compileDebug?"var __line = 1\n  , __lines = "+JSON.stringify(this.templateText)+"\n  , __filename = "+l+";\ntry {\n"+this.source+"} catch (e) {\n  rethrow(e, __lines, __filename, __line, escapeFn);\n}\n":this.source,a.client&&(e="escapeFn = escapeFn || "+s.toString()+";\n"+e,a.compileDebug&&(e="rethrow = rethrow || "+_.toString()+";\n"+e)),a.strict&&(e='"use strict";\n'+e),a.debug&&console.log(e),a.compileDebug&&a.filename&&(e=e+"\n//# sourceURL="+l+"\n");try{if(a.async)try{i=new Function("return (async function(){}).constructor;")()}catch(e){throw e instanceof SyntaxError?new Error("This environment does not support async/await"):e}else i=Function;t=new i(a.localsName+", escapeFn, include, rethrow",e)}catch(e){throw e instanceof SyntaxError&&(a.filename&&(e.message+=" in "+a.filename),e.message+=" while compiling ejs\n\n",e.message+="If the above error is not helpful, you may want to try EJS-Lint:\n",e.message+="https://github.com/RyanZim/EJS-Lint",a.async||(e.message+="\n",e.message+="Or, if you meant to create an async function, pass `async: true` as an option.")),e}var f=a.client?t:function(e){return t.apply(a.context,[e||r.createNullProtoObjWherePossible(),s,function(t,n){var i=r.shallowCopy(r.createNullProtoObjWherePossible(),e);return n&&(i=r.shallowCopy(i,n)),h(t,a)(i)},_])};if(a.filename&&"function"==typeof Object.defineProperty){var g=a.filename,v=n.basename(g,n.extname(g));try{Object.defineProperty(f,"name",{value:v,writable:!1,enumerable:!1,configurable:!0})}catch(e){}}return f},generateSource:function(){this.opts.rmWhitespace&&(this.templateText=this.templateText.replace(/[\r\n]+/g,"\n").replace(/^\s+|\s+$/gm,"")),this.templateText=this.templateText.replace(/[ \t]*<%_/gm,"<%_").replace(/_%>[ \t]*/gm,"_%>");var e=this,t=this.parseTemplateText(),n=this.opts.delimiter,r=this.opts.openDelimiter,i=this.opts.closeDelimiter;t&&t.length&&t.forEach((function(a,o){var c;if(0===a.indexOf(r+n)&&0!==a.indexOf(r+n+n)&&(c=t[o+2])!=n+i&&c!="-"+n+i&&c!="_"+n+i)throw new Error('Could not find matching close tag for "'+a+'".');e.scanLine(a)}))},parseTemplateText:function(){for(var e,t=this.templateText,n=this.regex,r=n.exec(t),i=[];r;)0!==(e=r.index)&&(i.push(t.substring(0,e)),t=t.slice(e)),i.push(r[0]),t=t.slice(r[0].length),r=n.exec(t);return t&&i.push(t),i},_addOutput:function(e){if(this.truncate&&(e=e.replace(/^(?:\r\n|\r|\n)/,""),this.truncate=!1),!e)return e;e=(e=(e=(e=e.replace(/\\/g,"\\\\")).replace(/\n/g,"\\n")).replace(/\r/g,"\\r")).replace(/"/g,'\\"'),this.source+='    ; __append("'+e+'")\n'},scanLine:function(e){var t,n=this.opts.delimiter,r=this.opts.openDelimiter,i=this.opts.closeDelimiter;switch(t=e.split("\n").length-1,e){case r+n:case r+n+"_":this.mode=v.modes.EVAL;break;case r+n+"=":this.mode=v.modes.ESCAPED;break;case r+n+"-":this.mode=v.modes.RAW;break;case r+n+"#":this.mode=v.modes.COMMENT;break;case r+n+n:this.mode=v.modes.LITERAL,this.source+='    ; __append("'+e.replace(r+n+n,r+n)+'")\n';break;case n+n+i:this.mode=v.modes.LITERAL,this.source+='    ; __append("'+e.replace(n+n+i,n+i)+'")\n';break;case n+i:case"-"+n+i:case"_"+n+i:this.mode==v.modes.LITERAL&&this._addOutput(e),this.mode=null,this.truncate=0===e.indexOf("-")||0===e.indexOf("_");break;default:if(this.mode){switch(this.mode){case v.modes.EVAL:case v.modes.ESCAPED:case v.modes.RAW:e.lastIndexOf("//")>e.lastIndexOf("\n")&&(e+="\n")}switch(this.mode){case v.modes.EVAL:this.source+="    ; "+e+"\n";break;case v.modes.ESCAPED:this.source+="    ; __append(escapeFn("+g(e)+"))\n";break;case v.modes.RAW:this.source+="    ; __append("+g(e)+")\n";break;case v.modes.COMMENT:break;case v.modes.LITERAL:this._addOutput(e)}}else this._addOutput(e)}this.opts.compileDebug&&t&&(this.currentLine+=t,this.source+="    ; __line = "+this.currentLine+"\n")}},e.escapeXML=r.escapeXML,e.__express=e.renderFile,e.VERSION=o,e.name="ejs","undefined"!=typeof window&&(window.ejs=e)}(r);var S="Invariant failed";function k(e,t){if(!e)throw new Error(S)}const E="cdp_segments",x="$",O=16,L="q",j=[{label:"Relevance",value:""},{label:"Price (low - high)",value:"price+asc"},{label:"Price (high - low)",value:"price+desc"},{label:"Name (A - Z)",value:"title+asc"},{label:"Name (Z - A)",value:"title+desc"}],A=0,R="price",q=4,N=2,C=2,I=5,P=6,T="fq",F="filterpanel",M="groupby",$="page",D="size",U="sort",z="search",V="category",W="keyword",J=".main-content";function B(){const e=`${E}=`;return(document.cookie.split("; ").find((t=>t.startsWith(e)))||"").replace(e,"")}const Q={method:"GET",headers:{"Content-Type":"application/json"}};function H(){const e=document.cookie.split("; ").find((e=>e.startsWith("_br_uid_2=")));return e?e.replace("_br_uid_2=",""):"uid%3D7797686432023%3Av%3D11.5%3Ats%3D1428617911187%3Ahc%3D55"}const X=(e,t="$",n=!0)=>`${n?t:""}${(e/100).toLocaleString(void 0,{minimumFractionDigits:2,maximumFractionDigits:2})}${n?"":` ${t}`}`;const Z="https://core.dxpapi.com/api/v1/core/",G=["_br_uid_2","fq","sort"],Y="pid,title,brand,price,sale_price,thumb_image,sku_thumb_images,sku_swatch_images,sku_color_group,url,price_range,sale_price_range,description,is_live,score,skuid,group";function K(e){const t=Object.assign({},e),n=(null==t?void 0:t.endpoint)||Z;return(null==t?void 0:t.endpoint)&&(null==t||delete t.endpoint),(null==t?void 0:t.fl)||(t.fl=Y),`${n}${r=t,`?${Object.keys(r).reduce(((e,t)=>[...e,`${t}=${G.includes(t)?r[t]:encodeURIComponent(r[t])}`]),[]).join("&")}`}`;var r}async function ee(e){return async function(e,t){const n=await fetch(e,t);return await n.json()}(K(e),Q)}var te='<% if (did_you_mean.length) { %>\n  <div class="blm-product-search-header">\n    <div class="blm-product-search-header-container">\n      <h1 class="blm-product-search-header-container__title">Results for\n        <% if (locals.keywordRedirect && keywordRedirect.redirected_url) { %>\n          <i><%- keywordRedirect.redirected_url %></i>\n        <% } else { %>\n          <i><%- did_you_mean[0] %></i>\n        <% } %>\n         instead of <i class="blm-product-search-header-container__title__searched-word"><%- locals[config.default_search_parameter] %></i></h1>\n      <div class="blm-did-you-mean-suggestion">\n        <label class="blm-did-you-mean-suggestion__label">Did you mean:</label>\n        <% did_you_mean.forEach(function(word) { %>\n        <a href="<%= config.search_page_url %>?<%= config.default_search_parameter %>=<%= word %>" class="blm-did-you-mean-suggestion__link"><%- word %></a>\n        <% }); %>\n      </div>\n      <% if (locals.keywordRedirect && keywordRedirect.redirected_query) { %>\n      <div class="blm-redirected-keyword">Redirected from <i>"<%- keywordRedirect.redirected_query %>"</i>.</div>\n      <% } %>\n    </div>\n  </div>\n<% } %>\n<% if (locals.keywordRedirect && keywordRedirect.redirected_query && did_you_mean.length === 0) { %>\n  <div class="blm-product-search-header">\n    <div class="blm-product-search-header-container">\n      <h1 class="blm-product-search-header-container__title">Results for <i><%- keywordRedirect.redirected_query %></i> </h1>\n      <div class="blm-redirected-keyword">Redirected from <i>"<%- keywordRedirect.original_query %>"</i> </div>\n    </div>\n  </div>\n<% } %>\n<div class="blm-<% if (config.search.is_category_page) { %>category<% } else { %>product-search<% } %> blm-results <% if (config.search.facets_included) { %>with-facets<% } %>">\n    <% if (config.search.facets_included && facets.length) { %>\n    <aside class="blm-product-search-sidebar">\n\n      <button class="blm-product-search-control-button blm-product-search-control-button--sidebar">\n        Filter\n        <svg viewBox="0 0 14.8 14.8" class="blm-product-search-control-button__icon" focusable="false"><path d="M1.6 14.8V0m6 14.8V1.6m5.6 13.2V0" fill="none" stroke="#000" stroke-miterlimit="10"></path><circle cx="1.6" cy="7.4" r="1.6"></circle><circle cx="13.2" cy="10.4" r="1.6"></circle><circle cx="7.6" cy="1.6" r="1.6"></circle></svg>\n      </button>\n\n      <% if (locals.selectedFilterItems && selectedFilterItems.length > 0) { %>\n        <div class="blm-product-search-selected-filters">\n          <h4 class="blm-product-search-selected-filters__title">Filters</h4>\n\n          <% selectedFilterItems.forEach(function(filterIitem) { %>\n            <span class="blm-product-search-selected-filter" data-filter-checkbox-id="<%- filterIitem.checkbox_id %>"><%- filterIitem.label %>\n              <span class="blm-product-search-selected-filter__clear">&times;</span>\n            </span>\n          <% }) %>\n\n          <button class="blm-product-search-selected-filters__clear-all">Clear all</button>\n        </div>\n      <% } %>\n\n      <div class="blm-product-search-sidebar-content <% if (locals.isFiltersPanelOpened && isFiltersPanelOpened) { %>blm-open<% } %>">\n\n        <button class="blm-product-search-control-button blm-product-search-control-button--sidebar blm-product-search-control-button--active">\n          Done\n          <svg viewBox="0 0 14.8 14.8" class="blm-product-search-control-button__icon" focusable="false"><path class="blm-product-search-control-button__icon-path" d="M1.6 14.8V0m6 14.8V1.6m5.6 13.2V0" fill="none" stroke="#000" stroke-miterlimit="10"></path><circle cx="1.6" cy="7.4" r="1.6"></circle><circle cx="13.2" cy="10.4" r="1.6"></circle><circle cx="7.6" cy="1.6" r="1.6"></circle></svg>\n        </button>\n\n        <div id="blm-product-search-search-filters">\n          <input id="blm-product-search-search-filters__input" placeholder="Type to search filters" />\n        </div>\n\n        <div class="blm-product-search-filter">\n          <h4 class="blm-product-search-filter-title">Price</h4>\n          <div class="blm-price-range-container">\n            <div class="blm-range-slider">\n              <input\n                value="<%= checkedFacets.price ? checkedFacets.price[0] : priceRangeFacet.start %>"\n                min="<%- priceRangeFacet.start %>"\n                max="<%- priceRangeFacet.end %>"\n                step="1"\n                type="range"\n                class="blm-price-range-input blm-price-range-input--lower blm-price-range-input--lower-%%-REQUEST_ID-%%"\n              >\n              <span class="blm-price-range-slider-rail"></span>\n              <input\n                value="<%= checkedFacets.price ? checkedFacets.price[1] : priceRangeFacet.end %>"\n                min="<%- priceRangeFacet.start %>"\n                max="<%- priceRangeFacet.end %>"\n                step="1"\n                type="range"\n                class="blm-price-range-input blm-price-range-input--upper blm-price-range-input--upper-%%-REQUEST_ID-%%"\n              >\n            </div>\n            <div class="blm-range-slider__values">\n              <span class="blm-range-slider__values--min">\n                <%= checkedFacets.price ? config.format_money(checkedFacets.price[0] * 100) : config.format_money(priceRangeFacet.start * 100) %>\n              </span>\n              <span class="blm-range-slider__values--max">\n                <%= checkedFacets.price ? config.format_money(checkedFacets.price[1] * 100) : config.format_money(priceRangeFacet.end * 100) %>\n              </span>\n            </div>\n          <% if (checkedFacets.price) { %>\n            <div class="blm-range-slider__clear-values">\n              <button class="blm-range-slider__clear-values-button blm-range-slider__clear-values-button--%%-REQUEST_ID-%%">Clear</button>\n            </div>\n          <% } %>\n          </div>\n        </div>\n\n        <% facets.forEach(function(facet, facetIndex) { %>\n          <% if (facet.section.length > 0) { %>\n          <div class="blm-product-search-filter blm-dynamic-filter" id="blm-facet-block-item-<%= facetIndex %>">\n            <h4 class="blm-product-search-filter-title"><%- facet.title %></h4>\n            <ul class="blm-product-search-filter-items">\n              <% facet.section.forEach(function(item) { %>\n              <li class="blm-product-search-filter-item">\n                <input\n                  type="checkbox"\n                  <% if (facet.original_title in checkedFacets && checkedFacets[facet.original_title].includes(escapeSpecialCharacters(item.id))) { %>checked<% } %>\n                  name="<%= facet.original_title %>"\n                  value="<%= escapeSpecialCharacters(item.id) %>"\n                  id="<%- facet.original_title + \'[\' + escapeSpecialCharacters(item.name) + \']\' %>"\n                  class="blm-product-search-filter-item__checkbox"\n                />\n                <label class="blm-product-search-filter-item__name" for="<%- facet.original_title + \'[\' + escapeSpecialCharacters(item.name) + \']\' %>"><%- item.name %></label>\n                <% if (!config.search.display_variants) { %>\n                <span class="blm-product-search-filter-item__badge"><%- item.count %></span>\n                <% } %>\n              </li>\n              <% }); %>\n            </ul>\n            <% if (facet.section.length > config.search.initial_number_of_facet_values) { %>\n            <div class="blm-product-search-load-more" data-item="<%= facetIndex %>">+ More</div>\n            <% } %>\n          </div>\n          <% } %>\n        <% }); %>\n\n        <% if (facets[0].section.length) { %>\n        <div class="blm-load-more-facet blm-load-more-facet--%%-REQUEST_ID-%%">+ More </div>\n        <% } %>\n\n      </div>\n    </aside>\n    <% } %>\n    <section class="blm-product-search-main">\n      <div class="blm-product-search-toolbar">\n        <%\n          const haveUngroupedResults = locals.number_of_results && number_of_results > 0;\n          const haveGroupedResults = locals.grouped_products && grouped_products.groups.length > 0;\n        %>\n        <% if (haveUngroupedResults || haveGroupedResults) { %>\n          <% if (haveUngroupedResults) { %>\n          <h2 class="blm-product-search-toolbar__title">\n            Showing <%- start + 1 %> - <%- Math.min(start + products.length, number_of_results) %> of <%- number_of_results %> products\n          </h2>\n          <% } %>\n        <div class="blm-product-search-toolbar-options">\n          <% if (config.search.groupby) { %>\n          <span class="blm-product-search-toolbar-options blm-product-search-toolbar-options--groupby">\n            <label for="groupby-%%-REQUEST_ID-%%" class="blm-product-search-toolbar-options__label">Group By: </label>\n            <select\n              name="groupby"\n              id="groupby-%%-REQUEST_ID-%%"\n              class="blm-product-search-toolbar-options__select"\n            >\n              <% config.search.groupby_options.forEach(function(option) { %>\n                <option value="<%- option.value %>" <% if (locals.groupby && groupby === option.value) { %>selected<% } %>><%- option.label %></option>\n              <% }) %>\n            </select>\n          </span>\n          <% } %>\n          <% if (!config.search.infinite_scroll && paginationData.length > 0) { %>\n          <span class="blm-product-search-toolbar-options blm-product-search-toolbar-options--page-size">\n            <label for="sort-size-%%-REQUEST_ID-%%" class="blm-product-search-toolbar-options__label">Size: </label>\n            <select\n              name="sort-size"\n              id="sort-size-%%-REQUEST_ID-%%"\n              class="blm-product-search-toolbar-options__select"\n            >\n              <% for (let i = (config.search.groupby ? 4 : 16); i <= (config.search.groupby ? 16 : 48); i += 4) { %>\n                <option value="<%- i %>" <% if (locals.size && size === i) { %>selected<% } %>><%- i %></option>\n              <% } %>\n            </select>\n          </span>\n          <% } %>\n          <span class="blm-product-search-toolbar-options blm-product-search-toolbar-options--sort-by">\n            <label for="sort-by-%%-REQUEST_ID-%%" class="blm-product-search-toolbar-options__label">Sort By: </label>\n            <select\n              name="sort-by"\n              id="sort-by-%%-REQUEST_ID-%%"\n              class="blm-product-search-toolbar-options__select"\n            >\n              <% config.search.sorting_options.forEach(function(option) { %>\n                <option value="<%- option.value %>" <% if (locals.sort && sort === option.value) { %>selected<% } %>><%- option.label %></option>\n              <% }) %>\n            </select>\n          </span>\n        </div>\n        <% } else if (!(locals.grouped_products) || grouped_products.groups.length < 1) { %>\n        <h2 class="blm-product-search-toolbar__title">\n          No results found\n        </h2>\n        <% } %>\n\n      </div>\n      <div <% if (products.length && !locals.grouped_products) { %>class="blm-product-search__results"<% } %>>\n        <% if (products.length || (locals.grouped_products && grouped_products.groups.length > 0)) { %>\n          %%-PRODUCT_LIST_TEMPLATE-%%\n        <% } %>\n      </div>\n\n      <% if (!config.search.infinite_scroll && paginationData.length > 0) { %>\n      <div class="blm-product-search-pagination">\n        <ul class="blm-product-search-pagination__pages blm-product-search-pagination__pages--%%-REQUEST_ID-%%">\n          <% paginationData.forEach(paginationNode => { %>\n            <li class="blm-product-search-pagination__page">\n              <button <% if (paginationNode.disabled) { %>disabled<% } %> class="blm-product-search-pagination__page-link <% if (paginationNode.active) { %>blm-product-search-pagination__page-link--active<% } %>" data-value="<%- paginationNode.value %>"\n                ><%- paginationNode.label ?? paginationNode.value %></button\n              >\n            </li>\n          <% }) %>\n        </ul>\n      </div>\n      <% } %>\n    </section>\n  </div>\n',ne='<% function printProduct(product) { %>\n  <div class="blm-product-search__result" <% if (product.variant_name) { %>title="<%- product.variant_name %>"<% } %>>\n    <%\n      const matchingVariant = !Array.isArray(product.variants)\n        ? null\n        : \'variant_index\' in product\n          ? product.variants[product.variant_index]\n          : product.variants.find(variant => selectedColors.includes(variant.sku_color_group ? variant.sku_color_group.toLowerCase() : null))\n    %>\n    <div class="blm-product-search-image-container">\n      <% if (product.variants && product.variants.length > 1) { %>\n        <% product.variants.forEach(function(variant, index) { %>\n\n        <%\n          const isActiveVariant =\n            !(\'variant_index\' in product) && !selectedColors.length\n              ? index === 0\n              : \'variant_index\' in product\n                ? product.variant_index === index\n                : matchingVariant == variant\n        %>\n\n        <div class="blm-product-search-swatch-image fade"\n          <% if (isActiveVariant) { %>style="display: block"<% } %>\n        >\n          <img\n            class="blm-product-search-image-container__image"\n            alt="title"\n            src="<%= variant.image %>"\n          />\n        </div>\n        <% }); %>\n      <% } else { %>\n        <div class="blm-product-search-swatch-image fade" style="display: block"\n        >\n          <img\n            class="blm-product-search-image-container__image"\n            alt="title"\n            src="<%= product.image %>"\n          />\n        </div>\n      <% } %>\n    </div>\n    <div class="blm-product-search-details-container">\n      <div class="blm-product-search-details-title-container">\n        <a href="<%= product.link %>" class="blm-product-search-details-container__title"\n          ><%- product.title %></a\n        >\n      </div>\n\n      <% if (product.variants && product.variants.length > 1) { %>\n        <% product.variants.forEach(function(variant, index) { %>\n          <%\n            const isActiveVariant =\n              !(\'variant_index\' in product) && !selectedColors.length\n                ? index === 0\n                : \'variant_index\' in product\n                  ? product.variant_index === index\n                  : matchingVariant == variant\n          %>\n          <p class="blm-product-search-details-container__price <% if (isActiveVariant) { %>active<% } %>">\n            <%\n              const salePrice = variant.sku_sale_price !== undefined ? variant.sku_sale_price : product.sale_price;\n              const price = variant.sku_price !== undefined ? variant.sku_price : product.price;\n            %>\n            <%= config.format_money((salePrice !== undefined ? salePrice : price).toFixed(2) * 100) %>\n            <% if (salePrice !== undefined) { %>\n              <span <% if (salePrice !== undefined) { %>class="blm-product-search-details-container__price--strike-through"<% } %>>\n                <%= config.format_money(price.toFixed(2) * 100) %>\n              </span>\n            <% } %>\n          </p>\n        <% }); %>\n      <% } else { %>\n        <p class="blm-product-search-details-container__price active">\n          <%= config.format_money((product.sale_price !== undefined ? product.sale_price : product.price).toFixed(2) * 100) %>\n          <% if (product.sale_price !== undefined) { %>\n            <span <% if (product.sale_price !== undefined) { %>class="blm-product-search-details-container__price--strike-through"<% } %>>\n              <%= config.format_money(product.price.toFixed(2) * 100) %>\n            </span>\n          <% } %>\n        </p>\n      <% } %>\n\n    </div>\n\n    <% if (product.variants && product.variants.length > 1) { %>\n      <ul class="blm-product-search-swatch-container">\n      <% product.variants.slice(0, defaultMaxColorSwatches || 0).forEach(function(variant, index) { %>\n        <%\n          const isActiveVariant =\n            !(\'variant_index\' in product) && !selectedColors.length\n              ? index === 0\n              : \'variant_index\' in product\n                ? product.variant_index === index\n                : matchingVariant == variant\n        %>\n        <li\n          class="blm-product-search-swatch-container__swatch <% if (isActiveVariant) { %>active<% } %>"\n          style="background-image: url(\'<%= variant.image %>\')"\n        ></li>\n      <% }); %>\n      </ul>\n\n      <% if (product.variants.length > defaultMaxColorSwatches || 0) { %>\n      <small class="blm-product-search-swatch-colors">(Colors) <%- product.variants.length %></small>\n      <% } %>\n    <% } %>\n  </div>\n<% } %>\n\n<% if (locals.grouped_products && grouped_products && grouped_products.groups) { %>\n\n  <% grouped_products.groups.forEach(group => { %>\n  <div class="blm-result-group">\n    <h3 class="blm-result-group__title"><%- group.title %></h3>\n\n    <div class="blm-product-search__results">\n      <% group.products.forEach(printProduct); %>\n    </div>\n  </div>\n  <% }); %>\n\n<% } else { %>\n\n  <% products.forEach(printProduct); %>\n\n<% } %>\n';function re(){var e,t,n;const r=function(){var e;const t=null===(e=null===window||void 0===window?void 0:window.bloomreachConnector)||void 0===e?void 0:e.config;return Object.assign({default_search_parameter:L,url:window.location.href,ref_url:window.location.href,tracking_cookie:H(),format_money:e=>X(e,window.bloomreachDefaultCurrency||x),default_currency:window.bloomreachDefaultCurrency||x},t)}(),i=new URLSearchParams(window.location.search),a=At(),o=Object.assign({display_variants:!1,enabled:!0,endpoint:"",items_per_page:O,facets_included:!0,initial_number_of_facets:I,initial_number_of_facet_values:P,infinite_scroll:!1,selector:J,sorting_options:j,template:te,product_list_template:ne},(null==r?void 0:r.search)?r.search:{}),c=Object.assign(Object.assign({},r),{request_type:z,search_type:a.is_category_page?V:W,start:A,"facet.range":R,"stats.field":R,sort:i.get(U)||"",search:Object.assign(Object.assign(Object.assign({},o),(a.is_category_page?r.category:r.search)||{}),a.category_to_load?{category_id:a.category_to_load}:{})});return null===(n=null===(t=null===(e=c.search)||void 0===e?void 0:e.sorting_options)||void 0===t?void 0:t.sort)||void 0===n||n.call(t,((e,t)=>e.value>t.value?1:-1)),c.search&&(c.search=Object.assign(Object.assign({},c.search),{items_per_page:Number(i.has(D)?i.get(D):c.search.items_per_page),groupby:i.get(M)||c.search.groupby||""})),c}function ie(e){return"grouped_products"in e?function(e){var t;const n=Number(e.page||1),r=e.size||1,i=((null===(t=null==e?void 0:e.grouped_products)||void 0===t?void 0:t.groups)||[]).length;return[{value:"previous",label:"Previous",disabled:n<=1},{value:"next",label:"Next",disabled:i<r}]}(e):function(e){const t=e.size||1;if(e.number_of_results<=t)return[];const n=Math.ceil((e.start+1)/t),r=Math.ceil(e.number_of_results/t),i=Array(n-1).fill(null).map(((e,t)=>t+1)).slice(-N),a=Array(r-n).fill(null).map(((e,t)=>t+(n+1))).slice(0,C);return[...n>1?[{value:"previous",label:"&larr;"}]:[],...n-1>N?[{label:"&hellip;",value:(n-N-1).toString()}]:[],...i.map((e=>({value:e.toString()}))),{value:n.toString(),disabled:!0,active:!0},...a.map((e=>({value:e.toString()}))),...n+C<r?[{label:"&hellip;",value:(n+C+1).toString()}]:[],...n<r?[{value:"next",label:"&rarr;"}]:[]]}(e)}const ae=e=>e.replace(/"/g,"&quot;").replace(/,/g,"%%-COMMA-%%"),oe=e=>Object.keys(e).map((t=>"price"===t?encodeURIComponent(`${t}:[${e[t].map((e=>`${e||"*"}`)).join(" TO ")}]`):encodeURIComponent(`${t}:${e[t].map((e=>`"${(e=>e.replace(/%%-COMMA-%%/g,",").replace(/&quot;/g,'"'))(e)}"`)).join(" OR ")}`))).join("&fq=");function ce(e){var t;let n=0,r=0;const i=re(),a=Number(e||(null===(t=i.search)||void 0===t?void 0:t.initial_number_of_facets));document.querySelectorAll('.blm-dynamic-filter:not([style*="display: block"])').forEach((e=>{const t=e.querySelectorAll('.blm-product-search-filter-item:not([style*="display: none"]');n<a&&t.length>0&&e.setAttribute("style","display: block"),n++,r+=t.length>0?1:0}));const o=At(),c=document.querySelector(`.blm-load-more-facet--${o.request_id}`);0!==document.querySelectorAll('.blm-dynamic-filter:not([style*="display: block"])').length&&0!==r||null==c||c.classList.add("blm-hide")}function se(){const e=At(),t=document.querySelector(`.blm-load-more-facet--${e.request_id}`);return k(t),t}function le(){var e,t;const n=re(),r=Number(null===(e=n.search)||void 0===e?void 0:e.initial_number_of_facets),i=Number(null===(t=n.search)||void 0===t?void 0:t.initial_number_of_facet_values);[".blm-dynamic-filter",".blm-product-search-filter-item",".blm-product-search-load-more"].forEach((e=>{document.querySelectorAll(e).forEach((e=>{e.removeAttribute("style")}))})),ce(r-1),document.querySelectorAll(`.blm-product-search-filter-item:nth-child(-n+${i})`).forEach((e=>e.style.display="block")),se().removeAttribute("style")}function ue(){var e;const t=re();k(null===(e=t.search)||void 0===e?void 0:e.selector);return document.querySelector(t.search.selector)}function de(){const e=document.querySelector(".blm-scroll-indicator");if(e){e.innerHTML="";const t=document.createElement("div");t.classList.add("blm-scroll-indicator__loading"),e.appendChild(t)}}function pe(){const e=document.querySelectorAll(".blm-product-search-filter-item__checkbox:checked");return e?Array.from(e).reduce(((e,t)=>Object.assign(Object.assign({},e),{[t.name]:e[t.name]?[...e[t.name]||[],t.value]:[t.value]})),{}):{}}var me;!function(e){e.small="480px",e.medium="680px",e.large="750px",e.xlarge="875px",e.xxlarge="1000px",e.xxxlarge="1200px"}(me||(me={}));const fe=window.matchMedia(`(max-width: ${me.medium})`);function he(e){const t={};for(const n of e.entries())t[n[0]]=n[1];window.history.pushState(t,document.title,`?${e.toString()}`)}function _e(e,t,n){const r=Object.assign(Object.assign({},{valueSerializer:e=>e.toString().replace(/"/g,'\\"'),nameValueSeparator:":"}),n),i=new URLSearchParams(window.location.search);i.delete(e),Array.isArray(t)?t.forEach((t=>{i.append(e,r.valueSerializer(t))})):Object.keys(t).forEach((n=>{i.append(e,`${n}${r.nameValueSeparator}${r.valueSerializer(t[n])}`)})),he(i)}function ge(e,t){const n=new URLSearchParams(window.location.search);"function"==typeof t?n.set(e,t(n.get(e)).replace(/"/g,'\\"')):""===t?n.delete(e):n.set(e,t.replace(/"/g,'\\"')),he(n)}function ve(e){ge(e,(e=>{if(!e)return"2";let t=Number.parseInt(e,10);return(++t).toString()}))}function be(e){ge(e,(e=>{if(!e)return"1";let t=Number.parseInt(e,10);return(--t).toString()}))}function ye(){const e=At(),t=we(),n=document.querySelector(".blm-price-range-input--lower"),r=document.querySelector(".blm-price-range-input--upper");let i=parseFloat(n.value),a=parseFloat(r.value);return i>a&&([i,a]=[a,i]),i===a&&(i>e.price_range_min_value||a<e.price_range_max_value)&&(a===e.price_range_max_value?i-=1:a+=1),t.price||a!==e.price_range_max_value||i!==e.price_range_min_value&&0!==Number(i)?{price:`${i},${a}`}:{}}function we(){return new URLSearchParams(window.location.search).getAll(T).reduce(((e,t)=>Object.assign(Object.assign({},e),{[t.split(":")[0]||""]:(t.split(":")[1]||"").split(",")})),{})}window.matchMedia(`(min-width:${me.medium}) and (max-width: ${me.xlarge})`);var Se=function(e){var t=typeof e;return null!=e&&("object"==t||"function"==t)},ke="object"==typeof t&&t&&t.Object===Object&&t,Ee="object"==typeof self&&self&&self.Object===Object&&self,xe=ke||Ee||Function("return this")(),Oe=xe,Le=function(){return Oe.Date.now()},je=/\s/;var Ae=function(e){for(var t=e.length;t--&&je.test(e.charAt(t)););return t},Re=/^\s+/;var qe=function(e){return e?e.slice(0,Ae(e)+1).replace(Re,""):e},Ne=xe.Symbol,Ce=Ne,Ie=Object.prototype,Pe=Ie.hasOwnProperty,Te=Ie.toString,Fe=Ce?Ce.toStringTag:void 0;var Me=function(e){var t=Pe.call(e,Fe),n=e[Fe];try{e[Fe]=void 0;var r=!0}catch(e){}var i=Te.call(e);return r&&(t?e[Fe]=n:delete e[Fe]),i},$e=Object.prototype.toString;var De=Me,Ue=function(e){return $e.call(e)},ze=Ne?Ne.toStringTag:void 0;var Ve=function(e){return null==e?void 0===e?"[object Undefined]":"[object Null]":ze&&ze in Object(e)?De(e):Ue(e)},We=function(e){return null!=e&&"object"==typeof e};var Je=qe,Be=Se,Qe=function(e){return"symbol"==typeof e||We(e)&&"[object Symbol]"==Ve(e)},He=/^[-+]0x[0-9a-f]+$/i,Xe=/^0b[01]+$/i,Ze=/^0o[0-7]+$/i,Ge=parseInt;var Ye=Se,Ke=Le,et=function(e){if("number"==typeof e)return e;if(Qe(e))return NaN;if(Be(e)){var t="function"==typeof e.valueOf?e.valueOf():e;e=Be(t)?t+"":t}if("string"!=typeof e)return 0===e?e:+e;e=Je(e);var n=Xe.test(e);return n||Ze.test(e)?Ge(e.slice(2),n?2:8):He.test(e)?NaN:+e},tt=Math.max,nt=Math.min;var rt=function(e,t,n){var r,i,a,o,c,s,l=0,u=!1,d=!1,p=!0;if("function"!=typeof e)throw new TypeError("Expected a function");function m(t){var n=r,a=i;return r=i=void 0,l=t,o=e.apply(a,n)}function f(e){var n=e-s;return void 0===s||n>=t||n<0||d&&e-l>=a}function h(){var e=Ke();if(f(e))return _(e);c=setTimeout(h,function(e){var n=t-(e-s);return d?nt(n,a-(e-l)):n}(e))}function _(e){return c=void 0,p&&r?m(e):(r=i=void 0,o)}function g(){var e=Ke(),n=f(e);if(r=arguments,i=this,s=e,n){if(void 0===c)return function(e){return l=e,c=setTimeout(h,t),u?m(e):o}(s);if(d)return clearTimeout(c),c=setTimeout(h,t),m(s)}return void 0===c&&(c=setTimeout(h,t)),o}return t=et(t)||0,Ye(n)&&(u=!!n.leading,a=(d="maxWait"in n)?tt(et(n.maxWait)||0,t):a,p="trailing"in n?!!n.trailing:p),g.cancel=function(){void 0!==c&&clearTimeout(c),l=0,r=s=i=c=void 0},g.flush=function(){return void 0===c?o:_(Ke())},g};function it(e){var t,n,r;const i=re(),a=(null==e?void 0:e.facet_counts)?"facets"in e.facet_counts?function(e){var t,n;return Object.assign(Object.assign({facets:null!==(n=null===(t=e.facets)||void 0===t?void 0:t.filter((e=>"text"===e.type||"number"===e.type)).filter((e=>e.value.length)).map(st))&&void 0!==n?n:[]},function(e){var t;const n=null===(t=null==e?void 0:e.filter((e=>"number_range"===e.type)).find((e=>"price"===e.name.toLowerCase())))||void 0===t?void 0:t.value.map((e=>({count:e.count,start:e.start.toString(),end:e.end.toString()})));return n?{priceRanges:n}:{}}(e.facets)),function(e){var t;const n=null==e?void 0:e.filter((e=>"number_stats"===e.type)).map((e=>({name:e.name.toLowerCase(),value:e.value}))),r=null!==(t=null==n?void 0:n.find((e=>"sale price"===e.name||"sale_price"===e.name)))&&void 0!==t?t:null==n?void 0:n.find((e=>"price"===e.name));return(null==r?void 0:r.value)?{maxPrice:r.value.end,minPrice:r.value.start}:{}}(e.facets))}(e.facet_counts):function(e,t){var n,r;return Object.assign(Object.assign(Object.assign({facets:Object.entries(e.facet_fields||{}).filter((e=>e[1].length)).map(at)},function(e){if(null==e?void 0:e.price)return{priceRanges:e.price.map((e=>({count:e.count,start:e.start.toString(),end:e.end.toString()})))};return{}}(e.facet_ranges)),ct(null===(n=null==t?void 0:t.stats_fields)||void 0===n?void 0:n.price)),ct(null===(r=null==t?void 0:t.stats_fields)||void 0===r?void 0:r.sale_price))}(e.facet_counts,e.stats):{facets:[]};return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({},a),{products:lt((null===(t=e.response)||void 0===t?void 0:t.docs)||[])}),(null==e?void 0:e.group_response)?{grouped_products:Object.keys(null==e?void 0:e.group_response).reduce(((t,n)=>{var r,i,a,o;return Object.assign(Object.assign({group_category_id:n},null===(r=e.group_response)||void 0===r?void 0:r[n]),{groups:(null===(o=null===(a=null===(i=e.group_response)||void 0===i?void 0:i[n])||void 0===a?void 0:a.groups)||void 0===o?void 0:o.map((e=>{var t;return{title:e.groupValue,products:lt((null===(t=null==e?void 0:e.doclist)||void 0===t?void 0:t.docs)||[])}})))||[]})}),{})}:{}),{did_you_mean:e.did_you_mean||[],number_of_results:Number(null===(n=e.response)||void 0===n?void 0:n.numFound),start:Number(null===(r=e.response)||void 0===r?void 0:r.start),config:i}),e.keywordRedirect?{keywordRedirect:{original_query:e.keywordRedirect["original query"],redirected_query:e.keywordRedirect["redirected query"],redirected_url:e.keywordRedirect["redirected url"]}}:{})}function at(e){return{original_title:e[0],title:e[0].replace("_"," ").replace(/\b\w/g,(e=>e.toUpperCase())),section:e[1].map(ot)}}function ot(e){var t,n,r,i,a;if("name"in e){let r=null!==(t=e.name)&&void 0!==t?t:"";return"true"===e.name?r="Yes":"false"===e.name&&(r="No"),{count:null!==(n=e.count)&&void 0!==n?n:0,name:r,id:r}}return{count:null!==(r=e.count)&&void 0!==r?r:0,name:null!==(i=e.cat_name)&&void 0!==i?i:"",id:null!==(a=e.cat_id)&&void 0!==a?a:""}}function ct(e){return e?{maxPrice:e.max,minPrice:e.min}:{}}function st(e){return{original_title:e.name,title:e.name.replace("_"," ").replace(/\b\w/g,(e=>e.toUpperCase())),section:e.value.map(ot)}}function lt(e){const t=re();return e.reduce(((e,n)=>[...e,...t.search.display_variants?ut(n):[dt(n)]]),[])}function ut(e){return e.variants&&e.variants.length?(dt(e).variants||[]).map(((t,n)=>Object.assign(Object.assign(Object.assign({},dt(e)),t),{variant_index:n}))):[dt(e)]}function dt(e){return Object.assign(Object.assign(Object.assign({},e),{title:e.title,image:e.thumb_image,link:e.url,id:e.pid,price:e.price,sale_price:e.sale_price}),e.variants?{variants:e.variants.map((e=>Object.assign(Object.assign({},e),{sku_color_group:e.sku_color_group,sku_swatch_images:e.sku_swatch_images,sku_thumb_images:e.sku_thumb_images,sku_sale_price:e.sku_sale_price,sku_price:e.sku_price,image:e.sku_thumb_images&&Array.isArray(e.sku_thumb_images)?e.sku_thumb_images[0]:e.sku_swatch_images[0],variant_name:e.sku_color_group})))}:{})}function pt(){const e=At(),t=document.querySelector(`.blm-range-slider__clear-values-button--${e.request_id}`);t&&(t.getAttribute("hasListener")||(t.addEventListener("click",(()=>{de(),_e(T,Object.assign({},pe())),ge($,"1"),Rt({price_range_max_value:0,price_range_min_value:0}),jt({toReplace:!0}).catch(console.error)})),t.setAttribute("hasListener","true")))}function mt(){document.querySelectorAll(".blm-product-search-selected-filter__clear").forEach((e=>{e.getAttribute("hasListener")||(e.addEventListener("click",(e=>{var t,n,r,i;const a=null===(r=null===(n=null===(t=null==e?void 0:e.target)||void 0===t?void 0:t.parentNode)||void 0===n?void 0:n.dataset)||void 0===r?void 0:r.filterCheckboxId;a&&(null===(i=document.getElementById(a))||void 0===i||i.click())})),e.setAttribute("hasListener","true"))}))}function ft(){const e=document.querySelector(".blm-product-search-selected-filters__clear-all");e&&(e.getAttribute("hasListener")||(e.addEventListener("click",(()=>{de(),_e(T,Object.assign({},ye())),ge($,"1"),Rt({price_range_min_value:0,price_range_max_value:0}),jt({toReplace:!0}).catch(console.error)})),e.setAttribute("hasListener","true")))}function ht(){const e=document.querySelectorAll(".blm-product-search-filter-item__checkbox");e&&e.forEach((e=>{e.getAttribute("hasListener")||(e.addEventListener("change",(()=>{de(),_e(T,Object.assign(Object.assign({},pe()),ye())),ge($,"1"),Rt({price_range_min_value:0,price_range_max_value:0}),jt({toReplace:!0}).catch(console.error)})),e.setAttribute("hasListener","true"))}))}function _t(){const e=document.querySelector("#blm-product-search-search-filters__input");e&&(e.getAttribute("hasInputListener")||(e.addEventListener("input",rt((e=>{var t;const n=((null===(t=null==e?void 0:e.target)||void 0===t?void 0:t.value)||"").trim();document.querySelectorAll(".blm-dynamic-filter").forEach((e=>{let t=0;e.querySelectorAll(".blm-product-search-filter-item").forEach((e=>{var r;const i=(null===(r=e.querySelector("label"))||void 0===r?void 0:r.textContent)||"",a=!n||i.toLowerCase().includes(n.toLowerCase()),o=a?"block":"none";t+=a?1:0,e.style.display=o})),e.style.display=t?"block":"none"})),document.querySelectorAll(".blm-product-search-load-more").forEach((e=>{e.style.display="none"})),se().style.display="none",n||le()}),500)),e.setAttribute("hasInputListener","true")))}function gt(){const e=At(),t=document.querySelector(`#groupby-${e.request_id}`);t&&(t.getAttribute("hasListener")||(t.addEventListener("change",(e=>{var t;ge(M,null===(t=null==e?void 0:e.target)||void 0===t?void 0:t.value),de(),jt({toReplace:!0}).catch(console.error)})),t.setAttribute("hasListener","true")))}function vt(){const e=se();e&&!e.getAttribute("hasListener")&&(e.addEventListener("click",(()=>{ce()})),e.setAttribute("hasListener","true"))}function bt(){document.querySelectorAll(".blm-product-search-load-more").forEach((e=>{e.getAttribute("hasListener")||(e.addEventListener("click",function(){var e;const t=re(),n=Number(null===(e=t.search)||void 0===e?void 0:e.initial_number_of_facet_values);let r=n;const i=n;return e=>{const t=e.target.getAttribute("data-item"),n=document.getElementById(`blm-facet-block-item-${t}`).getElementsByTagName("li");for(let e=r;e<r+i;e++)n[e]&&(n[e].style.display="block");r+=i,r>=n.length&&(e.target.style.display="none")}}()),e.setAttribute("hasListener","true"))}))}function yt(){const e=At(),t=document.querySelector(`#sort-size-${e.request_id}`);t&&(t.getAttribute("hasListener")||(t.addEventListener("change",(e=>{ge(D,e.target.value),ge($,"1"),de(),jt({toReplace:!0}).catch(console.error)})),t.setAttribute("hasListener","true")))}function wt(){const e=At(),t=document.querySelector(`.blm-product-search-pagination__pages--${e.request_id}`);t&&(t.getAttribute("hasListener")||(t.addEventListener("click",(e=>{de();const t=e.target.dataset.value;if(t){switch(e.target.dataset.value){case"previous":be($);break;case"next":ve($);break;default:ge($,t)}jt({toReplace:!0}).catch(console.error)}})),t.setAttribute("hasListener","true")))}function St(){return()=>{de(),_e(T,Object.assign(Object.assign({},pe()),ye())),ge($,"1"),jt({toReplace:!0}).catch(console.error)}}function kt(e){const t=re();return n=>{var r,i;const a=document.querySelector(e);a&&(a.innerHTML=null!==(i=null===(r=t.format_money)||void 0===r?void 0:r.call(t,100*Number(n.target.value)))&&void 0!==i?i:n.target.value)}}function Et(){var e,t;const n=re();if((null===(e=n.search)||void 0===e?void 0:e.infinite_scroll)&&!document.querySelector(".blm-scroll-indicator")){const e=ue(),r=document.createElement("div");r.classList.add("blm-scroll-indicator");const i=document.createElement("div");i.classList.add("blm-scroll-indicator__loading"),r.appendChild(i),null===(t=null==e?void 0:e.parentNode)||void 0===t||t.insertBefore(r,e.nextSibling);const a=document.querySelector(".blm-scroll-indicator"),o=new IntersectionObserver(function(e){return t=>{var n;if(t[0].intersectionRatio<=0)return;const r=(null===(n=null===window||void 0===window?void 0:window.bloomreachConnector)||void 0===n?void 0:n.config)||{},i=r.start||0;r.start=i+e.search.items_per_page,ve($),jt().catch((e=>{r.start=i,be($),console.error(e)}))}}(n));a&&o.observe(a)}}function xt(){document.querySelectorAll(".blm-product-search-control-button--sidebar").forEach((e=>{e.getAttribute("hasListener")||(e.addEventListener("click",(()=>{const e=document.querySelector(".blm-product-search-sidebar-content");(null==e?void 0:e.classList.contains("blm-open"))?(null==e||e.classList.remove("blm-open"),document.body.classList.remove("blm-out-of-view"),ge(F,"")):(document.body.classList.add("blm-out-of-view"),null==e||e.classList.add("blm-open"),ge(F,"on"))})),e.setAttribute("hasListener","true"))}))}function Ot(){const e=At(),t=document.querySelector(`#sort-by-${e.request_id}`);t&&(t.getAttribute("hasListener")||(t.addEventListener("change",(e=>{var t;ge(U,null===(t=null==e?void 0:e.target)||void 0===t?void 0:t.value),de(),jt({toReplace:!0}).catch(console.error)})),t.setAttribute("hasListener","true")))}function Lt(){document.querySelectorAll(".blm-product-search__result").forEach((e=>{e.querySelectorAll(".blm-product-search-swatch-container").forEach((t=>{const n=t.querySelectorAll(".blm-product-search-swatch-container__swatch");n.forEach(((t,r)=>{t.getAttribute("hasListener")||(t.addEventListener("mouseover",function(e){const{result:t,swatchItems:n,swatchIndex:r}=e;return e=>{n.forEach((e=>{e.classList.remove("active")})),e.target.classList.add("active"),t.querySelectorAll(".blm-product-search-image-container").forEach((e=>{e.querySelectorAll(".blm-product-search-swatch-image").forEach(((e,t)=>{e.style.display="none",r===t&&(e.style.display="block")}))})),t.querySelectorAll(".blm-product-search-details-container__price").forEach(((e,t)=>{e.classList.remove("active"),r===t&&e.classList.add("active")}))}}({result:e,swatchItems:n,swatchIndex:r})),t.setAttribute("hasListener","true"))}))}))}))}async function jt(e={toReplace:!1}){var t,n,i,a;Rt({request_id:Math.floor(1e12+9e12*Math.random())});const o=re(),c=function(){var e,t,n,r,i;const a=re(),o=new URLSearchParams(window.location.search),c=At(),s=Object.assign(Object.assign(Object.assign(Object.assign({},(null===(e=a.search)||void 0===e?void 0:e.endpoint)?{endpoint:a.search.endpoint}:{}),(null===(t=a.search)||void 0===t?void 0:t.groupby)?{groupby:a.search.groupby}:{}),(null===(n=a.search)||void 0===n?void 0:n.group_limit)?{group_limit:a.search.group_limit}:{}),{q:o.get(a.default_search_parameter||"")||a.search.category_id||"",rows:null===(r=a.search)||void 0===r?void 0:r.items_per_page,sort:null==a?void 0:a.sort,start:a.start,account_id:a.account_id,domain_key:a.domain_key,request_id:c.request_id,_br_uid_2:a.tracking_cookie,ref_url:a.ref_url,url:a.url,request_type:a.request_type,search_type:a.search_type,fl:null===(i=a.search)||void 0===i?void 0:i.fields,"facet.range":a["facet.range"],"stats.field":a["stats.field"]}),l=o.get($);l&&(a.search.infinite_scroll&&c.is_first_request?(s.start=0,s.rows=Number.parseInt(l,10)*a.search.items_per_page):s.start=(Number.parseInt(l,10)-1)*a.search.items_per_page);const u=we();Object.keys(u).length&&(s.fq=oe(u));for(const[e,t]of o.entries())Object.keys(s).includes(e)||(s[e]=t);const d=B();d&&(s.brSeg=`seg:${d}`,s.segment=`customer_profile:${d}`,s.cdp_segments=d);a.search.force_v3_facets&&(s["facet.version"]="3.0");return s}(),s=await ee(c);if(null==s?void 0:s.keywordRedirect)return void function(e){var t;if(null==e?void 0:e.keywordRedirect){localStorage.setItem("keywordRedirect",JSON.stringify({original_query:e.keywordRedirect["original query"],redirected_query:e.keywordRedirect["redirected query"],redirected_url:e.keywordRedirect["redirected url"]}));const n=(null===(t=e.keywordRedirect)||void 0===t?void 0:t["redirected url"])||"";window.location.href=`${n.startsWith("http")?"":"https://"}${n}`}}(s);const l=function(e){var t;const n=re(),r=it(e),i=JSON.parse(localStorage.getItem("keywordRedirect")||"{}");(null==i?void 0:i.redirected_query)&&(r.keywordRedirect=i,localStorage.removeItem("keywordRedirect"));const a=new URLSearchParams(window.location.search);for(const[e,t]of a.entries())Object.keys(r).includes(e)||(r[e]=t);a.has(D)?r.size=Number.parseInt(a.get(D)||"",10):r.size=Number.parseInt(n.search.items_per_page.toString(),10);r.checkedFacets=we(),r.selectedFilterItems=((null==r?void 0:r.facets)||[]).reduce(((e,t)=>(t.section.length>0&&t.section.forEach((n=>{var i,a,o;r.checkedFacets&&t.original_title in r.checkedFacets&&(null===(o=null===(a=null===(i=r.checkedFacets)||void 0===i?void 0:i[t.original_title])||void 0===a?void 0:a.includes)||void 0===o?void 0:o.call(a,ae(n.id)))&&(e||[]).push({checkbox_id:`${t.original_title}[${ae(n.name)}]`,label:n.name})})),e)),[]);let o=At();"minPrice"in r&&"maxPrice"in r&&0===o.price_range_min_value&&0===o.price_range_max_value&&Rt({price_range_min_value:Math.floor(Number(r.minPrice)),price_range_max_value:Math.ceil(Number(r.maxPrice))});o=At(),r.priceRangeFacet={start:o.price_range_min_value,end:o.price_range_max_value},(null===(t=null==n?void 0:n.search)||void 0===t?void 0:t.infinite_scroll)||(r.paginationData=ie(r));return r.isFiltersPanelOpened=a.has(F),r.defaultMaxColorSwatches=q,r.mobileView=fe,r.escapeSpecialCharacters=ae,r.selectedColors=function(){const e=we();return Object.keys(e).reduce(((t,n)=>("color"===n.toLowerCase()&&(t=(e[n]||[]).map((e=>e.toLowerCase()))),t)),[])}(),r}(s),u=document.querySelector(".blm-scroll-indicator__loading"),d=(null==l?void 0:l.grouped_products)?((null===(t=null==l?void 0:l.grouped_products)||void 0===t?void 0:t.groups)||[]).length<Number(c.rows):!l.products.length||l.number_of_results<Number(c.rows);u&&d&&(u.remove(),be($));const p=At();if(p.is_first_request||!o.search.infinite_scroll||e.toReplace)ue().innerHTML=r.render(((null===(n=o.search)||void 0===n?void 0:n.template)||"").replace("%%-PRODUCT_LIST_TEMPLATE-%%",(null===(i=o.search)||void 0===i?void 0:i.product_list_template)||"").replace(/%%-REQUEST_ID-%%/g,p.request_id.toString()),l),window.scrollTo(0,0);else if(o.search.infinite_scroll){const e=r.render((null===(a=o.search)||void 0===a?void 0:a.product_list_template)||"",l);(function(){var e;return null===(e=document.querySelector(".blm-product-search-main"))||void 0===e?void 0:e.lastElementChild})().insertAdjacentHTML("beforeend",e)}Lt(),Rt({is_first_request:!1})}function At(){return window.BloomreachModules.search.getCurrentSearchRequestState()}function Rt(e){window.BloomreachModules.search.setCurrentSearchRequestState(Object.assign(Object.assign({},At()),e))}const qt=function({isCategoryPage:e}={isCategoryPage:!1}){let t={request_id:0,price_range_max_value:0,price_range_min_value:0,is_first_request:!0,is_category_page:e,category_to_load:""};return{setCurrentSearchRequestState:e=>{t=e},getCurrentSearchRequestState:()=>t,load:async t=>{e&&t&&Rt({category_to_load:t}),function(){var e;const t=re();k(t.account_id),k(t.domain_key),k(t.default_search_parameter),k(null===(e=null==t?void 0:t.search)||void 0===e?void 0:e.selector),ue();const n=new URLSearchParams(window.location.search),r=t.search.is_search_page&&n.has(t.default_search_parameter),i=t.search.is_category_page&&(n.has(t.default_search_parameter)||t.search.category_id);return r||i}()&&(function(){const e=B();if(e){(window.br_data||{})[E]=e}}(),function(e){const t={childList:!0,subtree:!0};new MutationObserver((t=>{t.find((e=>"childList"===e.type&&Array.from(e.addedNodes).find((e=>e.classList&&e.classList.contains("blm-results")))))&&e()})).observe(ue(),t)}((()=>{ue().classList.add("blm-has-loaded"),window.onbeforeunload=function(){let e;void 0!==window.pageYOffset?e=window.pageYOffset:void 0!==document.compatMode&&"BackCompat"!==document.compatMode?e=document.documentElement.scrollTop:void 0!==document.body&&(e=document.body.scrollTop);const t=JSON.parse(window.localStorage.getItem("scrollPositions")||"{}");window.localStorage.setItem("scrollPositions",JSON.stringify(Object.assign(Object.assign({},t),{[encodeURI(window.location.href)]:{scrollPosition:e}})))},Et(),function(){window.onpopstate=async()=>{await jt({toReplace:!0})},function(){const e=At(),t=document.querySelector(`.blm-price-range-input--lower-${e.request_id}`),n=document.querySelector(`.blm-price-range-input--upper-${e.request_id}`);t&&n&&(t.getAttribute("hasListener")||(t.addEventListener("change",St()),t.addEventListener("input",kt(".blm-range-slider__values--min")),t.setAttribute("hasListener","true")),n.getAttribute("hasListener")||(n.addEventListener("change",St()),n.addEventListener("input",kt(".blm-range-slider__values--max")),n.setAttribute("hasListener","true")))}(),pt(),mt(),ft(),document.querySelector(".blm-product-search-sidebar")&&(xt(),ht(),vt(),bt(),_t(),le());yt(),Ot(),gt(),wt(),Lt()}()})),await jt(),function(){var e;const t=JSON.parse(window.localStorage.getItem("scrollPositions")||"{}"),n=encodeURI(window.location.href);if(n in t){const r=parseInt(null===(e=t[n])||void 0===e?void 0:e.scrollPosition,10);setTimeout((()=>{document.documentElement.scrollTop=r,document.body.scrollTop=r}),250)}delete t[encodeURI(window.location.href)],window.localStorage.setItem("scrollPositions",JSON.stringify(t))}())}}}({isCategoryPage:!0});window.BloomreachModules=Object.assign(Object.assign({},e),{search:qt}),qt.load().catch(console.error)}();
+
+  	/**
+  	 * EJS internal functions.
+  	 *
+  	 * Technically this "module" lies in the same file as {@link module:ejs}, for
+  	 * the sake of organization all the private functions re grouped into this
+  	 * module.
+  	 *
+  	 * @module ejs-internal
+  	 * @private
+  	 */
+
+  	/**
+  	 * Embedded JavaScript templating engine.
+  	 *
+  	 * @module ejs
+  	 * @public
+  	 */
+
+
+  	var fs = require$$0;
+  	var path = require$$1;
+  	var utils$1 = utils;
+
+  	var scopeOptionWarned = false;
+  	/** @type {string} */
+  	var _VERSION_STRING = require$$3.version;
+  	var _DEFAULT_OPEN_DELIMITER = '<';
+  	var _DEFAULT_CLOSE_DELIMITER = '>';
+  	var _DEFAULT_DELIMITER = '%';
+  	var _DEFAULT_LOCALS_NAME = 'locals';
+  	var _NAME = 'ejs';
+  	var _REGEX_STRING = '(<%%|%%>|<%=|<%-|<%_|<%#|<%|%>|-%>|_%>)';
+  	var _OPTS_PASSABLE_WITH_DATA = ['delimiter', 'scope', 'context', 'debug', 'compileDebug',
+  	  'client', '_with', 'rmWhitespace', 'strict', 'filename', 'async'];
+  	// We don't allow 'cache' option to be passed in the data obj for
+  	// the normal `render` call, but this is where Express 2 & 3 put it
+  	// so we make an exception for `renderFile`
+  	var _OPTS_PASSABLE_WITH_DATA_EXPRESS = _OPTS_PASSABLE_WITH_DATA.concat('cache');
+  	var _BOM = /^\uFEFF/;
+  	var _JS_IDENTIFIER = /^[a-zA-Z_$][0-9a-zA-Z_$]*$/;
+
+  	/**
+  	 * EJS template function cache. This can be a LRU object from lru-cache NPM
+  	 * module. By default, it is {@link module:utils.cache}, a simple in-process
+  	 * cache that grows continuously.
+  	 *
+  	 * @type {Cache}
+  	 */
+
+  	exports.cache = utils$1.cache;
+
+  	/**
+  	 * Custom file loader. Useful for template preprocessing or restricting access
+  	 * to a certain part of the filesystem.
+  	 *
+  	 * @type {fileLoader}
+  	 */
+
+  	exports.fileLoader = fs.readFileSync;
+
+  	/**
+  	 * Name of the object containing the locals.
+  	 *
+  	 * This variable is overridden by {@link Options}`.localsName` if it is not
+  	 * `undefined`.
+  	 *
+  	 * @type {String}
+  	 * @public
+  	 */
+
+  	exports.localsName = _DEFAULT_LOCALS_NAME;
+
+  	/**
+  	 * Promise implementation -- defaults to the native implementation if available
+  	 * This is mostly just for testability
+  	 *
+  	 * @type {PromiseConstructorLike}
+  	 * @public
+  	 */
+
+  	exports.promiseImpl = (new Function('return this;'))().Promise;
+
+  	/**
+  	 * Get the path to the included file from the parent file path and the
+  	 * specified path.
+  	 *
+  	 * @param {String}  name     specified path
+  	 * @param {String}  filename parent file path
+  	 * @param {Boolean} [isDir=false] whether the parent file path is a directory
+  	 * @return {String}
+  	 */
+  	exports.resolveInclude = function(name, filename, isDir) {
+  	  var dirname = path.dirname;
+  	  var extname = path.extname;
+  	  var resolve = path.resolve;
+  	  var includePath = resolve(isDir ? filename : dirname(filename), name);
+  	  var ext = extname(name);
+  	  if (!ext) {
+  	    includePath += '.ejs';
+  	  }
+  	  return includePath;
+  	};
+
+  	/**
+  	 * Try to resolve file path on multiple directories
+  	 *
+  	 * @param  {String}        name  specified path
+  	 * @param  {Array<String>} paths list of possible parent directory paths
+  	 * @return {String}
+  	 */
+  	function resolvePaths(name, paths) {
+  	  var filePath;
+  	  if (paths.some(function (v) {
+  	    filePath = exports.resolveInclude(name, v, true);
+  	    return fs.existsSync(filePath);
+  	  })) {
+  	    return filePath;
+  	  }
+  	}
+
+  	/**
+  	 * Get the path to the included file by Options
+  	 *
+  	 * @param  {String}  path    specified path
+  	 * @param  {Options} options compilation options
+  	 * @return {String}
+  	 */
+  	function getIncludePath(path, options) {
+  	  var includePath;
+  	  var filePath;
+  	  var views = options.views;
+  	  var match = /^[A-Za-z]+:\\|^\//.exec(path);
+
+  	  // Abs path
+  	  if (match && match.length) {
+  	    path = path.replace(/^\/*/, '');
+  	    if (Array.isArray(options.root)) {
+  	      includePath = resolvePaths(path, options.root);
+  	    } else {
+  	      includePath = exports.resolveInclude(path, options.root || '/', true);
+  	    }
+  	  }
+  	  // Relative paths
+  	  else {
+  	    // Look relative to a passed filename first
+  	    if (options.filename) {
+  	      filePath = exports.resolveInclude(path, options.filename);
+  	      if (fs.existsSync(filePath)) {
+  	        includePath = filePath;
+  	      }
+  	    }
+  	    // Then look in any views directories
+  	    if (!includePath && Array.isArray(views)) {
+  	      includePath = resolvePaths(path, views);
+  	    }
+  	    if (!includePath && typeof options.includer !== 'function') {
+  	      throw new Error('Could not find the include file "' +
+  	          options.escapeFunction(path) + '"');
+  	    }
+  	  }
+  	  return includePath;
+  	}
+
+  	/**
+  	 * Get the template from a string or a file, either compiled on-the-fly or
+  	 * read from cache (if enabled), and cache the template if needed.
+  	 *
+  	 * If `template` is not set, the file specified in `options.filename` will be
+  	 * read.
+  	 *
+  	 * If `options.cache` is true, this function reads the file from
+  	 * `options.filename` so it must be set prior to calling this function.
+  	 *
+  	 * @memberof module:ejs-internal
+  	 * @param {Options} options   compilation options
+  	 * @param {String} [template] template source
+  	 * @return {(TemplateFunction|ClientFunction)}
+  	 * Depending on the value of `options.client`, either type might be returned.
+  	 * @static
+  	 */
+
+  	function handleCache(options, template) {
+  	  var func;
+  	  var filename = options.filename;
+  	  var hasTemplate = arguments.length > 1;
+
+  	  if (options.cache) {
+  	    if (!filename) {
+  	      throw new Error('cache option requires a filename');
+  	    }
+  	    func = exports.cache.get(filename);
+  	    if (func) {
+  	      return func;
+  	    }
+  	    if (!hasTemplate) {
+  	      template = fileLoader(filename).toString().replace(_BOM, '');
+  	    }
+  	  }
+  	  else if (!hasTemplate) {
+  	    // istanbul ignore if: should not happen at all
+  	    if (!filename) {
+  	      throw new Error('Internal EJS error: no file name or template '
+  	                    + 'provided');
+  	    }
+  	    template = fileLoader(filename).toString().replace(_BOM, '');
+  	  }
+  	  func = exports.compile(template, options);
+  	  if (options.cache) {
+  	    exports.cache.set(filename, func);
+  	  }
+  	  return func;
+  	}
+
+  	/**
+  	 * Try calling handleCache with the given options and data and call the
+  	 * callback with the result. If an error occurs, call the callback with
+  	 * the error. Used by renderFile().
+  	 *
+  	 * @memberof module:ejs-internal
+  	 * @param {Options} options    compilation options
+  	 * @param {Object} data        template data
+  	 * @param {RenderFileCallback} cb callback
+  	 * @static
+  	 */
+
+  	function tryHandleCache(options, data, cb) {
+  	  var result;
+  	  if (!cb) {
+  	    if (typeof exports.promiseImpl == 'function') {
+  	      return new exports.promiseImpl(function (resolve, reject) {
+  	        try {
+  	          result = handleCache(options)(data);
+  	          resolve(result);
+  	        }
+  	        catch (err) {
+  	          reject(err);
+  	        }
+  	      });
+  	    }
+  	    else {
+  	      throw new Error('Please provide a callback function');
+  	    }
+  	  }
+  	  else {
+  	    try {
+  	      result = handleCache(options)(data);
+  	    }
+  	    catch (err) {
+  	      return cb(err);
+  	    }
+
+  	    cb(null, result);
+  	  }
+  	}
+
+  	/**
+  	 * fileLoader is independent
+  	 *
+  	 * @param {String} filePath ejs file path.
+  	 * @return {String} The contents of the specified file.
+  	 * @static
+  	 */
+
+  	function fileLoader(filePath){
+  	  return exports.fileLoader(filePath);
+  	}
+
+  	/**
+  	 * Get the template function.
+  	 *
+  	 * If `options.cache` is `true`, then the template is cached.
+  	 *
+  	 * @memberof module:ejs-internal
+  	 * @param {String}  path    path for the specified file
+  	 * @param {Options} options compilation options
+  	 * @return {(TemplateFunction|ClientFunction)}
+  	 * Depending on the value of `options.client`, either type might be returned
+  	 * @static
+  	 */
+
+  	function includeFile(path, options) {
+  	  var opts = utils$1.shallowCopy(utils$1.createNullProtoObjWherePossible(), options);
+  	  opts.filename = getIncludePath(path, opts);
+  	  if (typeof options.includer === 'function') {
+  	    var includerResult = options.includer(path, opts.filename);
+  	    if (includerResult) {
+  	      if (includerResult.filename) {
+  	        opts.filename = includerResult.filename;
+  	      }
+  	      if (includerResult.template) {
+  	        return handleCache(opts, includerResult.template);
+  	      }
+  	    }
+  	  }
+  	  return handleCache(opts);
+  	}
+
+  	/**
+  	 * Re-throw the given `err` in context to the `str` of ejs, `filename`, and
+  	 * `lineno`.
+  	 *
+  	 * @implements {RethrowCallback}
+  	 * @memberof module:ejs-internal
+  	 * @param {Error}  err      Error object
+  	 * @param {String} str      EJS source
+  	 * @param {String} flnm     file name of the EJS file
+  	 * @param {Number} lineno   line number of the error
+  	 * @param {EscapeCallback} esc
+  	 * @static
+  	 */
+
+  	function rethrow(err, str, flnm, lineno, esc) {
+  	  var lines = str.split('\n');
+  	  var start = Math.max(lineno - 3, 0);
+  	  var end = Math.min(lines.length, lineno + 3);
+  	  var filename = esc(flnm);
+  	  // Error context
+  	  var context = lines.slice(start, end).map(function (line, i){
+  	    var curr = i + start + 1;
+  	    return (curr == lineno ? ' >> ' : '    ')
+  	      + curr
+  	      + '| '
+  	      + line;
+  	  }).join('\n');
+
+  	  // Alter exception message
+  	  err.path = filename;
+  	  err.message = (filename || 'ejs') + ':'
+  	    + lineno + '\n'
+  	    + context + '\n\n'
+  	    + err.message;
+
+  	  throw err;
+  	}
+
+  	function stripSemi(str){
+  	  return str.replace(/;(\s*$)/, '$1');
+  	}
+
+  	/**
+  	 * Compile the given `str` of ejs into a template function.
+  	 *
+  	 * @param {String}  template EJS template
+  	 *
+  	 * @param {Options} [opts] compilation options
+  	 *
+  	 * @return {(TemplateFunction|ClientFunction)}
+  	 * Depending on the value of `opts.client`, either type might be returned.
+  	 * Note that the return type of the function also depends on the value of `opts.async`.
+  	 * @public
+  	 */
+
+  	exports.compile = function compile(template, opts) {
+  	  var templ;
+
+  	  // v1 compat
+  	  // 'scope' is 'context'
+  	  // FIXME: Remove this in a future version
+  	  if (opts && opts.scope) {
+  	    if (!scopeOptionWarned){
+  	      console.warn('`scope` option is deprecated and will be removed in EJS 3');
+  	      scopeOptionWarned = true;
+  	    }
+  	    if (!opts.context) {
+  	      opts.context = opts.scope;
+  	    }
+  	    delete opts.scope;
+  	  }
+  	  templ = new Template(template, opts);
+  	  return templ.compile();
+  	};
+
+  	/**
+  	 * Render the given `template` of ejs.
+  	 *
+  	 * If you would like to include options but not data, you need to explicitly
+  	 * call this function with `data` being an empty object or `null`.
+  	 *
+  	 * @param {String}   template EJS template
+  	 * @param {Object}  [data={}] template data
+  	 * @param {Options} [opts={}] compilation and rendering options
+  	 * @return {(String|Promise<String>)}
+  	 * Return value type depends on `opts.async`.
+  	 * @public
+  	 */
+
+  	exports.render = function (template, d, o) {
+  	  var data = d || utils$1.createNullProtoObjWherePossible();
+  	  var opts = o || utils$1.createNullProtoObjWherePossible();
+
+  	  // No options object -- if there are optiony names
+  	  // in the data, copy them to options
+  	  if (arguments.length == 2) {
+  	    utils$1.shallowCopyFromList(opts, data, _OPTS_PASSABLE_WITH_DATA);
+  	  }
+
+  	  return handleCache(opts, template)(data);
+  	};
+
+  	/**
+  	 * Render an EJS file at the given `path` and callback `cb(err, str)`.
+  	 *
+  	 * If you would like to include options but not data, you need to explicitly
+  	 * call this function with `data` being an empty object or `null`.
+  	 *
+  	 * @param {String}             path     path to the EJS file
+  	 * @param {Object}            [data={}] template data
+  	 * @param {Options}           [opts={}] compilation and rendering options
+  	 * @param {RenderFileCallback} cb callback
+  	 * @public
+  	 */
+
+  	exports.renderFile = function () {
+  	  var args = Array.prototype.slice.call(arguments);
+  	  var filename = args.shift();
+  	  var cb;
+  	  var opts = {filename: filename};
+  	  var data;
+  	  var viewOpts;
+
+  	  // Do we have a callback?
+  	  if (typeof arguments[arguments.length - 1] == 'function') {
+  	    cb = args.pop();
+  	  }
+  	  // Do we have data/opts?
+  	  if (args.length) {
+  	    // Should always have data obj
+  	    data = args.shift();
+  	    // Normal passed opts (data obj + opts obj)
+  	    if (args.length) {
+  	      // Use shallowCopy so we don't pollute passed in opts obj with new vals
+  	      utils$1.shallowCopy(opts, args.pop());
+  	    }
+  	    // Special casing for Express (settings + opts-in-data)
+  	    else {
+  	      // Express 3 and 4
+  	      if (data.settings) {
+  	        // Pull a few things from known locations
+  	        if (data.settings.views) {
+  	          opts.views = data.settings.views;
+  	        }
+  	        if (data.settings['view cache']) {
+  	          opts.cache = true;
+  	        }
+  	        // Undocumented after Express 2, but still usable, esp. for
+  	        // items that are unsafe to be passed along with data, like `root`
+  	        viewOpts = data.settings['view options'];
+  	        if (viewOpts) {
+  	          utils$1.shallowCopy(opts, viewOpts);
+  	        }
+  	      }
+  	      // Express 2 and lower, values set in app.locals, or people who just
+  	      // want to pass options in their data. NOTE: These values will override
+  	      // anything previously set in settings  or settings['view options']
+  	      utils$1.shallowCopyFromList(opts, data, _OPTS_PASSABLE_WITH_DATA_EXPRESS);
+  	    }
+  	    opts.filename = filename;
+  	  }
+  	  else {
+  	    data = utils$1.createNullProtoObjWherePossible();
+  	  }
+
+  	  return tryHandleCache(opts, data, cb);
+  	};
+
+  	/**
+  	 * Clear intermediate JavaScript cache. Calls {@link Cache#reset}.
+  	 * @public
+  	 */
+
+  	/**
+  	 * EJS template class
+  	 * @public
+  	 */
+  	exports.Template = Template;
+
+  	exports.clearCache = function () {
+  	  exports.cache.reset();
+  	};
+
+  	function Template(text, optsParam) {
+  	  var opts = utils$1.hasOwnOnlyObject(optsParam);
+  	  var options = utils$1.createNullProtoObjWherePossible();
+  	  this.templateText = text;
+  	  /** @type {string | null} */
+  	  this.mode = null;
+  	  this.truncate = false;
+  	  this.currentLine = 1;
+  	  this.source = '';
+  	  options.client = opts.client || false;
+  	  options.escapeFunction = opts.escape || opts.escapeFunction || utils$1.escapeXML;
+  	  options.compileDebug = opts.compileDebug !== false;
+  	  options.debug = !!opts.debug;
+  	  options.filename = opts.filename;
+  	  options.openDelimiter = opts.openDelimiter || exports.openDelimiter || _DEFAULT_OPEN_DELIMITER;
+  	  options.closeDelimiter = opts.closeDelimiter || exports.closeDelimiter || _DEFAULT_CLOSE_DELIMITER;
+  	  options.delimiter = opts.delimiter || exports.delimiter || _DEFAULT_DELIMITER;
+  	  options.strict = opts.strict || false;
+  	  options.context = opts.context;
+  	  options.cache = opts.cache || false;
+  	  options.rmWhitespace = opts.rmWhitespace;
+  	  options.root = opts.root;
+  	  options.includer = opts.includer;
+  	  options.outputFunctionName = opts.outputFunctionName;
+  	  options.localsName = opts.localsName || exports.localsName || _DEFAULT_LOCALS_NAME;
+  	  options.views = opts.views;
+  	  options.async = opts.async;
+  	  options.destructuredLocals = opts.destructuredLocals;
+  	  options.legacyInclude = typeof opts.legacyInclude != 'undefined' ? !!opts.legacyInclude : true;
+
+  	  if (options.strict) {
+  	    options._with = false;
+  	  }
+  	  else {
+  	    options._with = typeof opts._with != 'undefined' ? opts._with : true;
+  	  }
+
+  	  this.opts = options;
+
+  	  this.regex = this.createRegex();
+  	}
+
+  	Template.modes = {
+  	  EVAL: 'eval',
+  	  ESCAPED: 'escaped',
+  	  RAW: 'raw',
+  	  COMMENT: 'comment',
+  	  LITERAL: 'literal'
+  	};
+
+  	Template.prototype = {
+  	  createRegex: function () {
+  	    var str = _REGEX_STRING;
+  	    var delim = utils$1.escapeRegExpChars(this.opts.delimiter);
+  	    var open = utils$1.escapeRegExpChars(this.opts.openDelimiter);
+  	    var close = utils$1.escapeRegExpChars(this.opts.closeDelimiter);
+  	    str = str.replace(/%/g, delim)
+  	      .replace(/</g, open)
+  	      .replace(/>/g, close);
+  	    return new RegExp(str);
+  	  },
+
+  	  compile: function () {
+  	    /** @type {string} */
+  	    var src;
+  	    /** @type {ClientFunction} */
+  	    var fn;
+  	    var opts = this.opts;
+  	    var prepended = '';
+  	    var appended = '';
+  	    /** @type {EscapeCallback} */
+  	    var escapeFn = opts.escapeFunction;
+  	    /** @type {FunctionConstructor} */
+  	    var ctor;
+  	    /** @type {string} */
+  	    var sanitizedFilename = opts.filename ? JSON.stringify(opts.filename) : 'undefined';
+
+  	    if (!this.source) {
+  	      this.generateSource();
+  	      prepended +=
+  	        '  var __output = "";\n' +
+  	        '  function __append(s) { if (s !== undefined && s !== null) __output += s }\n';
+  	      if (opts.outputFunctionName) {
+  	        if (!_JS_IDENTIFIER.test(opts.outputFunctionName)) {
+  	          throw new Error('outputFunctionName is not a valid JS identifier.');
+  	        }
+  	        prepended += '  var ' + opts.outputFunctionName + ' = __append;' + '\n';
+  	      }
+  	      if (opts.localsName && !_JS_IDENTIFIER.test(opts.localsName)) {
+  	        throw new Error('localsName is not a valid JS identifier.');
+  	      }
+  	      if (opts.destructuredLocals && opts.destructuredLocals.length) {
+  	        var destructuring = '  var __locals = (' + opts.localsName + ' || {}),\n';
+  	        for (var i = 0; i < opts.destructuredLocals.length; i++) {
+  	          var name = opts.destructuredLocals[i];
+  	          if (!_JS_IDENTIFIER.test(name)) {
+  	            throw new Error('destructuredLocals[' + i + '] is not a valid JS identifier.');
+  	          }
+  	          if (i > 0) {
+  	            destructuring += ',\n  ';
+  	          }
+  	          destructuring += name + ' = __locals.' + name;
+  	        }
+  	        prepended += destructuring + ';\n';
+  	      }
+  	      if (opts._with !== false) {
+  	        prepended +=  '  with (' + opts.localsName + ' || {}) {' + '\n';
+  	        appended += '  }' + '\n';
+  	      }
+  	      appended += '  return __output;' + '\n';
+  	      this.source = prepended + this.source + appended;
+  	    }
+
+  	    if (opts.compileDebug) {
+  	      src = 'var __line = 1' + '\n'
+  	        + '  , __lines = ' + JSON.stringify(this.templateText) + '\n'
+  	        + '  , __filename = ' + sanitizedFilename + ';' + '\n'
+  	        + 'try {' + '\n'
+  	        + this.source
+  	        + '} catch (e) {' + '\n'
+  	        + '  rethrow(e, __lines, __filename, __line, escapeFn);' + '\n'
+  	        + '}' + '\n';
+  	    }
+  	    else {
+  	      src = this.source;
+  	    }
+
+  	    if (opts.client) {
+  	      src = 'escapeFn = escapeFn || ' + escapeFn.toString() + ';' + '\n' + src;
+  	      if (opts.compileDebug) {
+  	        src = 'rethrow = rethrow || ' + rethrow.toString() + ';' + '\n' + src;
+  	      }
+  	    }
+
+  	    if (opts.strict) {
+  	      src = '"use strict";\n' + src;
+  	    }
+  	    if (opts.debug) {
+  	      console.log(src);
+  	    }
+  	    if (opts.compileDebug && opts.filename) {
+  	      src = src + '\n'
+  	        + '//# sourceURL=' + sanitizedFilename + '\n';
+  	    }
+
+  	    try {
+  	      if (opts.async) {
+  	        // Have to use generated function for this, since in envs without support,
+  	        // it breaks in parsing
+  	        try {
+  	          ctor = (new Function('return (async function(){}).constructor;'))();
+  	        }
+  	        catch(e) {
+  	          if (e instanceof SyntaxError) {
+  	            throw new Error('This environment does not support async/await');
+  	          }
+  	          else {
+  	            throw e;
+  	          }
+  	        }
+  	      }
+  	      else {
+  	        ctor = Function;
+  	      }
+  	      fn = new ctor(opts.localsName + ', escapeFn, include, rethrow', src);
+  	    }
+  	    catch(e) {
+  	      // istanbul ignore else
+  	      if (e instanceof SyntaxError) {
+  	        if (opts.filename) {
+  	          e.message += ' in ' + opts.filename;
+  	        }
+  	        e.message += ' while compiling ejs\n\n';
+  	        e.message += 'If the above error is not helpful, you may want to try EJS-Lint:\n';
+  	        e.message += 'https://github.com/RyanZim/EJS-Lint';
+  	        if (!opts.async) {
+  	          e.message += '\n';
+  	          e.message += 'Or, if you meant to create an async function, pass `async: true` as an option.';
+  	        }
+  	      }
+  	      throw e;
+  	    }
+
+  	    // Return a callable function which will execute the function
+  	    // created by the source-code, with the passed data as locals
+  	    // Adds a local `include` function which allows full recursive include
+  	    var returnedFn = opts.client ? fn : function anonymous(data) {
+  	      var include = function (path, includeData) {
+  	        var d = utils$1.shallowCopy(utils$1.createNullProtoObjWherePossible(), data);
+  	        if (includeData) {
+  	          d = utils$1.shallowCopy(d, includeData);
+  	        }
+  	        return includeFile(path, opts)(d);
+  	      };
+  	      return fn.apply(opts.context,
+  	        [data || utils$1.createNullProtoObjWherePossible(), escapeFn, include, rethrow]);
+  	    };
+  	    if (opts.filename && typeof Object.defineProperty === 'function') {
+  	      var filename = opts.filename;
+  	      var basename = path.basename(filename, path.extname(filename));
+  	      try {
+  	        Object.defineProperty(returnedFn, 'name', {
+  	          value: basename,
+  	          writable: false,
+  	          enumerable: false,
+  	          configurable: true
+  	        });
+  	      } catch (e) {/* ignore */}
+  	    }
+  	    return returnedFn;
+  	  },
+
+  	  generateSource: function () {
+  	    var opts = this.opts;
+
+  	    if (opts.rmWhitespace) {
+  	      // Have to use two separate replace here as `^` and `$` operators don't
+  	      // work well with `\r` and empty lines don't work well with the `m` flag.
+  	      this.templateText =
+  	        this.templateText.replace(/[\r\n]+/g, '\n').replace(/^\s+|\s+$/gm, '');
+  	    }
+
+  	    // Slurp spaces and tabs before <%_ and after _%>
+  	    this.templateText =
+  	      this.templateText.replace(/[ \t]*<%_/gm, '<%_').replace(/_%>[ \t]*/gm, '_%>');
+
+  	    var self = this;
+  	    var matches = this.parseTemplateText();
+  	    var d = this.opts.delimiter;
+  	    var o = this.opts.openDelimiter;
+  	    var c = this.opts.closeDelimiter;
+
+  	    if (matches && matches.length) {
+  	      matches.forEach(function (line, index) {
+  	        var closing;
+  	        // If this is an opening tag, check for closing tags
+  	        // FIXME: May end up with some false positives here
+  	        // Better to store modes as k/v with openDelimiter + delimiter as key
+  	        // Then this can simply check against the map
+  	        if ( line.indexOf(o + d) === 0        // If it is a tag
+  	          && line.indexOf(o + d + d) !== 0) { // and is not escaped
+  	          closing = matches[index + 2];
+  	          if (!(closing == d + c || closing == '-' + d + c || closing == '_' + d + c)) {
+  	            throw new Error('Could not find matching close tag for "' + line + '".');
+  	          }
+  	        }
+  	        self.scanLine(line);
+  	      });
+  	    }
+
+  	  },
+
+  	  parseTemplateText: function () {
+  	    var str = this.templateText;
+  	    var pat = this.regex;
+  	    var result = pat.exec(str);
+  	    var arr = [];
+  	    var firstPos;
+
+  	    while (result) {
+  	      firstPos = result.index;
+
+  	      if (firstPos !== 0) {
+  	        arr.push(str.substring(0, firstPos));
+  	        str = str.slice(firstPos);
+  	      }
+
+  	      arr.push(result[0]);
+  	      str = str.slice(result[0].length);
+  	      result = pat.exec(str);
+  	    }
+
+  	    if (str) {
+  	      arr.push(str);
+  	    }
+
+  	    return arr;
+  	  },
+
+  	  _addOutput: function (line) {
+  	    if (this.truncate) {
+  	      // Only replace single leading linebreak in the line after
+  	      // -%> tag -- this is the single, trailing linebreak
+  	      // after the tag that the truncation mode replaces
+  	      // Handle Win / Unix / old Mac linebreaks -- do the \r\n
+  	      // combo first in the regex-or
+  	      line = line.replace(/^(?:\r\n|\r|\n)/, '');
+  	      this.truncate = false;
+  	    }
+  	    if (!line) {
+  	      return line;
+  	    }
+
+  	    // Preserve literal slashes
+  	    line = line.replace(/\\/g, '\\\\');
+
+  	    // Convert linebreaks
+  	    line = line.replace(/\n/g, '\\n');
+  	    line = line.replace(/\r/g, '\\r');
+
+  	    // Escape double-quotes
+  	    // - this will be the delimiter during execution
+  	    line = line.replace(/"/g, '\\"');
+  	    this.source += '    ; __append("' + line + '")' + '\n';
+  	  },
+
+  	  scanLine: function (line) {
+  	    var self = this;
+  	    var d = this.opts.delimiter;
+  	    var o = this.opts.openDelimiter;
+  	    var c = this.opts.closeDelimiter;
+  	    var newLineCount = 0;
+
+  	    newLineCount = (line.split('\n').length - 1);
+
+  	    switch (line) {
+  	    case o + d:
+  	    case o + d + '_':
+  	      this.mode = Template.modes.EVAL;
+  	      break;
+  	    case o + d + '=':
+  	      this.mode = Template.modes.ESCAPED;
+  	      break;
+  	    case o + d + '-':
+  	      this.mode = Template.modes.RAW;
+  	      break;
+  	    case o + d + '#':
+  	      this.mode = Template.modes.COMMENT;
+  	      break;
+  	    case o + d + d:
+  	      this.mode = Template.modes.LITERAL;
+  	      this.source += '    ; __append("' + line.replace(o + d + d, o + d) + '")' + '\n';
+  	      break;
+  	    case d + d + c:
+  	      this.mode = Template.modes.LITERAL;
+  	      this.source += '    ; __append("' + line.replace(d + d + c, d + c) + '")' + '\n';
+  	      break;
+  	    case d + c:
+  	    case '-' + d + c:
+  	    case '_' + d + c:
+  	      if (this.mode == Template.modes.LITERAL) {
+  	        this._addOutput(line);
+  	      }
+
+  	      this.mode = null;
+  	      this.truncate = line.indexOf('-') === 0 || line.indexOf('_') === 0;
+  	      break;
+  	    default:
+  	      // In script mode, depends on type of tag
+  	      if (this.mode) {
+  	        // If '//' is found without a line break, add a line break.
+  	        switch (this.mode) {
+  	        case Template.modes.EVAL:
+  	        case Template.modes.ESCAPED:
+  	        case Template.modes.RAW:
+  	          if (line.lastIndexOf('//') > line.lastIndexOf('\n')) {
+  	            line += '\n';
+  	          }
+  	        }
+  	        switch (this.mode) {
+  	        // Just executing code
+  	        case Template.modes.EVAL:
+  	          this.source += '    ; ' + line + '\n';
+  	          break;
+  	          // Exec, esc, and output
+  	        case Template.modes.ESCAPED:
+  	          this.source += '    ; __append(escapeFn(' + stripSemi(line) + '))' + '\n';
+  	          break;
+  	          // Exec and output
+  	        case Template.modes.RAW:
+  	          this.source += '    ; __append(' + stripSemi(line) + ')' + '\n';
+  	          break;
+  	        case Template.modes.COMMENT:
+  	          // Do nothing
+  	          break;
+  	          // Literal <%% mode, append as raw output
+  	        case Template.modes.LITERAL:
+  	          this._addOutput(line);
+  	          break;
+  	        }
+  	      }
+  	      // In string mode, just add the output
+  	      else {
+  	        this._addOutput(line);
+  	      }
+  	    }
+
+  	    if (self.opts.compileDebug && newLineCount) {
+  	      this.currentLine += newLineCount;
+  	      this.source += '    ; __line = ' + this.currentLine + '\n';
+  	    }
+  	  }
+  	};
+
+  	/**
+  	 * Escape characters reserved in XML.
+  	 *
+  	 * This is simply an export of {@link module:utils.escapeXML}.
+  	 *
+  	 * If `markup` is `undefined` or `null`, the empty string is returned.
+  	 *
+  	 * @param {String} markup Input string
+  	 * @return {String} Escaped string
+  	 * @public
+  	 * @func
+  	 * */
+  	exports.escapeXML = utils$1.escapeXML;
+
+  	/**
+  	 * Express.js support.
+  	 *
+  	 * This is an alias for {@link module:ejs.renderFile}, in order to support
+  	 * Express.js out-of-the-box.
+  	 *
+  	 * @func
+  	 */
+
+  	exports.__express = exports.renderFile;
+
+  	/**
+  	 * Version of EJS.
+  	 *
+  	 * @readonly
+  	 * @type {String}
+  	 * @public
+  	 */
+
+  	exports.VERSION = _VERSION_STRING;
+
+  	/**
+  	 * Name for detection of EJS.
+  	 *
+  	 * @readonly
+  	 * @type {String}
+  	 * @public
+  	 */
+
+  	exports.name = _NAME;
+
+  	/* istanbul ignore if */
+  	if (typeof window != 'undefined') {
+  	  window.ejs = exports;
+  	}
+  } (ejs));
+
+  var prefix = 'Invariant failed';
+  function invariant(condition, message) {
+      if (condition) {
+          return;
+      }
+      {
+          throw new Error(prefix);
+      }
+  }
+
+  const COOKIE_NAME_SEGMENTATION_CDP_SEGMENTS = 'cdp_segments';
+  const DEFAULT_CURRENCY = '$';
+  const DEFAULT_PAGE_SIZE = 16;
+  const DEFAULT_SEARCH_PARAMETER = 'q';
+  const DEFAULT_SORTING_OPTIONS = [{
+    label: 'Relevance',
+    value: ''
+  }, {
+    label: 'Price (low - high)',
+    value: 'price+asc'
+  }, {
+    label: 'Price (high - low)',
+    value: 'price+desc'
+  }, {
+    label: 'Name (A - Z)',
+    value: 'title+asc'
+  }, {
+    label: 'Name (Z - A)',
+    value: 'title+desc'
+  }];
+  const DEFAULT_START = 0;
+  const FIELD_NAME_PRICE = 'price';
+  const MAX_COLOR_SWATCHES = 4;
+  const MAX_PAGINATION_NUMBER_BEFORE_CURRENT = 2;
+  const MAX_PAGINATION_NUMBER_AFTER_CURRENT = 2;
+  const NUMBER_OF_FACET_GROUPS = 5;
+  const NUMBER_OF_FACET_VALUES = 6;
+  const PARAMETER_NAME_FACETS = 'fq';
+  const PARAMETER_NAME_FILTERS_PANEL = 'filterpanel';
+  const PARAMETER_NAME_GROUPBY = 'groupby';
+  const PARAMETER_NAME_PAGE = 'page';
+  const PARAMETER_NAME_SIZE = 'size';
+  const PARAMETER_NAME_SORT = 'sort';
+  const REQUEST_TYPE_SEARCH = 'search';
+  const SEARCH_TYPE_CATEGORY = 'category';
+  const SEARCH_TYPE_KEYWORD = 'keyword';
+  const SELECTOR_SEARCH_RESULTS_CONTAINER = '.main-content';
+
+  /**
+   * Extracts the segmentation value from the Bloomreach segmentation pixel
+   * @remarks Designed to check for the cookie,and if not present will set a default
+   * @returns {string}
+   */
+  function extractSegmentationCookie() {
+    const cookiePrefix = `${COOKIE_NAME_SEGMENTATION_CDP_SEGMENTS}=`;
+    const segmentationCookie = document.cookie.split('; ').find(cookie => cookie.startsWith(cookiePrefix));
+    return (segmentationCookie || '').replace(cookiePrefix, '');
+  }
+  function applyKeywordRedirection(response) {
+    if (response?.keywordRedirect) {
+      localStorage.setItem('keywordRedirect', JSON.stringify({
+        original_query: response.keywordRedirect['original query'],
+        redirected_query: response.keywordRedirect['redirected query'],
+        redirected_url: response.keywordRedirect['redirected url']
+      }));
+      const redirectedUrl = response.keywordRedirect?.['redirected url'] || '';
+      window.location.href = `${!redirectedUrl.startsWith('http') ? 'https://' : ''}${redirectedUrl}`;
+    }
+  }
+
+  // /utils/getRequest.ts
+  /**
+   * Method used to initiate the API request
+   * @remarks The Assignment of the API specific promise is set in the respective API
+   * @param {string} url
+   * @param {{}} options
+   * @returns {Promise<any>}
+   */
+  async function getRequest(url, options) {
+    /**
+     * Use of Client-Side Fetch API to retrieve the response
+     * @type {Response}
+     */
+    const response = await fetch(url, options);
+    /**
+     * Formats the response as json and returns the typed promise
+     * @type {any}
+     */
+    const result = await response.json();
+    /**
+     * Sets the type for the promise
+     */
+    return result;
+  }
+
+  // utils.requestOptions.ts
+  /**
+   *
+   * @type {{headers: {'Content-Type': string}, method: string}}
+   */
+  const requestOptions = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  // utils/extractTrackingCookie.ts
+  /**
+   * Extracts the tracking cookie from the Bloomreach cookie pixel
+   * @remarks Designed to check for the cookie,and if not present will set a default
+   * @returns {string}
+   */
+  function extractTrackingCookie() {
+    const trackingCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('_br_uid_2='));
+    return trackingCookie ? trackingCookie.replace('_br_uid_2=', '') : 'uid%3D7797686432023%3Av%3D11.5%3Ats%3D1428617911187%3Ahc%3D55';
+  }
+
+  // utils/formatAsCurrency.ts
+  /**
+   * Formats a value returned as a double into currency
+   * @param {number} cents
+   * @param {string} currencySign
+   * @param {boolean} onFront
+   * @returns {string}
+   */
+  const formatAsCurrency = (cents, currencySign = '$', onFront = true) => `${onFront ? currencySign : ''}${(cents / 100.0).toLocaleString(undefined, {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+})}${!onFront ? ` ${currencySign}` : ''}`;
+
+  // utils/generateRequestID.ts
+  /**
+   * Generates a randomized request ID that is 13 characters long
+   * @returns {number}
+   */
+  function generateRequestId() {
+    // eslint-disable-next-line no-mixed-operators
+    const requestID = Math.floor(1000000000000 + Math.random() * 9000000000000);
+    return requestID;
+  }
+  const ENDPOINT_PRODUCT_SEARCH_API = 'https://core.dxpapi.com/api/v1/core/';
+  const NO_ENCODE_PARAMETERS = ['_br_uid_2', 'fq', 'sort'];
+  const FIELD_LIST_DEFAULT = 'pid,title,brand,price,sale_price,thumb_image,sku_thumb_images,sku_swatch_images,sku_color_group,url,price_range,sale_price_range,description,is_live,score,skuid,group';
+
+  function buildQueryParameters(apiCallParameters) {
+    return `?${Object.keys(apiCallParameters).reduce((queryParameters, parameterName) => [...queryParameters, `${parameterName}=${NO_ENCODE_PARAMETERS.includes(parameterName) ? apiCallParameters[parameterName] : encodeURIComponent(apiCallParameters[parameterName])}`], []).join('&')}`;
+  }
+  function buildSearchRequestUrl(parameters) {
+    const apiParameters = Object.assign({}, parameters);
+    const endpoint = (apiParameters === null || apiParameters === void 0 ? void 0 : apiParameters.endpoint) || ENDPOINT_PRODUCT_SEARCH_API;
+    if (apiParameters === null || apiParameters === void 0 ? void 0 : apiParameters.endpoint) apiParameters === null || apiParameters === void 0 ? true : delete apiParameters.endpoint;
+    if (!(apiParameters === null || apiParameters === void 0 ? void 0 : apiParameters.fl)) apiParameters.fl = FIELD_LIST_DEFAULT;
+    return `${endpoint}${buildQueryParameters(apiParameters)}`;
+  }
+
+  /**
+   * Get suggestions API
+   * @returns {Promise<SearchResponse>}
+   */
+  async function getSearchResults(params) {
+    // Retrieves the URL and Options from the buildQueryParams function
+    const url = buildSearchRequestUrl(params);
+    const options = requestOptions;
+    return getRequest(url, options);
+  }
+
+  var searchLayoutTemplate = "<% if (did_you_mean.length) { %>\n  <div class=\"blm-product-search-header\">\n    <div class=\"blm-product-search-header-container\">\n      <h1 class=\"blm-product-search-header-container__title\">Results for\n        <% if (locals.keywordRedirect && keywordRedirect.redirected_url) { %>\n          <i><%- keywordRedirect.redirected_url %></i>\n        <% } else { %>\n          <i><%- did_you_mean[0] %></i>\n        <% } %>\n         instead of <i class=\"blm-product-search-header-container__title__searched-word\"><%- locals[config.default_search_parameter] %></i></h1>\n      <div class=\"blm-did-you-mean-suggestion\">\n        <label class=\"blm-did-you-mean-suggestion__label\">Did you mean:</label>\n        <% did_you_mean.forEach(function(word) { %>\n        <a href=\"<%= config.search_page_url %>?<%= config.default_search_parameter %>=<%= word %>\" class=\"blm-did-you-mean-suggestion__link\"><%- word %></a>\n        <% }); %>\n      </div>\n      <% if (locals.keywordRedirect && keywordRedirect.redirected_query) { %>\n      <div class=\"blm-redirected-keyword\">Redirected from <i>\"<%- keywordRedirect.redirected_query %>\"</i>.</div>\n      <% } %>\n    </div>\n  </div>\n<% } %>\n<% if (locals.keywordRedirect && keywordRedirect.redirected_query && did_you_mean.length === 0) { %>\n  <div class=\"blm-product-search-header\">\n    <div class=\"blm-product-search-header-container\">\n      <h1 class=\"blm-product-search-header-container__title\">Results for <i><%- keywordRedirect.redirected_query %></i> </h1>\n      <div class=\"blm-redirected-keyword\">Redirected from <i>\"<%- keywordRedirect.original_query %>\"</i> </div>\n    </div>\n  </div>\n<% } %>\n<div class=\"blm-<% if (config.search.is_category_page) { %>category<% } else { %>product-search<% } %> blm-results <% if (config.search.facets_included) { %>with-facets<% } %>\">\n    <% if (config.search.facets_included && facets.length) { %>\n    <aside class=\"blm-product-search-sidebar\">\n\n      <button class=\"blm-product-search-control-button blm-product-search-control-button--sidebar\">\n        Filter\n        <svg viewBox=\"0 0 14.8 14.8\" class=\"blm-product-search-control-button__icon\" focusable=\"false\"><path d=\"M1.6 14.8V0m6 14.8V1.6m5.6 13.2V0\" fill=\"none\" stroke=\"#000\" stroke-miterlimit=\"10\"></path><circle cx=\"1.6\" cy=\"7.4\" r=\"1.6\"></circle><circle cx=\"13.2\" cy=\"10.4\" r=\"1.6\"></circle><circle cx=\"7.6\" cy=\"1.6\" r=\"1.6\"></circle></svg>\n      </button>\n\n      <% if (locals.selectedFilterItems && selectedFilterItems.length > 0) { %>\n        <div class=\"blm-product-search-selected-filters\">\n          <h4 class=\"blm-product-search-selected-filters__title\">Filters</h4>\n\n          <% selectedFilterItems.forEach(function(filterIitem) { %>\n            <span class=\"blm-product-search-selected-filter\" data-filter-checkbox-id=\"<%- filterIitem.checkbox_id %>\"><%- filterIitem.label %>\n              <span class=\"blm-product-search-selected-filter__clear\">&times;</span>\n            </span>\n          <% }) %>\n\n          <button class=\"blm-product-search-selected-filters__clear-all\">Clear all</button>\n        </div>\n      <% } %>\n\n      <div class=\"blm-product-search-sidebar-content <% if (locals.isFiltersPanelOpened && isFiltersPanelOpened) { %>blm-open<% } %>\">\n\n        <button class=\"blm-product-search-control-button blm-product-search-control-button--sidebar blm-product-search-control-button--active\">\n          Done\n          <svg viewBox=\"0 0 14.8 14.8\" class=\"blm-product-search-control-button__icon\" focusable=\"false\"><path class=\"blm-product-search-control-button__icon-path\" d=\"M1.6 14.8V0m6 14.8V1.6m5.6 13.2V0\" fill=\"none\" stroke=\"#000\" stroke-miterlimit=\"10\"></path><circle cx=\"1.6\" cy=\"7.4\" r=\"1.6\"></circle><circle cx=\"13.2\" cy=\"10.4\" r=\"1.6\"></circle><circle cx=\"7.6\" cy=\"1.6\" r=\"1.6\"></circle></svg>\n        </button>\n\n        <div id=\"blm-product-search-search-filters\">\n          <input id=\"blm-product-search-search-filters__input\" placeholder=\"Type to search filters\" />\n        </div>\n\n        <div class=\"blm-product-search-filter\">\n          <h4 class=\"blm-product-search-filter-title\">Price</h4>\n          <div class=\"blm-price-range-container\">\n            <div class=\"blm-range-slider\">\n              <input\n                value=\"<%= checkedFacets.price ? checkedFacets.price[0] : priceRangeFacet.start %>\"\n                min=\"<%- priceRangeFacet.start %>\"\n                max=\"<%- priceRangeFacet.end %>\"\n                step=\"1\"\n                type=\"range\"\n                class=\"blm-price-range-input blm-price-range-input--lower blm-price-range-input--lower-%%-REQUEST_ID-%%\"\n              >\n              <span class=\"blm-price-range-slider-rail\"></span>\n              <input\n                value=\"<%= checkedFacets.price ? checkedFacets.price[1] : priceRangeFacet.end %>\"\n                min=\"<%- priceRangeFacet.start %>\"\n                max=\"<%- priceRangeFacet.end %>\"\n                step=\"1\"\n                type=\"range\"\n                class=\"blm-price-range-input blm-price-range-input--upper blm-price-range-input--upper-%%-REQUEST_ID-%%\"\n              >\n            </div>\n            <div class=\"blm-range-slider__values\">\n              <span class=\"blm-range-slider__values--min\">\n                <%= checkedFacets.price ? config.format_money(checkedFacets.price[0] * 100) : config.format_money(priceRangeFacet.start * 100) %>\n              </span>\n              <span class=\"blm-range-slider__values--max\">\n                <%= checkedFacets.price ? config.format_money(checkedFacets.price[1] * 100) : config.format_money(priceRangeFacet.end * 100) %>\n              </span>\n            </div>\n          <% if (checkedFacets.price) { %>\n            <div class=\"blm-range-slider__clear-values\">\n              <button class=\"blm-range-slider__clear-values-button blm-range-slider__clear-values-button--%%-REQUEST_ID-%%\">Clear</button>\n            </div>\n          <% } %>\n          </div>\n        </div>\n\n        <% facets.forEach(function(facet, facetIndex) { %>\n          <% if (facet.section.length > 0) { %>\n          <div class=\"blm-product-search-filter blm-dynamic-filter\" id=\"blm-facet-block-item-<%= facetIndex %>\">\n            <h4 class=\"blm-product-search-filter-title\"><%- facet.title %></h4>\n            <ul class=\"blm-product-search-filter-items\">\n              <% facet.section.forEach(function(item) { %>\n              <li class=\"blm-product-search-filter-item\">\n                <input\n                  type=\"checkbox\"\n                  <% if (facet.original_title in checkedFacets && checkedFacets[facet.original_title].includes(escapeSpecialCharacters(item.id))) { %>checked<% } %>\n                  name=\"<%= facet.original_title %>\"\n                  value=\"<%= escapeSpecialCharacters(item.id) %>\"\n                  id=\"<%- facet.original_title + '[' + escapeSpecialCharacters(item.name) + ']' %>\"\n                  class=\"blm-product-search-filter-item__checkbox\"\n                />\n                <label class=\"blm-product-search-filter-item__name\" for=\"<%- facet.original_title + '[' + escapeSpecialCharacters(item.name) + ']' %>\"><%- item.name %></label>\n                <% if (!config.search.display_variants) { %>\n                <span class=\"blm-product-search-filter-item__badge\"><%- item.count %></span>\n                <% } %>\n              </li>\n              <% }); %>\n            </ul>\n            <% if (facet.section.length > config.search.initial_number_of_facet_values) { %>\n            <div class=\"blm-product-search-load-more\" data-item=\"<%= facetIndex %>\">+ More</div>\n            <% } %>\n          </div>\n          <% } %>\n        <% }); %>\n\n        <% if (facets[0].section.length) { %>\n        <div class=\"blm-load-more-facet blm-load-more-facet--%%-REQUEST_ID-%%\">+ More </div>\n        <% } %>\n\n      </div>\n    </aside>\n    <% } %>\n    <section class=\"blm-product-search-main\">\n      <div class=\"blm-product-search-toolbar\">\n        <%\n          const haveUngroupedResults = locals.number_of_results && number_of_results > 0;\n          const haveGroupedResults = locals.grouped_products && grouped_products.groups.length > 0;\n        %>\n        <% if (haveUngroupedResults || haveGroupedResults) { %>\n          <% if (haveUngroupedResults) { %>\n          <h2 class=\"blm-product-search-toolbar__title\">\n            Showing <%- start + 1 %> - <%- Math.min(start + products.length, number_of_results) %> of <%- number_of_results %> products\n          </h2>\n          <% } %>\n        <div class=\"blm-product-search-toolbar-options\">\n          <% if (config.search.groupby) { %>\n          <span class=\"blm-product-search-toolbar-options blm-product-search-toolbar-options--groupby\">\n            <label for=\"groupby-%%-REQUEST_ID-%%\" class=\"blm-product-search-toolbar-options__label\">Group By: </label>\n            <select\n              name=\"groupby\"\n              id=\"groupby-%%-REQUEST_ID-%%\"\n              class=\"blm-product-search-toolbar-options__select\"\n            >\n              <% config.search.groupby_options.forEach(function(option) { %>\n                <option value=\"<%- option.value %>\" <% if (locals.groupby && groupby === option.value) { %>selected<% } %>><%- option.label %></option>\n              <% }) %>\n            </select>\n          </span>\n          <% } %>\n          <% if (!config.search.infinite_scroll && paginationData.length > 0) { %>\n          <span class=\"blm-product-search-toolbar-options blm-product-search-toolbar-options--page-size\">\n            <label for=\"sort-size-%%-REQUEST_ID-%%\" class=\"blm-product-search-toolbar-options__label\">Size: </label>\n            <select\n              name=\"sort-size\"\n              id=\"sort-size-%%-REQUEST_ID-%%\"\n              class=\"blm-product-search-toolbar-options__select\"\n            >\n              <% for (let i = (config.search.groupby ? 4 : 16); i <= (config.search.groupby ? 16 : 48); i += 4) { %>\n                <option value=\"<%- i %>\" <% if (locals.size && size === i) { %>selected<% } %>><%- i %></option>\n              <% } %>\n            </select>\n          </span>\n          <% } %>\n          <span class=\"blm-product-search-toolbar-options blm-product-search-toolbar-options--sort-by\">\n            <label for=\"sort-by-%%-REQUEST_ID-%%\" class=\"blm-product-search-toolbar-options__label\">Sort By: </label>\n            <select\n              name=\"sort-by\"\n              id=\"sort-by-%%-REQUEST_ID-%%\"\n              class=\"blm-product-search-toolbar-options__select\"\n            >\n              <% config.search.sorting_options.forEach(function(option) { %>\n                <option value=\"<%- option.value %>\" <% if (locals.sort && sort === option.value) { %>selected<% } %>><%- option.label %></option>\n              <% }) %>\n            </select>\n          </span>\n        </div>\n        <% } else if (!(locals.grouped_products) || grouped_products.groups.length < 1) { %>\n        <h2 class=\"blm-product-search-toolbar__title\">\n          No results found\n        </h2>\n        <% } %>\n\n      </div>\n      <div <% if (products.length && !locals.grouped_products) { %>class=\"blm-product-search__results\"<% } %>>\n        <% if (products.length || (locals.grouped_products && grouped_products.groups.length > 0)) { %>\n          %%-PRODUCT_LIST_TEMPLATE-%%\n        <% } %>\n      </div>\n\n      <% if (!config.search.infinite_scroll && paginationData.length > 0) { %>\n      <div class=\"blm-product-search-pagination\">\n        <ul class=\"blm-product-search-pagination__pages blm-product-search-pagination__pages--%%-REQUEST_ID-%%\">\n          <% paginationData.forEach(paginationNode => { %>\n            <li class=\"blm-product-search-pagination__page\">\n              <button <% if (paginationNode.disabled) { %>disabled<% } %> class=\"blm-product-search-pagination__page-link <% if (paginationNode.active) { %>blm-product-search-pagination__page-link--active<% } %>\" data-value=\"<%- paginationNode.value %>\"\n                ><%- paginationNode.label ?? paginationNode.value %></button\n              >\n            </li>\n          <% }) %>\n        </ul>\n      </div>\n      <% } %>\n    </section>\n  </div>\n";
+
+  var searchListTemplate = "<% function printProduct(product) { %>\n  <div class=\"blm-product-search__result\" <% if (product.variant_name) { %>title=\"<%- product.variant_name %>\"<% } %>>\n    <%\n      const matchingVariant = !Array.isArray(product.variants)\n        ? null\n        : 'variant_index' in product\n          ? product.variants[product.variant_index]\n          : product.variants.find(variant => selectedColors.includes(variant.sku_color_group ? variant.sku_color_group.toLowerCase() : null))\n    %>\n    <div class=\"blm-product-search-image-container\">\n      <% if (product.variants && product.variants.length > 1) { %>\n        <% product.variants.forEach(function(variant, index) { %>\n\n        <%\n          const isActiveVariant =\n            !('variant_index' in product) && !selectedColors.length\n              ? index === 0\n              : 'variant_index' in product\n                ? product.variant_index === index\n                : matchingVariant == variant\n        %>\n\n        <div class=\"blm-product-search-swatch-image fade\"\n          <% if (isActiveVariant) { %>style=\"display: block\"<% } %>\n        >\n          <img\n            class=\"blm-product-search-image-container__image\"\n            alt=\"title\"\n            src=\"<%= variant.image %>\"\n          />\n        </div>\n        <% }); %>\n      <% } else { %>\n        <div class=\"blm-product-search-swatch-image fade\" style=\"display: block\"\n        >\n          <img\n            class=\"blm-product-search-image-container__image\"\n            alt=\"title\"\n            src=\"<%= product.image %>\"\n          />\n        </div>\n      <% } %>\n    </div>\n    <div class=\"blm-product-search-details-container\">\n      <div class=\"blm-product-search-details-title-container\">\n        <a href=\"<%= product.link %>\" class=\"blm-product-search-details-container__title\"\n          ><%- product.title %></a\n        >\n      </div>\n\n      <% if (product.variants && product.variants.length > 1) { %>\n        <% product.variants.forEach(function(variant, index) { %>\n          <%\n            const isActiveVariant =\n              !('variant_index' in product) && !selectedColors.length\n                ? index === 0\n                : 'variant_index' in product\n                  ? product.variant_index === index\n                  : matchingVariant == variant\n          %>\n          <p class=\"blm-product-search-details-container__price <% if (isActiveVariant) { %>active<% } %>\">\n            <%\n              const salePrice = variant.sku_sale_price !== undefined ? variant.sku_sale_price : product.sale_price;\n              const price = variant.sku_price !== undefined ? variant.sku_price : product.price;\n            %>\n            <%= config.format_money((salePrice !== undefined ? salePrice : price).toFixed(2) * 100) %>\n            <% if (salePrice !== undefined) { %>\n              <span <% if (salePrice !== undefined) { %>class=\"blm-product-search-details-container__price--strike-through\"<% } %>>\n                <%= config.format_money(price.toFixed(2) * 100) %>\n              </span>\n            <% } %>\n          </p>\n        <% }); %>\n      <% } else { %>\n        <p class=\"blm-product-search-details-container__price active\">\n          <%= config.format_money((product.sale_price !== undefined ? product.sale_price : product.price).toFixed(2) * 100) %>\n          <% if (product.sale_price !== undefined) { %>\n            <span <% if (product.sale_price !== undefined) { %>class=\"blm-product-search-details-container__price--strike-through\"<% } %>>\n              <%= config.format_money(product.price.toFixed(2) * 100) %>\n            </span>\n          <% } %>\n        </p>\n      <% } %>\n\n    </div>\n\n    <% if (product.variants && product.variants.length > 1) { %>\n      <ul class=\"blm-product-search-swatch-container\">\n      <% product.variants.slice(0, defaultMaxColorSwatches || 0).forEach(function(variant, index) { %>\n        <%\n          const isActiveVariant =\n            !('variant_index' in product) && !selectedColors.length\n              ? index === 0\n              : 'variant_index' in product\n                ? product.variant_index === index\n                : matchingVariant == variant\n        %>\n        <li\n          class=\"blm-product-search-swatch-container__swatch <% if (isActiveVariant) { %>active<% } %>\"\n          style=\"background-image: url('<%= variant.image %>')\"\n        ></li>\n      <% }); %>\n      </ul>\n\n      <% if (product.variants.length > defaultMaxColorSwatches || 0) { %>\n      <small class=\"blm-product-search-swatch-colors\">(Colors) <%- product.variants.length %></small>\n      <% } %>\n    <% } %>\n  </div>\n<% } %>\n\n<% if (locals.grouped_products && grouped_products && grouped_products.groups) { %>\n\n  <% grouped_products.groups.forEach(group => { %>\n  <div class=\"blm-result-group\">\n    <h3 class=\"blm-result-group__title\"><%- group.title %></h3>\n\n    <div class=\"blm-product-search__results\">\n      <% group.products.forEach(printProduct); %>\n    </div>\n  </div>\n  <% }); %>\n\n<% } else { %>\n\n  <% products.forEach(printProduct); %>\n\n<% } %>\n";
+
+  function buildBaseConfig() {
+    const connectorConfig = window?.bloomreachConnector?.config;
+    const config = {
+      default_search_parameter: DEFAULT_SEARCH_PARAMETER,
+      url: window.location.href,
+      ref_url: window.location.href,
+      tracking_cookie: extractTrackingCookie(),
+      format_money: cents => formatAsCurrency(cents, window.bloomreachDefaultCurrency || DEFAULT_CURRENCY),
+      default_currency: window.bloomreachDefaultCurrency || DEFAULT_CURRENCY,
+      ...connectorConfig
+    };
+    return config;
+  }
+  function buildSearchConfig() {
+    const baseConfig = buildBaseConfig();
+    const urlParameters = new URLSearchParams(window.location.search);
+    const state = getCurrentSearchRequestState();
+    const defaultSearchProperties = {
+      display_variants: false,
+      enabled: true,
+      endpoint: '',
+      items_per_page: DEFAULT_PAGE_SIZE,
+      facets_included: true,
+      initial_number_of_facets: NUMBER_OF_FACET_GROUPS,
+      initial_number_of_facet_values: NUMBER_OF_FACET_VALUES,
+      infinite_scroll: false,
+      selector: SELECTOR_SEARCH_RESULTS_CONTAINER,
+      sorting_options: DEFAULT_SORTING_OPTIONS,
+      template: searchLayoutTemplate,
+      product_list_template: searchListTemplate,
+      ...(baseConfig?.search ? baseConfig.search : {})
+    };
+    const config = {
+      ...baseConfig,
+      request_type: REQUEST_TYPE_SEARCH,
+      search_type: state.is_category_page ? SEARCH_TYPE_CATEGORY : SEARCH_TYPE_KEYWORD,
+      start: DEFAULT_START,
+      'facet.range': FIELD_NAME_PRICE,
+      'stats.field': FIELD_NAME_PRICE,
+      sort: urlParameters.get(PARAMETER_NAME_SORT) || '',
+      search: {
+        ...defaultSearchProperties,
+        ...((state.is_category_page ? baseConfig.category : baseConfig.search) || {}),
+        ...(state.category_to_load ? {
+          category_id: state.category_to_load
+        } : {})
+      }
+    };
+    // config.search?.sorting_options?.sort?.(
+    //   (option1, option2) => (option1.value > option2.value ? 1 : -1)
+    // );
+    if (config.search) {
+      config.search = {
+        ...config.search,
+        items_per_page: Number(urlParameters.has(PARAMETER_NAME_SIZE) ? urlParameters.get(PARAMETER_NAME_SIZE) : config.search.items_per_page),
+        groupby: urlParameters.get(PARAMETER_NAME_GROUPBY) || config.search.groupby || ''
+      };
+    }
+    return config;
+  }
+
+  function buildPaginationData(results) {
+    if ('grouped_products' in results) return buildGroupedPaginationData(results);
+    return buildRegularPaginationData(results);
+  }
+  function buildRegularPaginationData(results) {
+    const pageSize = results.size || 1;
+    if (results.number_of_results <= pageSize) {
+      return [];
+    }
+    const page = Math.ceil((results.start + 1) / pageSize);
+    const numberOfAllPages = Math.ceil(results.number_of_results / pageSize);
+    const beforeNumbers = Array(page - 1).fill(null).map((_, index) => index + 1).slice(-MAX_PAGINATION_NUMBER_BEFORE_CURRENT);
+    const afterNumbers = Array(numberOfAllPages - page).fill(null).map((_, index) => index + (page + 1)).slice(0, MAX_PAGINATION_NUMBER_AFTER_CURRENT);
+    return [...(page > 1 ? [{
+      value: 'previous',
+      label: '&larr;'
+    }] : []), ...(page - 1 > MAX_PAGINATION_NUMBER_BEFORE_CURRENT ? [{
+      label: '&hellip;',
+      value: (page - MAX_PAGINATION_NUMBER_BEFORE_CURRENT - 1).toString()
+    }] : []), ...beforeNumbers.map(number => ({
+      value: number.toString()
+    })), {
+      value: page.toString(),
+      disabled: true,
+      active: true
+    }, ...afterNumbers.map(number => ({
+      value: number.toString()
+    })), ...(page + MAX_PAGINATION_NUMBER_AFTER_CURRENT < numberOfAllPages ? [{
+      label: '&hellip;',
+      value: (page + MAX_PAGINATION_NUMBER_AFTER_CURRENT + 1).toString()
+    }] : []), ...(page < numberOfAllPages ? [{
+      value: 'next',
+      label: '&rarr;'
+    }] : [])];
+  }
+  function buildGroupedPaginationData(results) {
+    const page = Number(results.page || 1);
+    const pageSize = results.size || 1;
+    const numberOfGroups = (results?.grouped_products?.groups || []).length;
+    return [{
+      value: 'previous',
+      label: 'Previous',
+      disabled: page <= 1
+    }, {
+      value: 'next',
+      label: 'Next',
+      disabled: numberOfGroups < pageSize
+    }];
+  }
+  const escapeSpecialCharacters = value => value.replace(/"/g, '&quot;').replace(/,/g, '%%-COMMA-%%');
+  const decodeSpecialCharacters = value => value.replace(/%%-COMMA-%%/g, ',').replace(/&quot;/g, '"');
+  const convertFacetsToQueryString = facets => {
+    return Object.keys(facets).map(facetName => {
+      if (facetName === 'price') {
+        return encodeURIComponent(
+        // @ts-ignore
+        `${facetName}:[${facets[facetName].map(value => `${value || '*'}`).join(' TO ')}]`);
+      }
+      return encodeURIComponent(
+      // @ts-ignore
+      `${facetName}:${facets[facetName].map(value => `"${decodeSpecialCharacters(value)}"`).join(' OR ')}`);
+    }).join('&fq=');
+  };
+
+  function hideAllDynamicFacetGroups() {
+    ['.blm-dynamic-filter', '.blm-product-search-filter-item', '.blm-product-search-load-more'].forEach(selector => {
+      document.querySelectorAll(selector).forEach(item => {
+        item.removeAttribute('style');
+      });
+    });
+  }
+  function loadMoreFacetGroups(config, numberOfFacetGroupsParameter) {
+    let i = 0;
+    let numberOfHiddenBoxWithVisibleChildren = 0;
+    const numberOfFacetGroups = Number(numberOfFacetGroupsParameter || config.search?.initial_number_of_facets);
+    document.querySelectorAll('.blm-dynamic-filter:not([style*="display: block"])').forEach(item => {
+      const visibleChildren = item.querySelectorAll('.blm-product-search-filter-item:not([style*="display: none"]');
+      if (i < numberOfFacetGroups && visibleChildren.length > 0) {
+        item.setAttribute('style', 'display: block');
+      }
+      i++;
+      numberOfHiddenBoxWithVisibleChildren += visibleChildren.length > 0 ? 1 : 0;
+    });
+    const currentSearchRequestState = getCurrentSearchRequestState();
+    const loadMoreFacetGroupsElement = document.querySelector(`.blm-load-more-facet--${currentSearchRequestState.request_id}`);
+    const numberOfHiddenBoxes = document.querySelectorAll('.blm-dynamic-filter:not([style*="display: block"])').length;
+    if (numberOfHiddenBoxes === 0 || numberOfHiddenBoxWithVisibleChildren === 0) {
+      loadMoreFacetGroupsElement?.classList.add('blm-hide');
+    }
+  }
+  function getLoadMoreFacetGroupsElement() {
+    const currentSearchRequestState = getCurrentSearchRequestState();
+    const element = document.querySelector(`.blm-load-more-facet--${currentSearchRequestState.request_id}`);
+    invariant(element);
+    return element;
+  }
+  function resetFacetGroups(config) {
+    const numberOfDisplayedFacetGroups = Number(config.search?.initial_number_of_facets);
+    const numberOfDisplayedFacetValues = Number(config.search?.initial_number_of_facet_values);
+    hideAllDynamicFacetGroups();
+    loadMoreFacetGroups(config, numberOfDisplayedFacetGroups - 1);
+    // init facet items visibility
+    document.querySelectorAll(`.blm-product-search-filter-item:nth-child(-n+${numberOfDisplayedFacetValues})`).forEach(item => item.style.display = 'block');
+    getLoadMoreFacetGroupsElement().removeAttribute('style');
+  }
+  function getSearchResultsContainerElement(config) {
+    invariant(config.search?.selector);
+    const searchResultsContainerElement = document.querySelector(config.search.selector);
+    return searchResultsContainerElement;
+  }
+  function getSearchResultsListContainerElement() {
+    const searchResultsListContainerElement = document.querySelector('.blm-product-search-main')?.lastElementChild;
+    return searchResultsListContainerElement;
+  }
+  function resetLoadingIndicator() {
+    const scrollIndicator = document.querySelector('.blm-scroll-indicator');
+    if (scrollIndicator) {
+      scrollIndicator.innerHTML = '';
+      const loaderElement = document.createElement('div');
+      loaderElement.classList.add('blm-scroll-indicator__loading');
+      scrollIndicator.appendChild(loaderElement);
+    }
+  }
+  function getCheckedFacetValues() {
+    const checkedCheckboxes = document.querySelectorAll('.blm-product-search-filter-item__checkbox:checked');
+    return checkedCheckboxes ? Array.from(checkedCheckboxes).reduce((all, current) => {
+      return {
+        ...all,
+        [current.name]: all[current.name] ? [...(all[current.name] || []), current.value] : [current.value]
+      };
+    }, {}) : {};
+  }
+  function restoreScrollPosition() {
+    // Get saved scroll positions
+    const storedScrollPositions = JSON.parse(window.localStorage.getItem('scrollPositions') || '{}');
+    // Restore it if it's found for current page
+    const currentUriEncoded = encodeURI(window.location.href);
+    if (currentUriEncoded in storedScrollPositions) {
+      const scrollPosition = parseInt(storedScrollPositions[currentUriEncoded]?.scrollPosition, 10);
+      setTimeout(() => {
+        document.documentElement.scrollTop = scrollPosition;
+        document.body.scrollTop = scrollPosition;
+      }, 250);
+    }
+    delete storedScrollPositions[encodeURI(window.location.href)];
+    window.localStorage.setItem('scrollPositions', JSON.stringify(storedScrollPositions));
+  }
+  function setupSavingScrollPosition() {
+    window.onbeforeunload = function () {
+      let scrollPosition;
+      if (typeof window.pageYOffset !== 'undefined') {
+        scrollPosition = window.pageYOffset;
+      } else if (typeof document.compatMode !== 'undefined' && document.compatMode !== 'BackCompat') {
+        scrollPosition = document.documentElement.scrollTop;
+      } else if (typeof document.body !== 'undefined') {
+        scrollPosition = document.body.scrollTop;
+      }
+      const storedScrollPositions = JSON.parse(window.localStorage.getItem('scrollPositions') || '{}');
+      window.localStorage.setItem('scrollPositions', JSON.stringify({
+        ...storedScrollPositions,
+        [encodeURI(window.location.href)]: {
+          scrollPosition
+        }
+      }));
+    };
+  }
+
+  var breakpoints;
+  (function (breakpoints) {
+    breakpoints["small"] = "480px";
+    breakpoints["medium"] = "680px";
+    breakpoints["large"] = "750px";
+    breakpoints["xlarge"] = "875px";
+    breakpoints["xxlarge"] = "1000px";
+    breakpoints["xxxlarge"] = "1200px";
+  })(breakpoints || (breakpoints = {}));
+  const isMobileView = window.matchMedia(`(max-width: ${breakpoints.medium})`);
+  window.matchMedia(`(min-width:${breakpoints.medium}) and (max-width: ${breakpoints.xlarge})`);
+
+  function updateUrl(urlParameters) {
+    const historyStateObject = {};
+    // eslint-disable-next-line functional/no-loop-statement
+    for (const pair of urlParameters.entries()) {
+      historyStateObject[pair[0]] = pair[1];
+    }
+    window.history.pushState(historyStateObject, document.title, `?${urlParameters.toString()}`);
+  }
+  function updateMultipleInstanceParametersInUrl(parameterName,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  parameters, userOptions) {
+    const defaultOptions = {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      valueSerializer: parameterValue => parameterValue.toString().replace(/"/g, '\\"'),
+      nameValueSeparator: ':'
+    };
+    const options = {
+      ...defaultOptions,
+      ...userOptions
+    };
+    const urlParameters = new URLSearchParams(window.location.search);
+    urlParameters.delete(parameterName);
+    if (Array.isArray(parameters)) {
+      parameters.forEach(value => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        urlParameters.append(parameterName, options.valueSerializer(value));
+      });
+    } else {
+      Object.keys(parameters).forEach(key => {
+        urlParameters.append(parameterName, `${key}${options.nameValueSeparator}${options.valueSerializer(parameters[key])}`);
+      });
+    }
+    updateUrl(urlParameters);
+  }
+  function updateParameterInUrl(parameterName, newValue) {
+    const urlParameters = new URLSearchParams(window.location.search);
+    if (typeof newValue === 'function') {
+      urlParameters.set(parameterName,
+      // @ts-ignore
+      newValue(urlParameters.get(parameterName)).replace(/"/g, '\\"'));
+    } else if (newValue === '') {
+      urlParameters.delete(parameterName);
+    } else {
+      urlParameters.set(parameterName, newValue.replace(/"/g, '\\"'));
+    }
+    updateUrl(urlParameters);
+  }
+  function incrementParameterInUrl(parameterName) {
+    updateParameterInUrl(parameterName, oldValue => {
+      if (!oldValue) return '2';
+      let newValue = Number.parseInt(oldValue, 10);
+      return (++newValue).toString();
+    });
+  }
+  function decrementParameterInUrl(parameterName) {
+    updateParameterInUrl(parameterName, oldValue => {
+      if (!oldValue) return '1';
+      let newValue = Number.parseInt(oldValue, 10);
+      return Math.max(1, --newValue).toString();
+    });
+  }
+  function buildPriceUrlParameterObject() {
+    const currentSearchRequestState = getCurrentSearchRequestState();
+    const checkedFacets = getFacetsFromUrl();
+    const priceRangeLowerBoundaryInput = document.querySelector('.blm-price-range-input--lower');
+    const priceRangeUpperBoundaryInput = document.querySelector('.blm-price-range-input--upper');
+    let lowerBoundary = parseFloat(priceRangeLowerBoundaryInput.value);
+    let upperBoundary = parseFloat(priceRangeUpperBoundaryInput.value);
+    // swap lower and upper boundaries if lower > upper
+    if (lowerBoundary > upperBoundary) {
+      [lowerBoundary, upperBoundary] = [upperBoundary, lowerBoundary];
+    }
+    if (lowerBoundary === upperBoundary && (lowerBoundary > currentSearchRequestState.price_range_min_value || upperBoundary < currentSearchRequestState.price_range_max_value)) {
+      if (upperBoundary === currentSearchRequestState.price_range_max_value) {
+        lowerBoundary -= 1;
+      } else {
+        upperBoundary += 1;
+      }
+    }
+    if (!checkedFacets.price && upperBoundary === currentSearchRequestState.price_range_max_value && (lowerBoundary === currentSearchRequestState.price_range_min_value || Number(lowerBoundary) === 0)) {
+      return {};
+    }
+    return {
+      price: `${lowerBoundary},${upperBoundary}`
+    };
+  }
+  function getFacetsFromUrl() {
+    return new URLSearchParams(window.location.search).getAll(PARAMETER_NAME_FACETS).reduce((all, current) => ({
+      ...all,
+      [current.split(':')[0] || '']: (current.split(':')[1] || '').split(',')
+    }), {});
+  }
+  function getSelectedColors() {
+    const selectedFacetValues = getFacetsFromUrl();
+    return Object.keys(selectedFacetValues).reduce((colors, key) => {
+      if (key.toLowerCase() === 'color') {
+        colors = (selectedFacetValues[key] || []).map(color => color.toLowerCase());
+      }
+      return colors;
+    }, []);
+  }
+  function formatAdditionalParams(additionalParams) {
+    return additionalParams?.replaceAll('&quot;', '"').split(/&(?!#\d+;|#x[\da-fA-F]+;|[a-zA-Z]+;)/) // matches standalone '&', but excludes those that are part of HTML entities
+    .reduce((accu, curr) => {
+      const index = curr.indexOf('=');
+      if (index > 0) {
+        const key = curr.slice(0, index);
+        const value = curr.slice(index + 1);
+        accu[key] = value;
+      }
+      return accu;
+    }, {}) ?? {};
+  }
+
+  /**
+   * Checks if `value` is the
+   * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+   * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+   * @example
+   *
+   * _.isObject({});
+   * // => true
+   *
+   * _.isObject([1, 2, 3]);
+   * // => true
+   *
+   * _.isObject(_.noop);
+   * // => true
+   *
+   * _.isObject(null);
+   * // => false
+   */
+
+  function isObject$2(value) {
+    var type = typeof value;
+    return value != null && (type == 'object' || type == 'function');
+  }
+
+  var isObject_1 = isObject$2;
+
+  /** Detect free variable `global` from Node.js. */
+
+  var freeGlobal$1 = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
+
+  var _freeGlobal = freeGlobal$1;
+
+  var freeGlobal = _freeGlobal;
+
+  /** Detect free variable `self`. */
+  var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+  /** Used as a reference to the global object. */
+  var root$2 = freeGlobal || freeSelf || Function('return this')();
+
+  var _root = root$2;
+
+  var root$1 = _root;
+
+  /**
+   * Gets the timestamp of the number of milliseconds that have elapsed since
+   * the Unix epoch (1 January 1970 00:00:00 UTC).
+   *
+   * @static
+   * @memberOf _
+   * @since 2.4.0
+   * @category Date
+   * @returns {number} Returns the timestamp.
+   * @example
+   *
+   * _.defer(function(stamp) {
+   *   console.log(_.now() - stamp);
+   * }, _.now());
+   * // => Logs the number of milliseconds it took for the deferred invocation.
+   */
+  var now$1 = function() {
+    return root$1.Date.now();
+  };
+
+  var now_1 = now$1;
+
+  /** Used to match a single whitespace character. */
+
+  var reWhitespace = /\s/;
+
+  /**
+   * Used by `_.trim` and `_.trimEnd` to get the index of the last non-whitespace
+   * character of `string`.
+   *
+   * @private
+   * @param {string} string The string to inspect.
+   * @returns {number} Returns the index of the last non-whitespace character.
+   */
+  function trimmedEndIndex$1(string) {
+    var index = string.length;
+
+    while (index-- && reWhitespace.test(string.charAt(index))) {}
+    return index;
+  }
+
+  var _trimmedEndIndex = trimmedEndIndex$1;
+
+  var trimmedEndIndex = _trimmedEndIndex;
+
+  /** Used to match leading whitespace. */
+  var reTrimStart = /^\s+/;
+
+  /**
+   * The base implementation of `_.trim`.
+   *
+   * @private
+   * @param {string} string The string to trim.
+   * @returns {string} Returns the trimmed string.
+   */
+  function baseTrim$1(string) {
+    return string
+      ? string.slice(0, trimmedEndIndex(string) + 1).replace(reTrimStart, '')
+      : string;
+  }
+
+  var _baseTrim = baseTrim$1;
+
+  var root = _root;
+
+  /** Built-in value references. */
+  var Symbol$2 = root.Symbol;
+
+  var _Symbol = Symbol$2;
+
+  var Symbol$1 = _Symbol;
+
+  /** Used for built-in method references. */
+  var objectProto$1 = Object.prototype;
+
+  /** Used to check objects for own properties. */
+  var hasOwnProperty = objectProto$1.hasOwnProperty;
+
+  /**
+   * Used to resolve the
+   * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+   * of values.
+   */
+  var nativeObjectToString$1 = objectProto$1.toString;
+
+  /** Built-in value references. */
+  var symToStringTag$1 = Symbol$1 ? Symbol$1.toStringTag : undefined;
+
+  /**
+   * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+   *
+   * @private
+   * @param {*} value The value to query.
+   * @returns {string} Returns the raw `toStringTag`.
+   */
+  function getRawTag$1(value) {
+    var isOwn = hasOwnProperty.call(value, symToStringTag$1),
+        tag = value[symToStringTag$1];
+
+    try {
+      value[symToStringTag$1] = undefined;
+      var unmasked = true;
+    } catch (e) {}
+
+    var result = nativeObjectToString$1.call(value);
+    if (unmasked) {
+      if (isOwn) {
+        value[symToStringTag$1] = tag;
+      } else {
+        delete value[symToStringTag$1];
+      }
+    }
+    return result;
+  }
+
+  var _getRawTag = getRawTag$1;
+
+  /** Used for built-in method references. */
+
+  var objectProto = Object.prototype;
+
+  /**
+   * Used to resolve the
+   * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+   * of values.
+   */
+  var nativeObjectToString = objectProto.toString;
+
+  /**
+   * Converts `value` to a string using `Object.prototype.toString`.
+   *
+   * @private
+   * @param {*} value The value to convert.
+   * @returns {string} Returns the converted string.
+   */
+  function objectToString$1(value) {
+    return nativeObjectToString.call(value);
+  }
+
+  var _objectToString = objectToString$1;
+
+  var Symbol = _Symbol,
+      getRawTag = _getRawTag,
+      objectToString = _objectToString;
+
+  /** `Object#toString` result references. */
+  var nullTag = '[object Null]',
+      undefinedTag = '[object Undefined]';
+
+  /** Built-in value references. */
+  var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+  /**
+   * The base implementation of `getTag` without fallbacks for buggy environments.
+   *
+   * @private
+   * @param {*} value The value to query.
+   * @returns {string} Returns the `toStringTag`.
+   */
+  function baseGetTag$1(value) {
+    if (value == null) {
+      return value === undefined ? undefinedTag : nullTag;
+    }
+    return (symToStringTag && symToStringTag in Object(value))
+      ? getRawTag(value)
+      : objectToString(value);
+  }
+
+  var _baseGetTag = baseGetTag$1;
+
+  /**
+   * Checks if `value` is object-like. A value is object-like if it's not `null`
+   * and has a `typeof` result of "object".
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+   * @example
+   *
+   * _.isObjectLike({});
+   * // => true
+   *
+   * _.isObjectLike([1, 2, 3]);
+   * // => true
+   *
+   * _.isObjectLike(_.noop);
+   * // => false
+   *
+   * _.isObjectLike(null);
+   * // => false
+   */
+
+  function isObjectLike$1(value) {
+    return value != null && typeof value == 'object';
+  }
+
+  var isObjectLike_1 = isObjectLike$1;
+
+  var baseGetTag = _baseGetTag,
+      isObjectLike = isObjectLike_1;
+
+  /** `Object#toString` result references. */
+  var symbolTag = '[object Symbol]';
+
+  /**
+   * Checks if `value` is classified as a `Symbol` primitive or object.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+   * @example
+   *
+   * _.isSymbol(Symbol.iterator);
+   * // => true
+   *
+   * _.isSymbol('abc');
+   * // => false
+   */
+  function isSymbol$1(value) {
+    return typeof value == 'symbol' ||
+      (isObjectLike(value) && baseGetTag(value) == symbolTag);
+  }
+
+  var isSymbol_1 = isSymbol$1;
+
+  var baseTrim = _baseTrim,
+      isObject$1 = isObject_1,
+      isSymbol = isSymbol_1;
+
+  /** Used as references for various `Number` constants. */
+  var NAN = 0 / 0;
+
+  /** Used to detect bad signed hexadecimal string values. */
+  var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+  /** Used to detect binary string values. */
+  var reIsBinary = /^0b[01]+$/i;
+
+  /** Used to detect octal string values. */
+  var reIsOctal = /^0o[0-7]+$/i;
+
+  /** Built-in method references without a dependency on `root`. */
+  var freeParseInt = parseInt;
+
+  /**
+   * Converts `value` to a number.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category Lang
+   * @param {*} value The value to process.
+   * @returns {number} Returns the number.
+   * @example
+   *
+   * _.toNumber(3.2);
+   * // => 3.2
+   *
+   * _.toNumber(Number.MIN_VALUE);
+   * // => 5e-324
+   *
+   * _.toNumber(Infinity);
+   * // => Infinity
+   *
+   * _.toNumber('3.2');
+   * // => 3.2
+   */
+  function toNumber$1(value) {
+    if (typeof value == 'number') {
+      return value;
+    }
+    if (isSymbol(value)) {
+      return NAN;
+    }
+    if (isObject$1(value)) {
+      var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+      value = isObject$1(other) ? (other + '') : other;
+    }
+    if (typeof value != 'string') {
+      return value === 0 ? value : +value;
+    }
+    value = baseTrim(value);
+    var isBinary = reIsBinary.test(value);
+    return (isBinary || reIsOctal.test(value))
+      ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+      : (reIsBadHex.test(value) ? NAN : +value);
+  }
+
+  var toNumber_1 = toNumber$1;
+
+  var isObject = isObject_1,
+      now = now_1,
+      toNumber = toNumber_1;
+
+  /** Error message constants. */
+  var FUNC_ERROR_TEXT = 'Expected a function';
+
+  /* Built-in method references for those with the same name as other `lodash` methods. */
+  var nativeMax = Math.max,
+      nativeMin = Math.min;
+
+  /**
+   * Creates a debounced function that delays invoking `func` until after `wait`
+   * milliseconds have elapsed since the last time the debounced function was
+   * invoked. The debounced function comes with a `cancel` method to cancel
+   * delayed `func` invocations and a `flush` method to immediately invoke them.
+   * Provide `options` to indicate whether `func` should be invoked on the
+   * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+   * with the last arguments provided to the debounced function. Subsequent
+   * calls to the debounced function return the result of the last `func`
+   * invocation.
+   *
+   * **Note:** If `leading` and `trailing` options are `true`, `func` is
+   * invoked on the trailing edge of the timeout only if the debounced function
+   * is invoked more than once during the `wait` timeout.
+   *
+   * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+   * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+   *
+   * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+   * for details over the differences between `_.debounce` and `_.throttle`.
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Function
+   * @param {Function} func The function to debounce.
+   * @param {number} [wait=0] The number of milliseconds to delay.
+   * @param {Object} [options={}] The options object.
+   * @param {boolean} [options.leading=false]
+   *  Specify invoking on the leading edge of the timeout.
+   * @param {number} [options.maxWait]
+   *  The maximum time `func` is allowed to be delayed before it's invoked.
+   * @param {boolean} [options.trailing=true]
+   *  Specify invoking on the trailing edge of the timeout.
+   * @returns {Function} Returns the new debounced function.
+   * @example
+   *
+   * // Avoid costly calculations while the window size is in flux.
+   * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+   *
+   * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+   * jQuery(element).on('click', _.debounce(sendMail, 300, {
+   *   'leading': true,
+   *   'trailing': false
+   * }));
+   *
+   * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+   * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+   * var source = new EventSource('/stream');
+   * jQuery(source).on('message', debounced);
+   *
+   * // Cancel the trailing debounced invocation.
+   * jQuery(window).on('popstate', debounced.cancel);
+   */
+  function debounce(func, wait, options) {
+    var lastArgs,
+        lastThis,
+        maxWait,
+        result,
+        timerId,
+        lastCallTime,
+        lastInvokeTime = 0,
+        leading = false,
+        maxing = false,
+        trailing = true;
+
+    if (typeof func != 'function') {
+      throw new TypeError(FUNC_ERROR_TEXT);
+    }
+    wait = toNumber(wait) || 0;
+    if (isObject(options)) {
+      leading = !!options.leading;
+      maxing = 'maxWait' in options;
+      maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+      trailing = 'trailing' in options ? !!options.trailing : trailing;
+    }
+
+    function invokeFunc(time) {
+      var args = lastArgs,
+          thisArg = lastThis;
+
+      lastArgs = lastThis = undefined;
+      lastInvokeTime = time;
+      result = func.apply(thisArg, args);
+      return result;
+    }
+
+    function leadingEdge(time) {
+      // Reset any `maxWait` timer.
+      lastInvokeTime = time;
+      // Start the timer for the trailing edge.
+      timerId = setTimeout(timerExpired, wait);
+      // Invoke the leading edge.
+      return leading ? invokeFunc(time) : result;
+    }
+
+    function remainingWait(time) {
+      var timeSinceLastCall = time - lastCallTime,
+          timeSinceLastInvoke = time - lastInvokeTime,
+          timeWaiting = wait - timeSinceLastCall;
+
+      return maxing
+        ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
+        : timeWaiting;
+    }
+
+    function shouldInvoke(time) {
+      var timeSinceLastCall = time - lastCallTime,
+          timeSinceLastInvoke = time - lastInvokeTime;
+
+      // Either this is the first call, activity has stopped and we're at the
+      // trailing edge, the system time has gone backwards and we're treating
+      // it as the trailing edge, or we've hit the `maxWait` limit.
+      return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+        (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+    }
+
+    function timerExpired() {
+      var time = now();
+      if (shouldInvoke(time)) {
+        return trailingEdge(time);
+      }
+      // Restart the timer.
+      timerId = setTimeout(timerExpired, remainingWait(time));
+    }
+
+    function trailingEdge(time) {
+      timerId = undefined;
+
+      // Only invoke if we have `lastArgs` which means `func` has been
+      // debounced at least once.
+      if (trailing && lastArgs) {
+        return invokeFunc(time);
+      }
+      lastArgs = lastThis = undefined;
+      return result;
+    }
+
+    function cancel() {
+      if (timerId !== undefined) {
+        clearTimeout(timerId);
+      }
+      lastInvokeTime = 0;
+      lastArgs = lastCallTime = lastThis = timerId = undefined;
+    }
+
+    function flush() {
+      return timerId === undefined ? result : trailingEdge(now());
+    }
+
+    function debounced() {
+      var time = now(),
+          isInvoking = shouldInvoke(time);
+
+      lastArgs = arguments;
+      lastThis = this;
+      lastCallTime = time;
+
+      if (isInvoking) {
+        if (timerId === undefined) {
+          return leadingEdge(lastCallTime);
+        }
+        if (maxing) {
+          // Handle invocations in a tight loop.
+          clearTimeout(timerId);
+          timerId = setTimeout(timerExpired, wait);
+          return invokeFunc(lastCallTime);
+        }
+      }
+      if (timerId === undefined) {
+        timerId = setTimeout(timerExpired, wait);
+      }
+      return result;
+    }
+    debounced.cancel = cancel;
+    debounced.flush = flush;
+    return debounced;
+  }
+
+  var debounce_1 = debounce;
+
+  function mapSearchApiResponse(responseData, config) {
+    const facets = responseData?.facet_counts ? isV3Facets(responseData.facet_counts) ? mapFacetsV3(responseData.facet_counts) : mapFacets(responseData.facet_counts, responseData.stats) : {
+      facets: []
+    };
+    return {
+      ...facets,
+      products: processDocs(responseData.response?.docs || [], config),
+      // TODO delete this in case we don't need any other attribute from the grouped response
+      /* ...(responseData?.group_response ? {
+        group_categories: Object.keys(responseData?.group_response as object).reduce((allGroupCategories, groupCategoryId) => {
+          return [
+            ...allGroupCategories,
+            {
+              group_category_id: groupCategoryId,
+              ...responseData.group_response?.[groupCategoryId],
+              groups: responseData.group_response?.[groupCategoryId]?.groups?.map(group => ({
+                ...group,
+                doclist: {
+                  ...group.doclist,
+                  products: processDocs(group.doclist?.docs as SearchResponseDoc[]),
+                }
+              })) || []
+            },
+          ];
+        }, [])
+      } : {}), */
+      ...(responseData?.group_response ? {
+        grouped_products: Object.keys(responseData?.group_response).reduce((_, groupCategoryId) => {
+          // Assuming we have only one group category in the group response object
+          return {
+            group_category_id: groupCategoryId,
+            ...responseData.group_response?.[groupCategoryId],
+            groups: responseData.group_response?.[groupCategoryId]?.groups?.map(group => ({
+              title: group.groupValue,
+              products: processDocs(group?.doclist?.docs || [], config)
+            })) || []
+          };
+        }, {})
+      } : {}),
+      did_you_mean: responseData.did_you_mean || [],
+      number_of_results: Number(responseData.response?.numFound),
+      start: Number(responseData.response?.start),
+      config,
+      ...(responseData.keywordRedirect ? {
+        keywordRedirect: {
+          original_query: responseData.keywordRedirect['original query'],
+          redirected_query: responseData.keywordRedirect['redirected query'],
+          redirected_url: responseData.keywordRedirect['redirected url']
+        }
+      } : {})
+    };
+  }
+  function isV3Facets(facetCounts) {
+    return 'facets' in facetCounts;
+  }
+  function mapFacets(facetCounts, stats) {
+    return {
+      facets: Object.entries(facetCounts.facet_fields || {}).filter(facetField => facetField[1].length).map(mapFacet),
+      ...mapPriceRanges(facetCounts.facet_ranges),
+      ...mapPriceStats(stats?.stats_fields?.price),
+      ...mapPriceStats(stats?.stats_fields?.sale_price)
+    };
+  }
+  function mapFacet(facetField) {
+    return {
+      original_title: facetField[0],
+      title: facetField[0].replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()),
+      section: facetField[1].map(mapFacetSection)
+    };
+  }
+  function mapFacetSection(section) {
+    if ('name' in section) {
+      let name = section.name ?? '';
+      if (section.name === 'true') {
+        name = 'Yes';
+      } else if (section.name === 'false') {
+        name = 'No';
+      }
+      return {
+        count: section.count ?? 0,
+        name,
+        id: name
+      };
+    }
+    return {
+      count: section.count ?? 0,
+      name: section.cat_name ?? '',
+      id: section.cat_id ?? ''
+    };
+  }
+  function mapPriceRanges(facetRanges) {
+    if (facetRanges?.price) {
+      return {
+        priceRanges: facetRanges.price.map(range => ({
+          count: range.count,
+          start: range.start.toString(),
+          end: range.end.toString()
+        }))
+      };
+    }
+    return {};
+  }
+  function mapPriceStats(facetStatsPrice) {
+    return facetStatsPrice ? {
+      maxPrice: facetStatsPrice.max,
+      minPrice: facetStatsPrice.min
+    } : {};
+  }
+  function mapFacetsV3(facetCounts) {
+    return {
+      facets: facetCounts.facets?.filter(facet => facet.type === 'text' || facet.type === 'number').filter(facet => facet.value.length).map(mapFacetV3) ?? [],
+      ...mapPriceRangesV3(facetCounts.facets),
+      ...mapPriceStatsV3(facetCounts.facets)
+    };
+  }
+  function mapFacetV3(facet) {
+    return {
+      original_title: facet.name,
+      title: facet.name.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()),
+      section: facet.value.map(mapFacetSection)
+    };
+  }
+  function mapPriceRangesV3(facets) {
+    const priceRanges = facets?.filter(facet => facet.type === 'number_range').find(facet => facet.name.toLowerCase() === 'price')?.value.map(range => ({
+      count: range.count,
+      start: range.start.toString(),
+      end: range.end.toString()
+    }));
+    return priceRanges ? {
+      priceRanges
+    } : {};
+  }
+  function mapPriceStatsV3(facets) {
+    const facetStats = facets?.filter(facet => facet.type === 'number_stats').map(facet => ({
+      name: facet.name.toLowerCase(),
+      value: facet.value
+    }));
+    // If `sale_price` stats exists, use it as price stats. Otherwise, use `price` stats
+    const facetStatsPrice = facetStats?.find(facet => facet.name === 'sale price' || facet.name === 'sale_price') ?? facetStats?.find(facet => facet.name === 'price');
+    return facetStatsPrice?.value ? {
+      maxPrice: facetStatsPrice.value.end,
+      minPrice: facetStatsPrice.value.start
+    } : {};
+  }
+  function processDocs(docs, config) {
+    return docs.reduce((allProducts, currentProduct) => {
+      return [...allProducts, ...(config.search.display_variants ? extractVariants(currentProduct) : [transformProductResponseToProductData(currentProduct)])];
+    }, []);
+  }
+  function extractVariants(productResponse) {
+    if (!productResponse.variants || !productResponse.variants.length) {
+      return [transformProductResponseToProductData(productResponse)];
+    }
+    return (transformProductResponseToProductData(productResponse).variants || []).map((variant, index) => ({
+      ...transformProductResponseToProductData(productResponse),
+      ...variant,
+      variant_index: index
+    }));
+  }
+  function transformProductResponseToProductData(productResponse) {
+    return {
+      ...productResponse,
+      title: productResponse.title,
+      image: productResponse.thumb_image,
+      link: productResponse.url,
+      id: productResponse.pid,
+      price: productResponse.price,
+      sale_price: productResponse.sale_price,
+      ...(productResponse.variants ? {
+        variants: productResponse.variants.map(variant => ({
+          ...variant,
+          sku_color_group: variant.sku_color_group,
+          sku_swatch_images: variant.sku_swatch_images,
+          sku_thumb_images: variant.sku_thumb_images,
+          sku_sale_price: variant.sku_sale_price,
+          sku_price: variant.sku_price,
+          image: variant.sku_thumb_images && Array.isArray(variant.sku_thumb_images) ? variant.sku_thumb_images[0] : variant.sku_swatch_images[0],
+          variant_name: variant.sku_color_group
+        }))
+      } : {})
+    };
+  }
+
+  function buildClearPriceRangeValueButtonClickListener(config) {
+    return () => {
+      resetLoadingIndicator();
+      updateMultipleInstanceParametersInUrl(PARAMETER_NAME_FACETS, {
+        ...getCheckedFacetValues()
+      });
+      updateParameterInUrl(PARAMETER_NAME_PAGE, '1');
+      updateCurrentSearchRequestState({
+        price_range_max_value: 0,
+        price_range_min_value: 0
+      });
+      initiateSearch(config, {
+        toReplace: true
+      }).catch(console.error);
+    };
+  }
+  function addClearPriceRangeValueButtonClickListener(config) {
+    const currentSearchRequestState = getCurrentSearchRequestState();
+    const priceRangeValueClearButton = document.querySelector(`.blm-range-slider__clear-values-button--${currentSearchRequestState.request_id}`);
+    if (priceRangeValueClearButton) {
+      if (!priceRangeValueClearButton.getAttribute('hasListener')) {
+        priceRangeValueClearButton.addEventListener('click', buildClearPriceRangeValueButtonClickListener(config));
+        priceRangeValueClearButton.setAttribute('hasListener', 'true');
+      }
+    }
+  }
+
+  function buildClearSelectedFacetButtonClickListener() {
+    return event => {
+      const checkboxId = event?.target?.parentNode?.dataset?.filterCheckboxId;
+      if (checkboxId) {
+        document.getElementById(checkboxId)?.click();
+      }
+    };
+  }
+  function addClearSelectedFacetButtonClickListener() {
+    const clearSelectedFacetButtons = document.querySelectorAll('.blm-product-search-selected-filter__clear');
+    clearSelectedFacetButtons.forEach(button => {
+      if (!button.getAttribute('hasListener')) {
+        button.addEventListener('click', buildClearSelectedFacetButtonClickListener());
+        button.setAttribute('hasListener', 'true');
+      }
+    });
+  }
+
+  function buildClearAllSelectedFacetsButtonClickListener(config) {
+    return () => {
+      resetLoadingIndicator();
+      updateMultipleInstanceParametersInUrl(PARAMETER_NAME_FACETS, {
+        ...buildPriceUrlParameterObject()
+      });
+      updateParameterInUrl(PARAMETER_NAME_PAGE, '1');
+      // reset price range
+      updateCurrentSearchRequestState({
+        price_range_min_value: 0,
+        price_range_max_value: 0
+      });
+      initiateSearch(config, {
+        toReplace: true
+      }).catch(console.error);
+    };
+  }
+  function addClearAllSelectedFacetsButtonClickListener(config) {
+    const selectedFiltersClearAllButton = document.querySelector('.blm-product-search-selected-filters__clear-all');
+    if (selectedFiltersClearAllButton) {
+      if (!selectedFiltersClearAllButton.getAttribute('hasListener')) {
+        selectedFiltersClearAllButton.addEventListener('click', buildClearAllSelectedFacetsButtonClickListener(config));
+        selectedFiltersClearAllButton.setAttribute('hasListener', 'true');
+      }
+    }
+  }
+
+  function buildFacetCheckboxChangeListener(config) {
+    return () => {
+      resetLoadingIndicator();
+      /*
+        If the checkedFacets is
+        { colors: ["gray", "black"], reviews: ["4.7", "5.0"] }
+             then we're setting these values in the URL in this format:
+        &fq=colors%3Agray%2Cblack&fq=reviews%3A4.7%2C5.0
+             because it's easier to read it like that when we're performing the search,
+        than it would be if we'd store it in the format how we're using them
+        in the API call's URL parameter list
+      */
+      updateMultipleInstanceParametersInUrl(PARAMETER_NAME_FACETS, {
+        ...getCheckedFacetValues(),
+        ...buildPriceUrlParameterObject()
+      });
+      updateParameterInUrl(PARAMETER_NAME_PAGE, '1');
+      // reset price range
+      updateCurrentSearchRequestState({
+        price_range_min_value: 0,
+        price_range_max_value: 0
+      });
+      initiateSearch(config, {
+        toReplace: true
+      }).catch(console.error);
+    };
+  }
+  function addFacetCheckboxChangeListener(config) {
+    const facetCheckboxes = document.querySelectorAll('.blm-product-search-filter-item__checkbox');
+    if (facetCheckboxes) {
+      facetCheckboxes.forEach(checkbox => {
+        if (!checkbox.getAttribute('hasListener')) {
+          checkbox.addEventListener('change', buildFacetCheckboxChangeListener(config));
+          checkbox.setAttribute('hasListener', 'true');
+        }
+      });
+    }
+  }
+
+  function buildFacetSearchInputChangeListener(config) {
+    return event => {
+      const inputValue = (event?.target?.value || '').trim();
+      document.querySelectorAll('.blm-dynamic-filter').forEach(facetBox => {
+        let displayedItems = 0;
+        facetBox.querySelectorAll('.blm-product-search-filter-item').forEach(facetItem => {
+          const label = facetItem.querySelector('label')?.textContent || '';
+          const shouldDisplay = !inputValue || label.toLowerCase().includes(inputValue.toLowerCase());
+          const displayStyle = shouldDisplay ? 'block' : 'none';
+          displayedItems += shouldDisplay ? 1 : 0;
+          facetItem.style.display = displayStyle;
+        });
+        facetBox.style.display = displayedItems ? 'block' : 'none';
+      });
+      document.querySelectorAll('.blm-product-search-load-more').forEach(loadMoreLink => {
+        loadMoreLink.style.display = 'none';
+      });
+      getLoadMoreFacetGroupsElement().style.display = 'none';
+      if (!inputValue) {
+        resetFacetGroups(config);
+      }
+    };
+  }
+  function addFacetSearchInputChangeListener(config) {
+    const facetSearchInput = document.querySelector('#blm-product-search-search-filters__input');
+    if (facetSearchInput) {
+      if (!facetSearchInput.getAttribute('hasInputListener')) {
+        facetSearchInput.addEventListener('input',
+        // @ts-ignore
+        debounce_1(buildFacetSearchInputChangeListener(config), 500));
+        facetSearchInput.setAttribute('hasInputListener', 'true');
+      }
+    }
+  }
+
+  function buildGroupbySelectChangeListener(config) {
+    return event => {
+      updateParameterInUrl(PARAMETER_NAME_GROUPBY, event?.target?.value);
+      resetLoadingIndicator();
+      initiateSearch(config, {
+        toReplace: true
+      }).catch(console.error);
+    };
+  }
+  function addGroupbySelectChangeListener(config) {
+    const currentSearchRequestState = getCurrentSearchRequestState();
+    const groupbySelector = document.querySelector(`#groupby-${currentSearchRequestState.request_id}`);
+    if (groupbySelector) {
+      if (!groupbySelector.getAttribute('hasListener')) {
+        groupbySelector.addEventListener('change', buildGroupbySelectChangeListener(config));
+        groupbySelector.setAttribute('hasListener', 'true');
+      }
+    }
+  }
+
+  function buildLoadMoreFacetGroupsButtonClickListener(config) {
+    return () => {
+      loadMoreFacetGroups(config);
+    };
+  }
+  function addLoadMoreFacetGroupsButtonClickListener(config) {
+    const element = getLoadMoreFacetGroupsElement();
+    if (element && !element.getAttribute('hasListener')) {
+      element.addEventListener('click', buildLoadMoreFacetGroupsButtonClickListener(config));
+      element.setAttribute('hasListener', 'true');
+    }
+  }
+
+  function buildLoadMoreFacetValuesButtonClickListener(config) {
+    const numberOfDisplayedFacetValues = Number(config.search?.initial_number_of_facet_values);
+    let showFilterItems = numberOfDisplayedFacetValues;
+    const incrementFilterBy = numberOfDisplayedFacetValues;
+    return event => {
+      const itemIndex = event.target.getAttribute('data-item');
+      const facetBlock = document.getElementById(`blm-facet-block-item-${itemIndex}`);
+      const filterListItems = facetBlock.getElementsByTagName('li');
+      // eslint-disable-next-line functional/no-loop-statement
+      for (let i = showFilterItems; i < showFilterItems + incrementFilterBy; i++) {
+        if (filterListItems[i]) {
+          filterListItems[i].style.display = 'block';
+        }
+      }
+      showFilterItems += incrementFilterBy;
+      if (showFilterItems >= filterListItems.length) {
+        event.target.style.display = 'none';
+      }
+    };
+  }
+  function addLoadMoreFacetValuesButtonClickListener(config) {
+    document.querySelectorAll('.blm-product-search-load-more').forEach(item => {
+      if (!item.getAttribute('hasListener')) {
+        item.addEventListener('click', buildLoadMoreFacetValuesButtonClickListener(config));
+        item.setAttribute('hasListener', 'true');
+      }
+    });
+  }
+
+  function buildPageSizeSelectChangeListener(config) {
+    return event => {
+      updateParameterInUrl(PARAMETER_NAME_SIZE, event.target.value);
+      updateParameterInUrl(PARAMETER_NAME_PAGE, '1');
+      resetLoadingIndicator();
+      initiateSearch(config, {
+        toReplace: true
+      }).catch(console.error);
+    };
+  }
+  function addPageSizeSelectChangeListener(config) {
+    const currentSearchRequestState = getCurrentSearchRequestState();
+    // Listen to page size select field changes
+    const sizeSelector = document.querySelector(`#sort-size-${currentSearchRequestState.request_id}`);
+    if (sizeSelector) {
+      if (!sizeSelector.getAttribute('hasListener')) {
+        sizeSelector.addEventListener('change', buildPageSizeSelectChangeListener(config));
+        sizeSelector.setAttribute('hasListener', 'true');
+      }
+    }
+  }
+
+  function buildPaginationContainerClickListener(config) {
+    return event => {
+      resetLoadingIndicator();
+      const clickedPaginationValue = event.target.dataset.value;
+      if (clickedPaginationValue) {
+        switch (event.target.dataset.value) {
+          case 'previous':
+            decrementParameterInUrl(PARAMETER_NAME_PAGE);
+            break;
+          case 'next':
+            incrementParameterInUrl(PARAMETER_NAME_PAGE);
+            break;
+          default:
+            updateParameterInUrl(PARAMETER_NAME_PAGE, clickedPaginationValue);
+        }
+        initiateSearch(config, {
+          toReplace: true
+        }).catch(console.error);
+      }
+    };
+  }
+  function addPaginationContainerClickListener(config) {
+    const currentSearchRequestState = getCurrentSearchRequestState();
+    // Listen to pagination events
+    const paginationContainer = document.querySelector(`.blm-product-search-pagination__pages--${currentSearchRequestState.request_id}`);
+    if (paginationContainer) {
+      if (!paginationContainer.getAttribute('hasListener')) {
+        paginationContainer.addEventListener('click', buildPaginationContainerClickListener(config));
+        paginationContainer.setAttribute('hasListener', 'true');
+      }
+    }
+  }
+
+  function buildPriceRangeChangeListener(config) {
+    return () => {
+      resetLoadingIndicator();
+      updateMultipleInstanceParametersInUrl(PARAMETER_NAME_FACETS, {
+        ...getCheckedFacetValues(),
+        ...buildPriceUrlParameterObject()
+      });
+      updateParameterInUrl(PARAMETER_NAME_PAGE, '1');
+      initiateSearch(config, {
+        toReplace: true
+      }).catch(console.error);
+    };
+  }
+  function buildPriceRangeInputListener(querySelector, config) {
+    return event => {
+      const sliderValue = document.querySelector(querySelector);
+      if (sliderValue) {
+        sliderValue.innerHTML = config.format_money?.(Number(event.target.value) * 100) ?? event.target.value;
+      }
+    };
+  }
+  function addPriceRangeChangeListeners(config) {
+    const currentSearchRequestState = getCurrentSearchRequestState();
+    const priceRangeLowerBoundaryInput = document.querySelector(`.blm-price-range-input--lower-${currentSearchRequestState.request_id}`);
+    const priceRangeUpperBoundaryInput = document.querySelector(`.blm-price-range-input--upper-${currentSearchRequestState.request_id}`);
+    if (priceRangeLowerBoundaryInput && priceRangeUpperBoundaryInput) {
+      if (!priceRangeLowerBoundaryInput.getAttribute('hasListener')) {
+        priceRangeLowerBoundaryInput.addEventListener('change', buildPriceRangeChangeListener(config));
+        priceRangeLowerBoundaryInput.addEventListener('input', buildPriceRangeInputListener('.blm-range-slider__values--min', config));
+        priceRangeLowerBoundaryInput.setAttribute('hasListener', 'true');
+      }
+      if (!priceRangeUpperBoundaryInput.getAttribute('hasListener')) {
+        priceRangeUpperBoundaryInput.addEventListener('change', buildPriceRangeChangeListener(config));
+        priceRangeUpperBoundaryInput.addEventListener('input', buildPriceRangeInputListener('.blm-range-slider__values--max', config));
+        priceRangeUpperBoundaryInput.setAttribute('hasListener', 'true');
+      }
+    }
+  }
+
+  // @ts-ignore
+  function buildIntersectionListener(config) {
+    return entries => {
+      if (!entries[0]?.isIntersecting) {
+        return;
+      }
+      if (!entries[0].target.querySelector('.blm-scroll-indicator__loading')) {
+        return;
+      }
+      const connectorConfigObject = window?.bloomreachConnector?.config || {};
+      const currentStart = connectorConfigObject.start || 0;
+      connectorConfigObject.start = currentStart + config.search.items_per_page;
+      incrementParameterInUrl(PARAMETER_NAME_PAGE);
+      initiateSearch(config).catch(error => {
+        connectorConfigObject.start = currentStart;
+        decrementParameterInUrl(PARAMETER_NAME_PAGE);
+        console.error(error);
+      });
+    };
+  }
+  function addScrollListener(config) {
+    if (config.search?.infinite_scroll && !document.querySelector('.blm-scroll-indicator')) {
+      const searchResultsContainerElement = getSearchResultsContainerElement(config);
+      const indicatorElement = document.createElement('div');
+      indicatorElement.classList.add('blm-scroll-indicator');
+      const loaderElement = document.createElement('div');
+      loaderElement.classList.add('blm-scroll-indicator__loading');
+      indicatorElement.appendChild(loaderElement);
+      searchResultsContainerElement?.parentNode?.insertBefore(indicatorElement, searchResultsContainerElement.nextSibling);
+      const scrollIndicator = document.querySelector('.blm-scroll-indicator');
+      const intersectionObserver = new IntersectionObserver(buildIntersectionListener(config));
+      if (scrollIndicator) {
+        intersectionObserver.observe(scrollIndicator);
+      }
+    }
+  }
+
+  function buildSidebarControlButtonClickHandler() {
+    return () => {
+      const sidebarContentElement = document.querySelector('.blm-product-search-sidebar-content');
+      if (sidebarContentElement?.classList.contains('blm-open')) {
+        sidebarContentElement?.classList.remove('blm-open');
+        document.body.classList.remove('blm-out-of-view');
+        updateParameterInUrl(PARAMETER_NAME_FILTERS_PANEL, '');
+      } else {
+        document.body.classList.add('blm-out-of-view');
+        sidebarContentElement?.classList.add('blm-open');
+        updateParameterInUrl(PARAMETER_NAME_FILTERS_PANEL, 'on');
+      }
+    };
+  }
+  function addSidebarControlButtonClickListener() {
+    const sidebarControlButtons = document.querySelectorAll('.blm-product-search-control-button--sidebar');
+    sidebarControlButtons.forEach(button => {
+      if (!button.getAttribute('hasListener')) {
+        button.addEventListener('click', buildSidebarControlButtonClickHandler());
+        button.setAttribute('hasListener', 'true');
+      }
+    });
+  }
+
+  function buildSortSelectChangeListener(config) {
+    return event => {
+      updateParameterInUrl(PARAMETER_NAME_SORT, event?.target?.value);
+      resetLoadingIndicator();
+      initiateSearch(config, {
+        toReplace: true
+      }).catch(console.error);
+    };
+  }
+  function addSortSelectChangeListener(config) {
+    const currentSearchRequestState = getCurrentSearchRequestState();
+    const sortSelector = document.querySelector(`#sort-by-${currentSearchRequestState.request_id}`);
+    if (sortSelector) {
+      if (!sortSelector.getAttribute('hasListener')) {
+        sortSelector.addEventListener('change', buildSortSelectChangeListener(config));
+        sortSelector.setAttribute('hasListener', 'true');
+      }
+    }
+  }
+
+  function buildSwatchElementHoverListener(dependencies) {
+    const {
+      result,
+      swatchItems,
+      swatchIndex
+    } = dependencies;
+    return event => {
+      swatchItems.forEach(swatchItem => {
+        swatchItem.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      // Update image
+      const imageContainer = result.querySelectorAll('.blm-product-search-image-container');
+      imageContainer.forEach(imageItems => {
+        imageItems.querySelectorAll('.blm-product-search-swatch-image').forEach((image, i) => {
+          image.style.display = 'none';
+          if (swatchIndex === i) {
+            image.style.display = 'block';
+          }
+        });
+      });
+      // Update price
+      result.querySelectorAll('.blm-product-search-details-container__price').forEach((price, index) => {
+        price.classList.remove('active');
+        if (swatchIndex === index) {
+          price.classList.add('active');
+        }
+      });
+    };
+  }
+  function addSwatchElementHoverListener() {
+    document.querySelectorAll('.blm-product-search__result').forEach(result => {
+      const swatchContainers = result.querySelectorAll('.blm-product-search-swatch-container');
+      swatchContainers.forEach(swatchContainer => {
+        const swatchItems = swatchContainer.querySelectorAll('.blm-product-search-swatch-container__swatch');
+        swatchItems.forEach((swatchItem, swatchIndex) => {
+          if (!swatchItem.getAttribute('hasListener')) {
+            swatchItem.addEventListener('mouseover', buildSwatchElementHoverListener({
+              result,
+              swatchItems,
+              swatchIndex
+            }));
+            swatchItem.setAttribute('hasListener', 'true');
+          }
+        });
+      });
+    });
+  }
+
+  function buildProductSearchModule({
+    isCategoryPage
+  } = {
+    isCategoryPage: false
+  }) {
+    let currentSearchRequestState = {
+      request_id: 0,
+      price_range_max_value: 0,
+      price_range_min_value: 0,
+      is_first_request: true,
+      is_category_page: isCategoryPage,
+      category_to_load: ''
+    };
+    return {
+      setCurrentSearchRequestState: requestState => {
+        currentSearchRequestState = requestState;
+      },
+      getCurrentSearchRequestState: () => currentSearchRequestState,
+      load: async categoryToLoad => {
+        if (isCategoryPage && categoryToLoad) {
+          updateCurrentSearchRequestState({
+            category_to_load: categoryToLoad
+          });
+        }
+        const config = buildSearchConfig();
+        if (!areRequirementsMet(config)) {
+          return;
+        }
+        storeSegmentationPixelData();
+        // add mutation observer on container,
+        // so it needs to be here before the first actual API call
+        afterElementsLoaded(() => {
+          // Add a class to show that the module's content has loaded
+          getSearchResultsContainerElement(config).classList.add('blm-has-loaded');
+          setupSavingScrollPosition();
+          // if infinite scroll is on then add intersection observer
+          addScrollListener(config);
+          addChangeListeners(config);
+        }, config);
+        // initiate search with config values and URL parameters
+        await initiateSearch(config);
+        restoreScrollPosition();
+      }
+    };
+  }
+  function areRequirementsMet(config) {
+    invariant(config.account_id);
+    invariant(config.domain_key);
+    invariant(config.default_search_parameter);
+    invariant(config?.search?.selector);
+    // this checks if the element is in the DOM
+    getSearchResultsContainerElement(config);
+    const urlParameters = new URLSearchParams(window.location.search);
+    const searchPageHasQueryToLoad = config.search.is_search_page && (urlParameters.has(config.default_search_parameter) || config.search.test_query);
+    const categoryPageHasCategoryToLoad = config.search.is_category_page && (urlParameters.has(config.default_search_parameter) || config.search.category_id);
+    return searchPageHasQueryToLoad || categoryPageHasCategoryToLoad;
+  }
+  function storeSegmentationPixelData() {
+    const segmentationData = extractSegmentationCookie();
+    if (segmentationData) {
+      const br_data = window.br_data || {};
+      br_data[COOKIE_NAME_SEGMENTATION_CDP_SEGMENTS] = segmentationData;
+    }
+  }
+  async function initiateSearch(config, options = {
+    toReplace: false
+  }) {
+    updateCurrentSearchRequestState({
+      request_id: generateRequestId()
+    });
+    const apiCallParameters = buildApiCallParameters(config);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    // @ts-ignore
+    const response = await getSearchResults(apiCallParameters);
+    if (response?.keywordRedirect) {
+      applyKeywordRedirection(response);
+      return;
+    }
+    // builds template data
+    const templateData = buildTemplateData(response, config);
+    // takes care of scroll loader
+    const scrollLoader = document.querySelector('.blm-scroll-indicator__loading');
+    const notEnoughProducts = templateData?.grouped_products ? (templateData?.grouped_products?.groups || []).length < Number(apiCallParameters.rows) : !templateData.products.length || templateData.number_of_results < Number(apiCallParameters.rows);
+    if (scrollLoader && notEnoughProducts) {
+      scrollLoader.remove();
+      decrementParameterInUrl(PARAMETER_NAME_PAGE);
+    }
+    const currentSearchRequestState = getCurrentSearchRequestState();
+    if (currentSearchRequestState.is_first_request || !config.search.infinite_scroll || options.toReplace) {
+      getSearchResultsContainerElement(config).innerHTML = ejs.render((config.search?.template || '').replace('%%-PRODUCT_LIST_TEMPLATE-%%', config.search?.product_list_template || '').replace(/%%-REQUEST_ID-%%/g, currentSearchRequestState.request_id.toString()), templateData);
+      window.scrollTo(0, 0);
+    } else if (config.search.infinite_scroll) {
+      const resultElements = ejs.render(config.search?.product_list_template || '', templateData);
+      getSearchResultsListContainerElement().insertAdjacentHTML('beforeend', resultElements);
+    }
+    // adds swatch hover listener to newly added elements as well
+    addSwatchElementHoverListener();
+    // marks as initial call happened
+    updateCurrentSearchRequestState({
+      is_first_request: false
+    });
+  }
+  function getCurrentSearchRequestState() {
+    return window.BloomreachModules.search.getCurrentSearchRequestState();
+  }
+  function updateCurrentSearchRequestState(state) {
+    window.BloomreachModules.search.setCurrentSearchRequestState({
+      ...getCurrentSearchRequestState(),
+      ...state
+    });
+  }
+  function afterElementsLoaded(afterLoadCallback, config) {
+    const mutationObserverConfig = {
+      childList: true,
+      subtree: true
+    };
+    const mutationObserverCallback = mutationsList => {
+      const productListAdded = mutationsList.find(mutationRecord => mutationRecord.type === 'childList' && Array.from(mutationRecord.addedNodes).find(node => node.classList && node.classList.contains('blm-results')));
+      if (productListAdded) {
+        // ! Here we can be sure that the template is rendered into the DOM
+        afterLoadCallback();
+      }
+    };
+    const observer = new MutationObserver(mutationObserverCallback);
+    observer.observe(getSearchResultsContainerElement(config), mutationObserverConfig);
+  }
+  function addChangeListeners(config) {
+    // When we're going back in history, we want to initiate
+    // the search again according to the current URL state
+    window.onpopstate = async () => {
+      await initiateSearch(config, {
+        toReplace: true
+      });
+    };
+    addPriceRangeChangeListeners(config);
+    addClearPriceRangeValueButtonClickListener(config);
+    addClearSelectedFacetButtonClickListener();
+    addClearAllSelectedFacetsButtonClickListener(config);
+    if (document.querySelector('.blm-product-search-sidebar')) {
+      addSidebarControlButtonClickListener();
+      addFacetCheckboxChangeListener(config);
+      addLoadMoreFacetGroupsButtonClickListener(config);
+      addLoadMoreFacetValuesButtonClickListener(config);
+      addFacetSearchInputChangeListener(config);
+      // Show the initial number of facets on load
+      resetFacetGroups(config);
+    }
+    addPageSizeSelectChangeListener(config);
+    addSortSelectChangeListener(config);
+    addGroupbySelectChangeListener(config);
+    addPaginationContainerClickListener(config);
+    addSwatchElementHoverListener();
+  }
+  function buildTemplateData(response, config) {
+    // map values from API response
+    const templateData = mapSearchApiResponse(response, config);
+    // add stored keyword redirection info
+    const storedKeywordRedirect = JSON.parse(localStorage.getItem('keywordRedirect') || '{}');
+    if (storedKeywordRedirect?.redirected_query) {
+      templateData.keywordRedirect = storedKeywordRedirect;
+      localStorage.removeItem('keywordRedirect');
+    }
+    const urlParameters = new URLSearchParams(window.location.search);
+    // eslint-disable-next-line functional/no-loop-statement
+    for (const [key, value] of urlParameters.entries()) {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+      if (!Object.keys(templateData).includes(key)) {
+        templateData[key] = value;
+      }
+    }
+    if (urlParameters.has(PARAMETER_NAME_SIZE)) {
+      templateData.size = Number.parseInt(urlParameters.get(PARAMETER_NAME_SIZE) || '', 10);
+    } else {
+      templateData.size = Number.parseInt(config.search.items_per_page.toString(), 10);
+    }
+    templateData.checkedFacets = getFacetsFromUrl();
+    templateData.selectedFilterItems = (templateData?.facets || []).reduce((all, facet) => {
+      if (facet.section.length > 0) {
+        facet.section.forEach(item => {
+          if (templateData.checkedFacets && facet.original_title in templateData.checkedFacets && templateData.checkedFacets?.[facet.original_title]?.includes?.(escapeSpecialCharacters(item.id))) {
+            (all || []).push({
+              checkbox_id: `${facet.original_title}[${escapeSpecialCharacters(item.name)}]`,
+              label: item.name
+            });
+          }
+        });
+      }
+      return all;
+    }, []);
+    let currentSearchRequestState = getCurrentSearchRequestState();
+    if ('minPrice' in templateData && 'maxPrice' in templateData && currentSearchRequestState.price_range_min_value === 0 && currentSearchRequestState.price_range_max_value === 0) {
+      updateCurrentSearchRequestState({
+        price_range_min_value: Math.floor(Number(templateData.minPrice)),
+        price_range_max_value: Math.ceil(Number(templateData.maxPrice))
+      });
+    }
+    currentSearchRequestState = getCurrentSearchRequestState();
+    templateData.priceRangeFacet = {
+      start: currentSearchRequestState.price_range_min_value,
+      end: currentSearchRequestState.price_range_max_value
+    };
+    if (!config?.search?.infinite_scroll) {
+      templateData.paginationData = buildPaginationData(templateData);
+    }
+    templateData.isFiltersPanelOpened = urlParameters.has(PARAMETER_NAME_FILTERS_PANEL);
+    templateData.defaultMaxColorSwatches = MAX_COLOR_SWATCHES;
+    templateData.mobileView = isMobileView;
+    templateData.escapeSpecialCharacters = escapeSpecialCharacters;
+    templateData.selectedColors = getSelectedColors();
+    return templateData;
+  }
+  function buildApiCallParameters(config) {
+    const urlParameters = new URLSearchParams(window.location.search);
+    const currentSearchRequestState = getCurrentSearchRequestState();
+    const apiParameters = {
+      ...(config.search?.endpoint ? {
+        endpoint: config.search.endpoint
+      } : {}),
+      ...(config.search?.groupby ? {
+        groupby: config.search.groupby
+      } : {}),
+      ...(config.search?.group_limit ? {
+        group_limit: config.search.group_limit
+      } : {}),
+      q: urlParameters.get(config.default_search_parameter || '') || config.search.test_query || config.search.category_id || '',
+      rows: config.search?.items_per_page,
+      sort: config.sort,
+      start: config.start,
+      account_id: config.account_id,
+      domain_key: config.domain_key,
+      request_id: currentSearchRequestState.request_id,
+      _br_uid_2: config.tracking_cookie,
+      ref_url: config.ref_url,
+      url: config.url,
+      request_type: config.request_type,
+      search_type: config.search_type,
+      fl: config.search?.fields,
+      'facet.range': config['facet.range'],
+      'stats.field': config['stats.field'],
+      ...(config.view_id ? {
+        view_id: config.view_id
+      } : {}),
+      ...formatAdditionalParams(config.search.additional_parameters)
+    };
+    const pageUrlParameter = urlParameters.get(PARAMETER_NAME_PAGE);
+    if (pageUrlParameter) {
+      if (config.search.infinite_scroll && currentSearchRequestState.is_first_request) {
+        apiParameters.start = 0;
+        apiParameters.rows = Number.parseInt(pageUrlParameter, 10) * config.search.items_per_page;
+      } else {
+        apiParameters.start = (Number.parseInt(pageUrlParameter, 10) - 1) * config.search.items_per_page;
+      }
+    }
+    const facets = getFacetsFromUrl();
+    if (Object.keys(facets).length) {
+      /*
+        And we're setting the 'fq' parameter value as:
+        'colors:"gray" OR "black"&fq=reviews:"4.7" OR "5.0"'
+             so we can use multiple parameter instances in the API call
+      */
+      apiParameters.fq = convertFacetsToQueryString(facets);
+    }
+    // add URL parameters
+    // eslint-disable-next-line functional/no-loop-statement
+    for (const [key, value] of urlParameters.entries()) {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion,  @typescript-eslint/no-unsafe-argument
+      if (!Object.keys(apiParameters).includes(key)) {
+        apiParameters[key] = value;
+      }
+    }
+    const segmentationData = extractSegmentationCookie();
+    if (segmentationData) {
+      apiParameters.brSeg = `seg:${segmentationData}`;
+      apiParameters.segment = `customer_profile:${segmentationData}`;
+      apiParameters.cdp_segments = segmentationData;
+    }
+    if (config.search.force_v3_facets) {
+      apiParameters['facet.version'] = '3.0';
+    }
+    return apiParameters;
+  }
+
+  const categoryModule = buildProductSearchModule({
+    isCategoryPage: true
+  });
+  window.BloomreachModules = {
+    ...globalBloomreachModules,
+    search: categoryModule
+  };
+  // window.categoryReady = categoryModule.load().catch(console.error);
+
+})();
 //# sourceMappingURL=category.js.map

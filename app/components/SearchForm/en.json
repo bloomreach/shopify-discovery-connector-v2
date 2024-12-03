@@ -1,0 +1,61 @@
+{
+  "SearchForm": {
+    "fields": {
+      "endpoint": {
+        "title": "Endpoint",
+        "description": "Select the Bloomreach API endpoint"
+      },
+      "itemsPerPage": {
+        "title": "Items per Page",
+        "description": "",
+        "validation": "Must be a positive integer"
+      },
+      "displayVariants": {
+        "title": "Display Variants?",
+        "description": ""
+      },
+      "includeFacets": {
+        "title": "Include Facets?",
+        "description": ""
+      },
+      "numberOfFacets": {
+        "title": "Number of Facets",
+        "description": "",
+        "validation": "Must be a positive integer"
+      },
+      "numberOfFacetValues": {
+        "title": "Number of Facet Values",
+        "description": "",
+        "validation": "Must be a positive integer"
+      },
+      "infiniteScroll": {
+        "title": "Infinite Scroll?",
+        "description": ""
+      },
+      "flFields": {
+        "title": "Fields",
+        "description": "Product attributes included in the API response",
+        "validation": "This field is required"
+      },
+      "sortingOptions": {
+        "title": "Sorting Options",
+        "description": "You can customize the label and value for each sorting option. Value should be an `fl` field name, followed by asc/desc for ascending/descending order respectively. For example, \"sale_price+desc\" sorts in descending order of the sale price."
+      },
+      "customCss": {
+        "title": "Custom CSS"
+      },
+      "additionalParameters": {
+        "title": "Additional Parameters",
+        "description": "Any additional parameters you would like to send to the Bloomreach API"
+      }
+    },
+    "title": "{type} Default Settings",
+    "description": "Customize default settings for your {type}. You can also override them for an individual {type} app block in the theme editor.",
+    "primaryAction": "Save",
+    "reset": "Reset",
+    "toaster": {
+      "success": "Settings Saved",
+      "error": "Something went wrong"
+    }
+  }
+}

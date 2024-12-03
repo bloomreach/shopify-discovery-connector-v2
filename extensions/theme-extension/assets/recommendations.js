@@ -1,10 +1,2215 @@
-!function(){"use strict";const e=Object.assign(Object.assign({},window.BloomreachModules?window.BloomreachModules:{}),{version:"3.1.3"});var t="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{};function n(e){var t=e.default;if("function"==typeof t){var n=function(){return t.apply(this,arguments)};n.prototype=t.prototype}else n={};return Object.defineProperty(n,"__esModule",{value:!0}),Object.keys(e).forEach((function(t){var i=Object.getOwnPropertyDescriptor(e,t);Object.defineProperty(n,t,i.get?i:{enumerable:!0,get:function(){return e[t]}})})),n}var i={},r=n(Object.freeze({__proto__:null,default:{}}));function o(e,t){for(var n=0,i=e.length-1;i>=0;i--){var r=e[i];"."===r?e.splice(i,1):".."===r?(e.splice(i,1),n++):n&&(e.splice(i,1),n--)}if(t)for(;n--;n)e.unshift("..");return e}var s=/^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/,a=function(e){return s.exec(e).slice(1)};function c(){for(var e="",t=!1,n=arguments.length-1;n>=-1&&!t;n--){var i=n>=0?arguments[n]:"/";if("string"!=typeof i)throw new TypeError("Arguments to path.resolve must be strings");i&&(e=i+"/"+e,t="/"===i.charAt(0))}return(t?"/":"")+(e=o(w(e.split("/"),(function(e){return!!e})),!t).join("/"))||"."}function l(e){var t=u(e),n="/"===b(e,-1);return(e=o(w(e.split("/"),(function(e){return!!e})),!t).join("/"))||t||(e="."),e&&n&&(e+="/"),(t?"/":"")+e}function u(e){return"/"===e.charAt(0)}function d(){return l(w(Array.prototype.slice.call(arguments,0),(function(e,t){if("string"!=typeof e)throw new TypeError("Arguments to path.join must be strings");return e})).join("/"))}function p(e,t){function n(e){for(var t=0;t<e.length&&""===e[t];t++);for(var n=e.length-1;n>=0&&""===e[n];n--);return t>n?[]:e.slice(t,n-t+1)}e=c(e).substr(1),t=c(t).substr(1);for(var i=n(e.split("/")),r=n(t.split("/")),o=Math.min(i.length,r.length),s=o,a=0;a<o;a++)if(i[a]!==r[a]){s=a;break}var l=[];for(a=s;a<i.length;a++)l.push("..");return(l=l.concat(r.slice(s))).join("/")}function m(e){var t=a(e),n=t[0],i=t[1];return n||i?(i&&(i=i.substr(0,i.length-1)),n+i):"."}function f(e,t){var n=a(e)[2];return t&&n.substr(-1*t.length)===t&&(n=n.substr(0,n.length-t.length)),n}function h(e){return a(e)[3]}var g={extname:h,basename:f,dirname:m,sep:"/",delimiter:":",relative:p,join:d,isAbsolute:u,normalize:l,resolve:c};function w(e,t){if(e.filter)return e.filter(t);for(var n=[],i=0;i<e.length;i++)t(e[i],i,e)&&n.push(e[i]);return n}var b="b"==="ab".substr(-1)?function(e,t,n){return e.substr(t,n)}:function(e,t,n){return t<0&&(t=e.length+t),e.substr(t,n)},_=n(Object.freeze({__proto__:null,resolve:c,normalize:l,isAbsolute:u,join:d,relative:p,sep:"/",delimiter:":",dirname:m,basename:f,extname:h,default:g})),v={};!function(e){var t=/[|\\{}()[\]^$+*?.]/g,n=Object.prototype.hasOwnProperty,i=function(e,t){return n.apply(e,[t])};e.escapeRegExpChars=function(e){return e?String(e).replace(t,"\\$&"):""};var r={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&#34;","'":"&#39;"},o=/[&<>'"]/g;function s(e){return r[e]||e}function a(){return Function.prototype.toString.call(this)+';\nvar _ENCODE_HTML_RULES = {\n      "&": "&amp;"\n    , "<": "&lt;"\n    , ">": "&gt;"\n    , \'"\': "&#34;"\n    , "\'": "&#39;"\n    }\n  , _MATCH_HTML = /[&<>\'"]/g;\nfunction encode_char(c) {\n  return _ENCODE_HTML_RULES[c] || c;\n};\n'}e.escapeXML=function(e){return null==e?"":String(e).replace(o,s)};try{"function"==typeof Object.defineProperty?Object.defineProperty(e.escapeXML,"toString",{value:a}):e.escapeXML.toString=a}catch(e){console.warn("Unable to set escapeXML.toString (is the Function prototype frozen?)")}e.shallowCopy=function(e,t){if(t=t||{},null!=e)for(var n in t)i(t,n)&&"__proto__"!==n&&"constructor"!==n&&(e[n]=t[n]);return e},e.shallowCopyFromList=function(e,t,n){if(n=n||[],t=t||{},null!=e)for(var r=0;r<n.length;r++){var o=n[r];if(void 0!==t[o]){if(!i(t,o))continue;if("__proto__"===o||"constructor"===o)continue;e[o]=t[o]}}return e},e.cache={_data:{},set:function(e,t){this._data[e]=t},get:function(e){return this._data[e]},remove:function(e){delete this._data[e]},reset:function(){this._data={}}},e.hyphenToCamel=function(e){return e.replace(/-[a-z]/g,(function(e){return e[1].toUpperCase()}))},e.createNullProtoObjWherePossible="function"==typeof Object.create?function(){return Object.create(null)}:{__proto__:null}instanceof Object?function(){return{}}:function(){return{__proto__:null}},e.hasOwnOnlyObject=function(t){var n=e.createNullProtoObjWherePossible();for(var r in t)i(t,r)&&(n[r]=t[r]);return n}}(v);var y="3.1.10";!function(e){
-/**
+(function () {
+  'use strict';
+
+  const globalBloomreachModules = {
+    ...(window.BloomreachModules ? window.BloomreachModules : {}),
+    version: '3.2.0'
+  };
+
+  var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+  function getAugmentedNamespace(n) {
+    var f = n.default;
+  	if (typeof f == "function") {
+  		var a = function () {
+  			return f.apply(this, arguments);
+  		};
+  		a.prototype = f.prototype;
+    } else a = {};
+    Object.defineProperty(a, '__esModule', {value: true});
+  	Object.keys(n).forEach(function (k) {
+  		var d = Object.getOwnPropertyDescriptor(n, k);
+  		Object.defineProperty(a, k, d.get ? d : {
+  			enumerable: true,
+  			get: function () {
+  				return n[k];
+  			}
+  		});
+  	});
+  	return a;
+  }
+
+  var ejs = {};
+
+  var _polyfillNode_fs = {};
+
+  var _polyfillNode_fs$1 = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    'default': _polyfillNode_fs
+  });
+
+  var require$$0 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_fs$1);
+
+  // Copyright Joyent, Inc. and other Node contributors.
+  //
+  // Permission is hereby granted, free of charge, to any person obtaining a
+  // copy of this software and associated documentation files (the
+  // "Software"), to deal in the Software without restriction, including
+  // without limitation the rights to use, copy, modify, merge, publish,
+  // distribute, sublicense, and/or sell copies of the Software, and to permit
+  // persons to whom the Software is furnished to do so, subject to the
+  // following conditions:
+  //
+  // The above copyright notice and this permission notice shall be included
+  // in all copies or substantial portions of the Software.
+  //
+  // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+  // OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+  // NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+  // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+  // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+  // USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+  // resolves . and .. elements in a path array with directory names there
+  // must be no slashes, empty elements, or device names (c:\) in the array
+  // (so also no leading and trailing slashes - it does not distinguish
+  // relative and absolute paths)
+  function normalizeArray(parts, allowAboveRoot) {
+    // if the path tries to go above the root, `up` ends up > 0
+    var up = 0;
+    for (var i = parts.length - 1; i >= 0; i--) {
+      var last = parts[i];
+      if (last === '.') {
+        parts.splice(i, 1);
+      } else if (last === '..') {
+        parts.splice(i, 1);
+        up++;
+      } else if (up) {
+        parts.splice(i, 1);
+        up--;
+      }
+    }
+
+    // if the path is allowed to go above the root, restore leading ..s
+    if (allowAboveRoot) {
+      for (; up--; up) {
+        parts.unshift('..');
+      }
+    }
+
+    return parts;
+  }
+
+  // Split a filename into [root, dir, basename, ext], unix version
+  // 'root' is just a slash, or nothing.
+  var splitPathRe =
+      /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+  var splitPath = function(filename) {
+    return splitPathRe.exec(filename).slice(1);
+  };
+
+  // path.resolve([from ...], to)
+  // posix version
+  function resolve() {
+    var resolvedPath = '',
+        resolvedAbsolute = false;
+
+    for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+      var path = (i >= 0) ? arguments[i] : '/';
+
+      // Skip empty and invalid entries
+      if (typeof path !== 'string') {
+        throw new TypeError('Arguments to path.resolve must be strings');
+      } else if (!path) {
+        continue;
+      }
+
+      resolvedPath = path + '/' + resolvedPath;
+      resolvedAbsolute = path.charAt(0) === '/';
+    }
+
+    // At this point the path should be resolved to a full absolute path, but
+    // handle relative paths to be safe (might happen when process.cwd() fails)
+
+    // Normalize the path
+    resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
+      return !!p;
+    }), !resolvedAbsolute).join('/');
+
+    return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+  }
+  // path.normalize(path)
+  // posix version
+  function normalize(path) {
+    var isPathAbsolute = isAbsolute(path),
+        trailingSlash = substr(path, -1) === '/';
+
+    // Normalize the path
+    path = normalizeArray(filter(path.split('/'), function(p) {
+      return !!p;
+    }), !isPathAbsolute).join('/');
+
+    if (!path && !isPathAbsolute) {
+      path = '.';
+    }
+    if (path && trailingSlash) {
+      path += '/';
+    }
+
+    return (isPathAbsolute ? '/' : '') + path;
+  }
+  // posix version
+  function isAbsolute(path) {
+    return path.charAt(0) === '/';
+  }
+
+  // posix version
+  function join() {
+    var paths = Array.prototype.slice.call(arguments, 0);
+    return normalize(filter(paths, function(p, index) {
+      if (typeof p !== 'string') {
+        throw new TypeError('Arguments to path.join must be strings');
+      }
+      return p;
+    }).join('/'));
+  }
+
+
+  // path.relative(from, to)
+  // posix version
+  function relative(from, to) {
+    from = resolve(from).substr(1);
+    to = resolve(to).substr(1);
+
+    function trim(arr) {
+      var start = 0;
+      for (; start < arr.length; start++) {
+        if (arr[start] !== '') break;
+      }
+
+      var end = arr.length - 1;
+      for (; end >= 0; end--) {
+        if (arr[end] !== '') break;
+      }
+
+      if (start > end) return [];
+      return arr.slice(start, end - start + 1);
+    }
+
+    var fromParts = trim(from.split('/'));
+    var toParts = trim(to.split('/'));
+
+    var length = Math.min(fromParts.length, toParts.length);
+    var samePartsLength = length;
+    for (var i = 0; i < length; i++) {
+      if (fromParts[i] !== toParts[i]) {
+        samePartsLength = i;
+        break;
+      }
+    }
+
+    var outputParts = [];
+    for (var i = samePartsLength; i < fromParts.length; i++) {
+      outputParts.push('..');
+    }
+
+    outputParts = outputParts.concat(toParts.slice(samePartsLength));
+
+    return outputParts.join('/');
+  }
+
+  var sep = '/';
+  var delimiter = ':';
+
+  function dirname(path) {
+    var result = splitPath(path),
+        root = result[0],
+        dir = result[1];
+
+    if (!root && !dir) {
+      // No dirname whatsoever
+      return '.';
+    }
+
+    if (dir) {
+      // It has a dirname, strip trailing slash
+      dir = dir.substr(0, dir.length - 1);
+    }
+
+    return root + dir;
+  }
+
+  function basename(path, ext) {
+    var f = splitPath(path)[2];
+    // TODO: make this comparison case-insensitive on windows?
+    if (ext && f.substr(-1 * ext.length) === ext) {
+      f = f.substr(0, f.length - ext.length);
+    }
+    return f;
+  }
+
+
+  function extname(path) {
+    return splitPath(path)[3];
+  }
+  var _polyfillNode_path = {
+    extname: extname,
+    basename: basename,
+    dirname: dirname,
+    sep: sep,
+    delimiter: delimiter,
+    relative: relative,
+    join: join,
+    isAbsolute: isAbsolute,
+    normalize: normalize,
+    resolve: resolve
+  };
+  function filter (xs, f) {
+      if (xs.filter) return xs.filter(f);
+      var res = [];
+      for (var i = 0; i < xs.length; i++) {
+          if (f(xs[i], i, xs)) res.push(xs[i]);
+      }
+      return res;
+  }
+
+  // String.prototype.substr - negative index don't work in IE8
+  var substr = 'ab'.substr(-1) === 'b' ?
+      function (str, start, len) { return str.substr(start, len) } :
+      function (str, start, len) {
+          if (start < 0) start = str.length + start;
+          return str.substr(start, len);
+      }
+  ;
+
+  var _polyfillNode_path$1 = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    resolve: resolve,
+    normalize: normalize,
+    isAbsolute: isAbsolute,
+    join: join,
+    relative: relative,
+    sep: sep,
+    delimiter: delimiter,
+    dirname: dirname,
+    basename: basename,
+    extname: extname,
+    'default': _polyfillNode_path
+  });
+
+  var require$$1 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_path$1);
+
+  var utils = {};
+
+  /*
+   * EJS Embedded JavaScript templates
+   * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *         http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *
+  */
+
+  (function (exports) {
+
+  	var regExpChars = /[|\\{}()[\]^$+*?.]/g;
+  	var hasOwnProperty = Object.prototype.hasOwnProperty;
+  	var hasOwn = function (obj, key) { return hasOwnProperty.apply(obj, [key]); };
+
+  	/**
+  	 * Escape characters reserved in regular expressions.
+  	 *
+  	 * If `string` is `undefined` or `null`, the empty string is returned.
+  	 *
+  	 * @param {String} string Input string
+  	 * @return {String} Escaped string
+  	 * @static
+  	 * @private
+  	 */
+  	exports.escapeRegExpChars = function (string) {
+  	  // istanbul ignore if
+  	  if (!string) {
+  	    return '';
+  	  }
+  	  return String(string).replace(regExpChars, '\\$&');
+  	};
+
+  	var _ENCODE_HTML_RULES = {
+  	  '&': '&amp;',
+  	  '<': '&lt;',
+  	  '>': '&gt;',
+  	  '"': '&#34;',
+  	  "'": '&#39;'
+  	};
+  	var _MATCH_HTML = /[&<>'"]/g;
+
+  	function encode_char(c) {
+  	  return _ENCODE_HTML_RULES[c] || c;
+  	}
+
+  	/**
+  	 * Stringified version of constants used by {@link module:utils.escapeXML}.
+  	 *
+  	 * It is used in the process of generating {@link ClientFunction}s.
+  	 *
+  	 * @readonly
+  	 * @type {String}
+  	 */
+
+  	var escapeFuncStr =
+  	  'var _ENCODE_HTML_RULES = {\n'
+  	+ '      "&": "&amp;"\n'
+  	+ '    , "<": "&lt;"\n'
+  	+ '    , ">": "&gt;"\n'
+  	+ '    , \'"\': "&#34;"\n'
+  	+ '    , "\'": "&#39;"\n'
+  	+ '    }\n'
+  	+ '  , _MATCH_HTML = /[&<>\'"]/g;\n'
+  	+ 'function encode_char(c) {\n'
+  	+ '  return _ENCODE_HTML_RULES[c] || c;\n'
+  	+ '};\n';
+
+  	/**
+  	 * Escape characters reserved in XML.
+  	 *
+  	 * If `markup` is `undefined` or `null`, the empty string is returned.
+  	 *
+  	 * @implements {EscapeCallback}
+  	 * @param {String} markup Input string
+  	 * @return {String} Escaped string
+  	 * @static
+  	 * @private
+  	 */
+
+  	exports.escapeXML = function (markup) {
+  	  return markup == undefined
+  	    ? ''
+  	    : String(markup)
+  	      .replace(_MATCH_HTML, encode_char);
+  	};
+
+  	function escapeXMLToString() {
+  	  return Function.prototype.toString.call(this) + ';\n' + escapeFuncStr;
+  	}
+
+  	try {
+  	  if (typeof Object.defineProperty === 'function') {
+  	  // If the Function prototype is frozen, the "toString" property is non-writable. This means that any objects which inherit this property
+  	  // cannot have the property changed using an assignment. If using strict mode, attempting that will cause an error. If not using strict
+  	  // mode, attempting that will be silently ignored.
+  	  // However, we can still explicitly shadow the prototype's "toString" property by defining a new "toString" property on this object.
+  	    Object.defineProperty(exports.escapeXML, 'toString', { value: escapeXMLToString });
+  	  } else {
+  	    // If Object.defineProperty() doesn't exist, attempt to shadow this property using the assignment operator.
+  	    exports.escapeXML.toString = escapeXMLToString;
+  	  }
+  	} catch (err) {
+  	  console.warn('Unable to set escapeXML.toString (is the Function prototype frozen?)');
+  	}
+
+  	/**
+  	 * Naive copy of properties from one object to another.
+  	 * Does not recurse into non-scalar properties
+  	 * Does not check to see if the property has a value before copying
+  	 *
+  	 * @param  {Object} to   Destination object
+  	 * @param  {Object} from Source object
+  	 * @return {Object}      Destination object
+  	 * @static
+  	 * @private
+  	 */
+  	exports.shallowCopy = function (to, from) {
+  	  from = from || {};
+  	  if ((to !== null) && (to !== undefined)) {
+  	    for (var p in from) {
+  	      if (!hasOwn(from, p)) {
+  	        continue;
+  	      }
+  	      if (p === '__proto__' || p === 'constructor') {
+  	        continue;
+  	      }
+  	      to[p] = from[p];
+  	    }
+  	  }
+  	  return to;
+  	};
+
+  	/**
+  	 * Naive copy of a list of key names, from one object to another.
+  	 * Only copies property if it is actually defined
+  	 * Does not recurse into non-scalar properties
+  	 *
+  	 * @param  {Object} to   Destination object
+  	 * @param  {Object} from Source object
+  	 * @param  {Array} list List of properties to copy
+  	 * @return {Object}      Destination object
+  	 * @static
+  	 * @private
+  	 */
+  	exports.shallowCopyFromList = function (to, from, list) {
+  	  list = list || [];
+  	  from = from || {};
+  	  if ((to !== null) && (to !== undefined)) {
+  	    for (var i = 0; i < list.length; i++) {
+  	      var p = list[i];
+  	      if (typeof from[p] != 'undefined') {
+  	        if (!hasOwn(from, p)) {
+  	          continue;
+  	        }
+  	        if (p === '__proto__' || p === 'constructor') {
+  	          continue;
+  	        }
+  	        to[p] = from[p];
+  	      }
+  	    }
+  	  }
+  	  return to;
+  	};
+
+  	/**
+  	 * Simple in-process cache implementation. Does not implement limits of any
+  	 * sort.
+  	 *
+  	 * @implements {Cache}
+  	 * @static
+  	 * @private
+  	 */
+  	exports.cache = {
+  	  _data: {},
+  	  set: function (key, val) {
+  	    this._data[key] = val;
+  	  },
+  	  get: function (key) {
+  	    return this._data[key];
+  	  },
+  	  remove: function (key) {
+  	    delete this._data[key];
+  	  },
+  	  reset: function () {
+  	    this._data = {};
+  	  }
+  	};
+
+  	/**
+  	 * Transforms hyphen case variable into camel case.
+  	 *
+  	 * @param {String} string Hyphen case string
+  	 * @return {String} Camel case string
+  	 * @static
+  	 * @private
+  	 */
+  	exports.hyphenToCamel = function (str) {
+  	  return str.replace(/-[a-z]/g, function (match) { return match[1].toUpperCase(); });
+  	};
+
+  	/**
+  	 * Returns a null-prototype object in runtimes that support it
+  	 *
+  	 * @return {Object} Object, prototype will be set to null where possible
+  	 * @static
+  	 * @private
+  	 */
+  	exports.createNullProtoObjWherePossible = (function () {
+  	  if (typeof Object.create == 'function') {
+  	    return function () {
+  	      return Object.create(null);
+  	    };
+  	  }
+  	  if (!({__proto__: null} instanceof Object)) {
+  	    return function () {
+  	      return {__proto__: null};
+  	    };
+  	  }
+  	  // Not possible, just pass through
+  	  return function () {
+  	    return {};
+  	  };
+  	})();
+
+  	exports.hasOwnOnlyObject = function (obj) {
+  	  var o = exports.createNullProtoObjWherePossible();
+  	  for (var p in obj) {
+  	    if (hasOwn(obj, p)) {
+  	      o[p] = obj[p];
+  	    }
+  	  }
+  	  return o;
+  	};
+  } (utils));
+
+  var name = "ejs";
+  var description = "Embedded JavaScript templates";
+  var keywords = [
+  	"template",
+  	"engine",
+  	"ejs"
+  ];
+  var version = "3.1.10";
+  var author = "Matthew Eernisse <mde@fleegix.org> (http://fleegix.org)";
+  var license = "Apache-2.0";
+  var bin = {
+  	ejs: "./bin/cli.js"
+  };
+  var main = "./lib/ejs.js";
+  var jsdelivr = "ejs.min.js";
+  var unpkg = "ejs.min.js";
+  var repository = {
+  	type: "git",
+  	url: "git://github.com/mde/ejs.git"
+  };
+  var bugs = "https://github.com/mde/ejs/issues";
+  var homepage = "https://github.com/mde/ejs";
+  var dependencies = {
+  	jake: "^10.8.5"
+  };
+  var devDependencies = {
+  	browserify: "^16.5.1",
+  	eslint: "^6.8.0",
+  	"git-directory-deploy": "^1.5.1",
+  	jsdoc: "^4.0.2",
+  	"lru-cache": "^4.0.1",
+  	mocha: "^10.2.0",
+  	"uglify-js": "^3.3.16"
+  };
+  var engines = {
+  	node: ">=0.10.0"
+  };
+  var scripts = {
+  	test: "npx jake test"
+  };
+  var require$$3 = {
+  	name: name,
+  	description: description,
+  	keywords: keywords,
+  	version: version,
+  	author: author,
+  	license: license,
+  	bin: bin,
+  	main: main,
+  	jsdelivr: jsdelivr,
+  	unpkg: unpkg,
+  	repository: repository,
+  	bugs: bugs,
+  	homepage: homepage,
+  	dependencies: dependencies,
+  	devDependencies: devDependencies,
+  	engines: engines,
+  	scripts: scripts
+  };
+
+  /*
+   * EJS Embedded JavaScript templates
+   * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *         http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *
+  */
+
+  (function (exports) {
+
+  	/**
   	 * @file Embedded JavaScript templating engine. {@link http://ejs.co}
   	 * @author Matthew Eernisse <mde@fleegix.org>
   	 * @author Tiancheng "Timothy" Gu <timothygu99@gmail.com>
   	 * @project EJS
   	 * @license {@link http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0}
   	 */
-var t=r,n=_,i=v,o=!1,s=y,a="locals",c=["delimiter","scope","context","debug","compileDebug","client","_with","rmWhitespace","strict","filename","async"],l=c.concat("cache"),u=/^\uFEFF/,d=/^[a-zA-Z_$][0-9a-zA-Z_$]*$/;function p(n,i){var r;if(i.some((function(i){return r=e.resolveInclude(n,i,!0),t.existsSync(r)})))return r}function m(t,n){var i,r=t.filename,o=arguments.length>1;if(t.cache){if(!r)throw new Error("cache option requires a filename");if(i=e.cache.get(r))return i;o||(n=f(r).toString().replace(u,""))}else if(!o){if(!r)throw new Error("Internal EJS error: no file name or template provided");n=f(r).toString().replace(u,"")}return i=e.compile(n,t),t.cache&&e.cache.set(r,i),i}function f(t){return e.fileLoader(t)}function h(n,r){var o=i.shallowCopy(i.createNullProtoObjWherePossible(),r);if(o.filename=function(n,i){var r,o,s=i.views,a=/^[A-Za-z]+:\\|^\//.exec(n);if(a&&a.length)n=n.replace(/^\/*/,""),r=Array.isArray(i.root)?p(n,i.root):e.resolveInclude(n,i.root||"/",!0);else if(i.filename&&(o=e.resolveInclude(n,i.filename),t.existsSync(o)&&(r=o)),!r&&Array.isArray(s)&&(r=p(n,s)),!r&&"function"!=typeof i.includer)throw new Error('Could not find the include file "'+i.escapeFunction(n)+'"');return r}(n,o),"function"==typeof r.includer){var s=r.includer(n,o.filename);if(s&&(s.filename&&(o.filename=s.filename),s.template))return m(o,s.template)}return m(o)}function g(e,t,n,i,r){var o=t.split("\n"),s=Math.max(i-3,0),a=Math.min(o.length,i+3),c=r(n),l=o.slice(s,a).map((function(e,t){var n=t+s+1;return(n==i?" >> ":"    ")+n+"| "+e})).join("\n");throw e.path=c,e.message=(c||"ejs")+":"+i+"\n"+l+"\n\n"+e.message,e}function w(e){return e.replace(/;(\s*$)/,"$1")}function b(t,n){var r=i.hasOwnOnlyObject(n),o=i.createNullProtoObjWherePossible();this.templateText=t,this.mode=null,this.truncate=!1,this.currentLine=1,this.source="",o.client=r.client||!1,o.escapeFunction=r.escape||r.escapeFunction||i.escapeXML,o.compileDebug=!1!==r.compileDebug,o.debug=!!r.debug,o.filename=r.filename,o.openDelimiter=r.openDelimiter||e.openDelimiter||"<",o.closeDelimiter=r.closeDelimiter||e.closeDelimiter||">",o.delimiter=r.delimiter||e.delimiter||"%",o.strict=r.strict||!1,o.context=r.context,o.cache=r.cache||!1,o.rmWhitespace=r.rmWhitespace,o.root=r.root,o.includer=r.includer,o.outputFunctionName=r.outputFunctionName,o.localsName=r.localsName||e.localsName||a,o.views=r.views,o.async=r.async,o.destructuredLocals=r.destructuredLocals,o.legacyInclude=void 0===r.legacyInclude||!!r.legacyInclude,o.strict?o._with=!1:o._with=void 0===r._with||r._with,this.opts=o,this.regex=this.createRegex()}e.cache=i.cache,e.fileLoader=t.readFileSync,e.localsName=a,e.promiseImpl=new Function("return this;")().Promise,e.resolveInclude=function(e,t,i){var r=n.dirname,o=n.extname,s=(0,n.resolve)(i?t:r(t),e);return o(e)||(s+=".ejs"),s},e.compile=function(e,t){return t&&t.scope&&(o||(console.warn("`scope` option is deprecated and will be removed in EJS 3"),o=!0),t.context||(t.context=t.scope),delete t.scope),new b(e,t).compile()},e.render=function(e,t,n){var r=t||i.createNullProtoObjWherePossible(),o=n||i.createNullProtoObjWherePossible();return 2==arguments.length&&i.shallowCopyFromList(o,r,c),m(o,e)(r)},e.renderFile=function(){var t,n,r,o=Array.prototype.slice.call(arguments),s=o.shift(),a={filename:s};return"function"==typeof arguments[arguments.length-1]&&(t=o.pop()),o.length?(n=o.shift(),o.length?i.shallowCopy(a,o.pop()):(n.settings&&(n.settings.views&&(a.views=n.settings.views),n.settings["view cache"]&&(a.cache=!0),(r=n.settings["view options"])&&i.shallowCopy(a,r)),i.shallowCopyFromList(a,n,l)),a.filename=s):n=i.createNullProtoObjWherePossible(),function(t,n,i){var r;if(!i){if("function"==typeof e.promiseImpl)return new e.promiseImpl((function(e,i){try{e(r=m(t)(n))}catch(e){i(e)}}));throw new Error("Please provide a callback function")}try{r=m(t)(n)}catch(e){return i(e)}i(null,r)}(a,n,t)},e.Template=b,e.clearCache=function(){e.cache.reset()},b.modes={EVAL:"eval",ESCAPED:"escaped",RAW:"raw",COMMENT:"comment",LITERAL:"literal"},b.prototype={createRegex:function(){var e="(<%%|%%>|<%=|<%-|<%_|<%#|<%|%>|-%>|_%>)",t=i.escapeRegExpChars(this.opts.delimiter),n=i.escapeRegExpChars(this.opts.openDelimiter),r=i.escapeRegExpChars(this.opts.closeDelimiter);return e=e.replace(/%/g,t).replace(/</g,n).replace(/>/g,r),new RegExp(e)},compile:function(){var e,t,r,o=this.opts,s="",a="",c=o.escapeFunction,l=o.filename?JSON.stringify(o.filename):"undefined";if(!this.source){if(this.generateSource(),s+='  var __output = "";\n  function __append(s) { if (s !== undefined && s !== null) __output += s }\n',o.outputFunctionName){if(!d.test(o.outputFunctionName))throw new Error("outputFunctionName is not a valid JS identifier.");s+="  var "+o.outputFunctionName+" = __append;\n"}if(o.localsName&&!d.test(o.localsName))throw new Error("localsName is not a valid JS identifier.");if(o.destructuredLocals&&o.destructuredLocals.length){for(var u="  var __locals = ("+o.localsName+" || {}),\n",p=0;p<o.destructuredLocals.length;p++){var m=o.destructuredLocals[p];if(!d.test(m))throw new Error("destructuredLocals["+p+"] is not a valid JS identifier.");p>0&&(u+=",\n  "),u+=m+" = __locals."+m}s+=u+";\n"}!1!==o._with&&(s+="  with ("+o.localsName+" || {}) {\n",a+="  }\n"),a+="  return __output;\n",this.source=s+this.source+a}e=o.compileDebug?"var __line = 1\n  , __lines = "+JSON.stringify(this.templateText)+"\n  , __filename = "+l+";\ntry {\n"+this.source+"} catch (e) {\n  rethrow(e, __lines, __filename, __line, escapeFn);\n}\n":this.source,o.client&&(e="escapeFn = escapeFn || "+c.toString()+";\n"+e,o.compileDebug&&(e="rethrow = rethrow || "+g.toString()+";\n"+e)),o.strict&&(e='"use strict";\n'+e),o.debug&&console.log(e),o.compileDebug&&o.filename&&(e=e+"\n//# sourceURL="+l+"\n");try{if(o.async)try{r=new Function("return (async function(){}).constructor;")()}catch(e){throw e instanceof SyntaxError?new Error("This environment does not support async/await"):e}else r=Function;t=new r(o.localsName+", escapeFn, include, rethrow",e)}catch(e){throw e instanceof SyntaxError&&(o.filename&&(e.message+=" in "+o.filename),e.message+=" while compiling ejs\n\n",e.message+="If the above error is not helpful, you may want to try EJS-Lint:\n",e.message+="https://github.com/RyanZim/EJS-Lint",o.async||(e.message+="\n",e.message+="Or, if you meant to create an async function, pass `async: true` as an option.")),e}var f=o.client?t:function(e){return t.apply(o.context,[e||i.createNullProtoObjWherePossible(),c,function(t,n){var r=i.shallowCopy(i.createNullProtoObjWherePossible(),e);return n&&(r=i.shallowCopy(r,n)),h(t,o)(r)},g])};if(o.filename&&"function"==typeof Object.defineProperty){var w=o.filename,b=n.basename(w,n.extname(w));try{Object.defineProperty(f,"name",{value:b,writable:!1,enumerable:!1,configurable:!0})}catch(e){}}return f},generateSource:function(){this.opts.rmWhitespace&&(this.templateText=this.templateText.replace(/[\r\n]+/g,"\n").replace(/^\s+|\s+$/gm,"")),this.templateText=this.templateText.replace(/[ \t]*<%_/gm,"<%_").replace(/_%>[ \t]*/gm,"_%>");var e=this,t=this.parseTemplateText(),n=this.opts.delimiter,i=this.opts.openDelimiter,r=this.opts.closeDelimiter;t&&t.length&&t.forEach((function(o,s){var a;if(0===o.indexOf(i+n)&&0!==o.indexOf(i+n+n)&&(a=t[s+2])!=n+r&&a!="-"+n+r&&a!="_"+n+r)throw new Error('Could not find matching close tag for "'+o+'".');e.scanLine(o)}))},parseTemplateText:function(){for(var e,t=this.templateText,n=this.regex,i=n.exec(t),r=[];i;)0!==(e=i.index)&&(r.push(t.substring(0,e)),t=t.slice(e)),r.push(i[0]),t=t.slice(i[0].length),i=n.exec(t);return t&&r.push(t),r},_addOutput:function(e){if(this.truncate&&(e=e.replace(/^(?:\r\n|\r|\n)/,""),this.truncate=!1),!e)return e;e=(e=(e=(e=e.replace(/\\/g,"\\\\")).replace(/\n/g,"\\n")).replace(/\r/g,"\\r")).replace(/"/g,'\\"'),this.source+='    ; __append("'+e+'")\n'},scanLine:function(e){var t,n=this.opts.delimiter,i=this.opts.openDelimiter,r=this.opts.closeDelimiter;switch(t=e.split("\n").length-1,e){case i+n:case i+n+"_":this.mode=b.modes.EVAL;break;case i+n+"=":this.mode=b.modes.ESCAPED;break;case i+n+"-":this.mode=b.modes.RAW;break;case i+n+"#":this.mode=b.modes.COMMENT;break;case i+n+n:this.mode=b.modes.LITERAL,this.source+='    ; __append("'+e.replace(i+n+n,i+n)+'")\n';break;case n+n+r:this.mode=b.modes.LITERAL,this.source+='    ; __append("'+e.replace(n+n+r,n+r)+'")\n';break;case n+r:case"-"+n+r:case"_"+n+r:this.mode==b.modes.LITERAL&&this._addOutput(e),this.mode=null,this.truncate=0===e.indexOf("-")||0===e.indexOf("_");break;default:if(this.mode){switch(this.mode){case b.modes.EVAL:case b.modes.ESCAPED:case b.modes.RAW:e.lastIndexOf("//")>e.lastIndexOf("\n")&&(e+="\n")}switch(this.mode){case b.modes.EVAL:this.source+="    ; "+e+"\n";break;case b.modes.ESCAPED:this.source+="    ; __append(escapeFn("+w(e)+"))\n";break;case b.modes.RAW:this.source+="    ; __append("+w(e)+")\n";break;case b.modes.COMMENT:break;case b.modes.LITERAL:this._addOutput(e)}}else this._addOutput(e)}this.opts.compileDebug&&t&&(this.currentLine+=t,this.source+="    ; __line = "+this.currentLine+"\n")}},e.escapeXML=i.escapeXML,e.__express=e.renderFile,e.VERSION=s,e.name="ejs","undefined"!=typeof window&&(window.ejs=e)}(i);const O="cdp_segments",j="customer_profile",x="$",E=16,L="q",S=0;function T(){const e=`${O}=`;return(document.cookie.split("; ").find((t=>t.startsWith(e)))||"").replace(e,"")}async function k(e,t){const n=await fetch(e,t);return await n.json()}const A={method:"GET",headers:{"Content-Type":"application/json"}};function C(){const e=document.cookie.split("; ").find((e=>e.startsWith("_br_uid_2=")));return e?e.replace("_br_uid_2=",""):"uid%3D7797686432023%3Av%3D11.5%3Ats%3D1428617911187%3Ahc%3D55"}const R=(e,t="$",n=!0)=>`${n?t:""}${(e/100).toLocaleString(void 0,{minimumFractionDigits:2,maximumFractionDigits:2})}${n?"":` ${t}`}`;const M="https://pathways.dxpapi.com/api/v2/widgets/",F=["_br_uid_2","fq","sort"],N="pid,price,sale_price,title,thumb_image,url";function P(e){const t=Object.assign({},e),n=`${t.endpoint||M}${t.type}/${t.id}`;return t.endpoint&&delete t.endpoint,t.type&&delete t.type,t.id&&delete t.id,t.fields||(t.fields=N),`${n}${i=t,`?${Object.keys(i).reduce(((e,t)=>[...e,`${t}=${F.includes(t)?i[t]:encodeURIComponent(i[t])}`]),[]).join("&")}`}`;var i}var q,D='<div class="blm-recommendation-widget-content" data-rid="<%= widgetMetadata.rid %>" data-type="<%= widgetMetadata.type %>" data-id="<%= widgetMetadata.id %>">\n  <% if (products.length > config.number_of_items_to_show) { %>\n  <span class="blm-carousel__item blm-carousel-previous blm-invisible">\n    <svg\n      xmlns="http://www.w3.org/2000/svg"\n      width="24"\n      height="24"\n      viewBox="0 0 24 24">\n      <path fill="none" d="M0 0h24v24H0V0z" />\n      <path d="M15.61 7.41L14.2 6l-6 6 6 6 1.41-1.41L11.03 12l4.58-4.59z" />\n    </svg>\n  </span>\n  <% } %>\n\n  <section class="blm-recommendation__products" style="--number-of-items-to-show: <%= config.number_of_items_to_show %>">\n    <% products.forEach(function(product) { %>\n    <div class="blm-recommendation__product" data-id="<%= product.id %>">\n      <div class="blm-recommendation__product-inner">\n        <div class="blm-product-image-container">\n          <a href="<%= product.link %>" class="blm-widget-link">\n            <img\n              class="blm-product-image-container__image"\n              alt="<%= product.title %>"\n              src="<%= product.image %>"\n            />\n          </a>\n        </div>\n        <div class="blm-product-details-container">\n          <div class="blm-product-details-title-container">\n            <a href="<%= product.link %>" class="blm-product-details-container__title blm-widget-link"><%= product.title %></a>\n          </div>\n          <% if (product.price && product.sale_price) { %>\n            <p class="blm-product-details-container__price">\n              <% if (config.format_money) { %>\n                <%= config.format_money(product.sale_price.toFixed(2) * 100) %>&nbsp;<strike class="blm-product-details-container__original-price"><%= config.format_money(product.price.toFixed(2) * 100) %></strike>\n              <% } else { %>\n                <%= config.default_currency %><%= product.sale_price.toFixed(2) %>&nbsp;<strike class="blm-product-details-container__original-price"><%= config.default_currency %><%= product.price.toFixed(2) %></strike>\n              <% } %>\n            </p>\n          <% } else { %>\n            <p class="blm-product-details-container__price">\n              <% if (config.format_money) { %>\n                <%= config.format_money(product.price.toFixed(2) * 100) %>\n              <% } else { %>\n                <%= config.default_currency %><%= product.price.toFixed(2) %>\n              <% } %>\n            </p>\n          <% } %>\n        </div>\n      </div>\n    </div>\n    <% }); %>\n  </section>\n\n  <% if (products.length > config.number_of_items_to_show) { %>\n  <span class="blm-carousel__item blm-carousel-next">\n    <svg\n    xmlns="http://www.w3.org/2000/svg"\n    width="24"\n    height="24"\n    viewBox="0 0 24 24">\n    <path fill="none" d="M0 0h24v24H0V0z" />\n    <path d="M10.02 6L8.61 7.41 13.19 12l-4.58 4.59L10.02 18l6-6-6-6z" />\n    </svg>\n  </span>\n  <% } %>\n</div>\n';function I(){var e;const t=function(){var e;const t=null===(e=null===window||void 0===window?void 0:window.bloomreachConnector)||void 0===e?void 0:e.config;return Object.assign({default_search_parameter:L,url:window.location.href,ref_url:window.location.href,tracking_cookie:C(),format_money:e=>R(e,window.bloomreachDefaultCurrency||x),default_currency:window.bloomreachDefaultCurrency||x},t)}();return Object.assign(Object.assign({},t),{widget:Object.assign({endpoint:"",fields:"",template:D},null!==(e=null==t?void 0:t.widget)&&void 0!==e?e:{})})}!function(e){e.small="480px",e.medium="680px",e.large="750px",e.xlarge="875px",e.xxlarge="1000px",e.xxxlarge="1200px"}(q||(q={}));const $=window.matchMedia(`(max-width: ${q.medium})`),W=window.matchMedia(`(min-width:${q.medium}) and (max-width: ${q.xlarge})`);var z="object"==typeof t&&t&&t.Object===Object&&t,B="object"==typeof self&&self&&self.Object===Object&&self,U=(z||B||Function("return this")()).Symbol;U&&U.toStringTag;function J(){V().widgets.forEach((e=>{const t=e.node,n=t.querySelector(".blm-recommendation-widget-content"),{id:i="",type:r="",rid:o=""}=n.dataset;t.querySelectorAll("[data-blm-widget-add-to-cart]").forEach((e=>{var n;const{blmWidgetAddToCartSku:s="",blmWidgetAddToCartProdId:a=""}=e.dataset;e.getAttribute("hasListener")||(e.addEventListener("click",function(e){const t=Object.assign(Object.assign({wrid:e.widgetRid,wid:e.widgetId,wty:e.widgetType,item_id:e.blmWidgetAddToCartProdId},e.query?{wq:e.query}:{}),{sku:e.blmWidgetAddToCartSku});return()=>{var e,n;null===(n=null===(e=window.BrTrk||{})||void 0===e?void 0:e.getTracker())||void 0===n||n.logEvent("cart","widget-add",t)}}({widgetRid:o,widgetId:i,widgetType:r,blmWidgetAddToCartSku:s,blmWidgetAddToCartProdId:a,query:null===(n=null==t?void 0:t.dataset)||void 0===n?void 0:n.query})),e.setAttribute("hasListener","true"))}))}))}function H(){V().widgets.forEach((e=>{const t=e.node,n=t.querySelector(".blm-recommendation-widget-content"),{id:i="",type:r="",rid:o=""}=n.dataset;t.querySelectorAll(".blm-widget-link").forEach((e=>{var n;const s=function(e,t){var n;let i=e;for(;i&&i.parentElement;)if(i=i.parentElement,i&&(null===(n=i.classList)||void 0===n?void 0:n.contains(t)))return i;return console.warn(`CSS class '${t}' not found in ancestors of ${e.nodeName}`),null}(e,"blm-recommendation__product"),a=s.dataset.id||"";var c;e.getAttribute("hasListener")||(e.addEventListener("click",(c={widgetRid:o,widgetId:i,widgetType:r,productId:a,query:null===(n=null==t?void 0:t.dataset)||void 0===n?void 0:n.query},()=>{var e,t;const n=Object.assign({wrid:c.widgetRid,wid:c.widgetId,wty:c.widgetType,item_id:c.productId},c.query?{wq:c.query}:{});null===(t=null===(e=window.BrTrk||{})||void 0===e?void 0:e.getTracker())||void 0===t||t.logEvent("widget","widget-click",n,!0)})),e.setAttribute("hasListener","true"))}))}))}function V(){return window.BloomreachModules.pathwaysRecommendations.getCurrentRecommendationsUiState()}function X(){return window.BloomreachModules.pathwaysRecommendations.getCurrentRecommendationsRequestState()}function Z(e){return"keyword"===e.type}function G(e){return"category"===e.type}function K(e){return"item"===e.type}function Q(e){return"personalized"===e.type}U&&U.toStringTag;const Y=function(){let e={request_id:0},t={widgets:[]};return{setCurrentRecommendationsRequestState:t=>{e=t},getCurrentRecommendationsRequestState:()=>e,setCurrentRecommendationsUiState:e=>{t=e},getCurrentRecommendationsUiState:()=>t,load:async()=>{var e;e={request_id:Math.floor(1e12+9e12*Math.random())},window.BloomreachModules.pathwaysRecommendations.setCurrentRecommendationsRequestState(Object.assign(Object.assign({},X()),e)),function(){const e=T();if(e){(window.br_data||{})[j]=e}}(),function(){const e=[];document.querySelectorAll(".blm-recommendations-widget").forEach((t=>{e.push({loaded:!1,node:t})})),function(e){window.BloomreachModules.pathwaysRecommendations.setCurrentRecommendationsUiState(Object.assign(Object.assign({},V()),e))}({widgets:e})}();const t=V().widgets.reduce(((e,t)=>[...e,new Promise(((e,n)=>{try{const n=function(e){var t,n,i,r,o,s,a,c;const l=I(),u=new URLSearchParams(window.location.search),d=X(),p=e.dataset,m=Object.assign(Object.assign(Object.assign({},(null===(t=null==l?void 0:l.widget)||void 0===t?void 0:t.endpoint)?{endpoint:l.widget.endpoint}:{}),(null===(n=null==l?void 0:l.widget)||void 0===n?void 0:n.fields)?{fields:l.widget.fields}:{}),{type:p.type,id:null!==(i=p.id)&&void 0!==i?i:"",account_id:l.account_id,domain_key:l.domain_key,request_id:d.request_id,_br_uid_2:null!==(r=l.tracking_cookie)&&void 0!==r?r:"",ref_url:null!==(o=l.ref_url)&&void 0!==o?o:"",url:null!==(s=l.url)&&void 0!==s?s:"",rows:Number(p.numberOfItemsToFetch)||E,start:S});for(const[e,t]of u.entries())Object.keys(m).includes(e)||(m[e]=t);const f=T();f&&(m.brSeg=`seg:${f}`,m.segment=`customer_profile:${f}`,m.cdp_segments=f);if(Z(m))m.query=null!==(a=p.query)&&void 0!==a?a:"";else if(G(m))m.cat_id=null!==(c=p.categoryId)&&void 0!==c?c:"";else if(K(m))m.item_ids=p.itemIds;else if(Q(m))m.user_id=p.userId;else if(!function(e){return"global"===e.type}(m))throw new Error(`Invalid widget type: "${p.type}"`);return m}(t.node);let i;i=Z(n)?async function(e){return k(P(Object.assign(Object.assign({},e),{type:"keyword"})),A)}(n):G(n)?async function(e){return k(P(Object.assign(Object.assign({},e),{type:"category"})),A)}(n):K(n)?async function(e){return k(P(Object.assign(Object.assign({},e),{type:"item"})),A)}(n):Q(n)?async function(e){return k(P(Object.assign(Object.assign({},e),{type:"personalized"})),A)}(n):async function(e){return k(P(Object.assign(Object.assign({},e),{type:"global"})),A)}(n),e(i)}catch(e){n(e)}})).then((e=>{var n;const r=t.node,o=I(),s=(a=e,{config:I(),products:[...a.response.docs?a.response.docs.map((e=>Object.assign(Object.assign({},e),{id:e.pid,image:e.thumb_image,title:e.title,link:e.url,sale_price:e.sale_price,price:e.price}))):[]],widgetMetadata:a.metadata.widget});var a;const c=r.dataset;return s.config.number_of_items_to_show=Number(c.numberOfItemsToShow),r.innerHTML=i.render((null===(n=o.widget)||void 0===n?void 0:n.template)||"",s),function(e){var t,n;const i=e.querySelector(".blm-recommendation-widget-content"),{id:r="",type:o="",rid:s=""}=i.dataset,a=Object.assign({wrid:s,wid:r,wty:o},e.dataset.query?{wq:e.dataset.query}:{});null===(n=null===(t=window.BrTrk||{})||void 0===t?void 0:t.getTracker())||void 0===n||n.logEvent("widget","widget-view",a,!0)}(r),r.classList.add("blm-widget-loaded"),{widgetElement:r,templateData:s}}))]),[]),n=await Promise.all(t).catch(console.error);J(),H(),(n||[]).forEach((e=>{!function(e,t){const n=e.querySelector(".blm-carousel-previous"),i=e.querySelector(".blm-carousel-next"),r=e.querySelectorAll(".blm-recommendation__product"),o=Number($.matches?1:W.matches?2:t.config.number_of_items_to_show),s=Math.ceil(r.length/o);let a=0;if(r.length){const t=e.querySelector(".blm-recommendation__products"),n=window.getComputedStyle(t);a=Number(n.width.replace("px",""))/o}let c=0;const l=a,u=(r.length-o)*a,d=()=>{var e,t,o,s;"0px"===(null===(t=null===(e=null==r?void 0:r[0])||void 0===e?void 0:e.style)||void 0===t?void 0:t.left)?null==n||n.classList.add("blm-invisible"):null==n||n.classList.remove("blm-invisible"),(null===(s=null===(o=null==r?void 0:r[0])||void 0===o?void 0:o.style)||void 0===s?void 0:s.left)===`-${u}px`?null==i||i.classList.add("blm-invisible"):null==i||i.classList.remove("blm-invisible")},p=()=>{c+=l,1===r.length&&(c=0);for(const e of r)c>u&&(c-=l),e.style.left=`-${c}px`;d()},m=()=>{c-=l,c<=0&&(c=0);for(const e of r)s>1&&(e.style.left=`-${c}px`);d()};null!==n&&null!==i&&(n.addEventListener("click",(()=>{m()})),i.addEventListener("click",(()=>{p()})))}(e.widgetElement,e.templateData)}))}}}();window.BloomreachModules=Object.assign(Object.assign({},e),{pathwaysRecommendations:Y}),Y.load().catch(console.error)}();
+
+  	/**
+  	 * EJS internal functions.
+  	 *
+  	 * Technically this "module" lies in the same file as {@link module:ejs}, for
+  	 * the sake of organization all the private functions re grouped into this
+  	 * module.
+  	 *
+  	 * @module ejs-internal
+  	 * @private
+  	 */
+
+  	/**
+  	 * Embedded JavaScript templating engine.
+  	 *
+  	 * @module ejs
+  	 * @public
+  	 */
+
+
+  	var fs = require$$0;
+  	var path = require$$1;
+  	var utils$1 = utils;
+
+  	var scopeOptionWarned = false;
+  	/** @type {string} */
+  	var _VERSION_STRING = require$$3.version;
+  	var _DEFAULT_OPEN_DELIMITER = '<';
+  	var _DEFAULT_CLOSE_DELIMITER = '>';
+  	var _DEFAULT_DELIMITER = '%';
+  	var _DEFAULT_LOCALS_NAME = 'locals';
+  	var _NAME = 'ejs';
+  	var _REGEX_STRING = '(<%%|%%>|<%=|<%-|<%_|<%#|<%|%>|-%>|_%>)';
+  	var _OPTS_PASSABLE_WITH_DATA = ['delimiter', 'scope', 'context', 'debug', 'compileDebug',
+  	  'client', '_with', 'rmWhitespace', 'strict', 'filename', 'async'];
+  	// We don't allow 'cache' option to be passed in the data obj for
+  	// the normal `render` call, but this is where Express 2 & 3 put it
+  	// so we make an exception for `renderFile`
+  	var _OPTS_PASSABLE_WITH_DATA_EXPRESS = _OPTS_PASSABLE_WITH_DATA.concat('cache');
+  	var _BOM = /^\uFEFF/;
+  	var _JS_IDENTIFIER = /^[a-zA-Z_$][0-9a-zA-Z_$]*$/;
+
+  	/**
+  	 * EJS template function cache. This can be a LRU object from lru-cache NPM
+  	 * module. By default, it is {@link module:utils.cache}, a simple in-process
+  	 * cache that grows continuously.
+  	 *
+  	 * @type {Cache}
+  	 */
+
+  	exports.cache = utils$1.cache;
+
+  	/**
+  	 * Custom file loader. Useful for template preprocessing or restricting access
+  	 * to a certain part of the filesystem.
+  	 *
+  	 * @type {fileLoader}
+  	 */
+
+  	exports.fileLoader = fs.readFileSync;
+
+  	/**
+  	 * Name of the object containing the locals.
+  	 *
+  	 * This variable is overridden by {@link Options}`.localsName` if it is not
+  	 * `undefined`.
+  	 *
+  	 * @type {String}
+  	 * @public
+  	 */
+
+  	exports.localsName = _DEFAULT_LOCALS_NAME;
+
+  	/**
+  	 * Promise implementation -- defaults to the native implementation if available
+  	 * This is mostly just for testability
+  	 *
+  	 * @type {PromiseConstructorLike}
+  	 * @public
+  	 */
+
+  	exports.promiseImpl = (new Function('return this;'))().Promise;
+
+  	/**
+  	 * Get the path to the included file from the parent file path and the
+  	 * specified path.
+  	 *
+  	 * @param {String}  name     specified path
+  	 * @param {String}  filename parent file path
+  	 * @param {Boolean} [isDir=false] whether the parent file path is a directory
+  	 * @return {String}
+  	 */
+  	exports.resolveInclude = function(name, filename, isDir) {
+  	  var dirname = path.dirname;
+  	  var extname = path.extname;
+  	  var resolve = path.resolve;
+  	  var includePath = resolve(isDir ? filename : dirname(filename), name);
+  	  var ext = extname(name);
+  	  if (!ext) {
+  	    includePath += '.ejs';
+  	  }
+  	  return includePath;
+  	};
+
+  	/**
+  	 * Try to resolve file path on multiple directories
+  	 *
+  	 * @param  {String}        name  specified path
+  	 * @param  {Array<String>} paths list of possible parent directory paths
+  	 * @return {String}
+  	 */
+  	function resolvePaths(name, paths) {
+  	  var filePath;
+  	  if (paths.some(function (v) {
+  	    filePath = exports.resolveInclude(name, v, true);
+  	    return fs.existsSync(filePath);
+  	  })) {
+  	    return filePath;
+  	  }
+  	}
+
+  	/**
+  	 * Get the path to the included file by Options
+  	 *
+  	 * @param  {String}  path    specified path
+  	 * @param  {Options} options compilation options
+  	 * @return {String}
+  	 */
+  	function getIncludePath(path, options) {
+  	  var includePath;
+  	  var filePath;
+  	  var views = options.views;
+  	  var match = /^[A-Za-z]+:\\|^\//.exec(path);
+
+  	  // Abs path
+  	  if (match && match.length) {
+  	    path = path.replace(/^\/*/, '');
+  	    if (Array.isArray(options.root)) {
+  	      includePath = resolvePaths(path, options.root);
+  	    } else {
+  	      includePath = exports.resolveInclude(path, options.root || '/', true);
+  	    }
+  	  }
+  	  // Relative paths
+  	  else {
+  	    // Look relative to a passed filename first
+  	    if (options.filename) {
+  	      filePath = exports.resolveInclude(path, options.filename);
+  	      if (fs.existsSync(filePath)) {
+  	        includePath = filePath;
+  	      }
+  	    }
+  	    // Then look in any views directories
+  	    if (!includePath && Array.isArray(views)) {
+  	      includePath = resolvePaths(path, views);
+  	    }
+  	    if (!includePath && typeof options.includer !== 'function') {
+  	      throw new Error('Could not find the include file "' +
+  	          options.escapeFunction(path) + '"');
+  	    }
+  	  }
+  	  return includePath;
+  	}
+
+  	/**
+  	 * Get the template from a string or a file, either compiled on-the-fly or
+  	 * read from cache (if enabled), and cache the template if needed.
+  	 *
+  	 * If `template` is not set, the file specified in `options.filename` will be
+  	 * read.
+  	 *
+  	 * If `options.cache` is true, this function reads the file from
+  	 * `options.filename` so it must be set prior to calling this function.
+  	 *
+  	 * @memberof module:ejs-internal
+  	 * @param {Options} options   compilation options
+  	 * @param {String} [template] template source
+  	 * @return {(TemplateFunction|ClientFunction)}
+  	 * Depending on the value of `options.client`, either type might be returned.
+  	 * @static
+  	 */
+
+  	function handleCache(options, template) {
+  	  var func;
+  	  var filename = options.filename;
+  	  var hasTemplate = arguments.length > 1;
+
+  	  if (options.cache) {
+  	    if (!filename) {
+  	      throw new Error('cache option requires a filename');
+  	    }
+  	    func = exports.cache.get(filename);
+  	    if (func) {
+  	      return func;
+  	    }
+  	    if (!hasTemplate) {
+  	      template = fileLoader(filename).toString().replace(_BOM, '');
+  	    }
+  	  }
+  	  else if (!hasTemplate) {
+  	    // istanbul ignore if: should not happen at all
+  	    if (!filename) {
+  	      throw new Error('Internal EJS error: no file name or template '
+  	                    + 'provided');
+  	    }
+  	    template = fileLoader(filename).toString().replace(_BOM, '');
+  	  }
+  	  func = exports.compile(template, options);
+  	  if (options.cache) {
+  	    exports.cache.set(filename, func);
+  	  }
+  	  return func;
+  	}
+
+  	/**
+  	 * Try calling handleCache with the given options and data and call the
+  	 * callback with the result. If an error occurs, call the callback with
+  	 * the error. Used by renderFile().
+  	 *
+  	 * @memberof module:ejs-internal
+  	 * @param {Options} options    compilation options
+  	 * @param {Object} data        template data
+  	 * @param {RenderFileCallback} cb callback
+  	 * @static
+  	 */
+
+  	function tryHandleCache(options, data, cb) {
+  	  var result;
+  	  if (!cb) {
+  	    if (typeof exports.promiseImpl == 'function') {
+  	      return new exports.promiseImpl(function (resolve, reject) {
+  	        try {
+  	          result = handleCache(options)(data);
+  	          resolve(result);
+  	        }
+  	        catch (err) {
+  	          reject(err);
+  	        }
+  	      });
+  	    }
+  	    else {
+  	      throw new Error('Please provide a callback function');
+  	    }
+  	  }
+  	  else {
+  	    try {
+  	      result = handleCache(options)(data);
+  	    }
+  	    catch (err) {
+  	      return cb(err);
+  	    }
+
+  	    cb(null, result);
+  	  }
+  	}
+
+  	/**
+  	 * fileLoader is independent
+  	 *
+  	 * @param {String} filePath ejs file path.
+  	 * @return {String} The contents of the specified file.
+  	 * @static
+  	 */
+
+  	function fileLoader(filePath){
+  	  return exports.fileLoader(filePath);
+  	}
+
+  	/**
+  	 * Get the template function.
+  	 *
+  	 * If `options.cache` is `true`, then the template is cached.
+  	 *
+  	 * @memberof module:ejs-internal
+  	 * @param {String}  path    path for the specified file
+  	 * @param {Options} options compilation options
+  	 * @return {(TemplateFunction|ClientFunction)}
+  	 * Depending on the value of `options.client`, either type might be returned
+  	 * @static
+  	 */
+
+  	function includeFile(path, options) {
+  	  var opts = utils$1.shallowCopy(utils$1.createNullProtoObjWherePossible(), options);
+  	  opts.filename = getIncludePath(path, opts);
+  	  if (typeof options.includer === 'function') {
+  	    var includerResult = options.includer(path, opts.filename);
+  	    if (includerResult) {
+  	      if (includerResult.filename) {
+  	        opts.filename = includerResult.filename;
+  	      }
+  	      if (includerResult.template) {
+  	        return handleCache(opts, includerResult.template);
+  	      }
+  	    }
+  	  }
+  	  return handleCache(opts);
+  	}
+
+  	/**
+  	 * Re-throw the given `err` in context to the `str` of ejs, `filename`, and
+  	 * `lineno`.
+  	 *
+  	 * @implements {RethrowCallback}
+  	 * @memberof module:ejs-internal
+  	 * @param {Error}  err      Error object
+  	 * @param {String} str      EJS source
+  	 * @param {String} flnm     file name of the EJS file
+  	 * @param {Number} lineno   line number of the error
+  	 * @param {EscapeCallback} esc
+  	 * @static
+  	 */
+
+  	function rethrow(err, str, flnm, lineno, esc) {
+  	  var lines = str.split('\n');
+  	  var start = Math.max(lineno - 3, 0);
+  	  var end = Math.min(lines.length, lineno + 3);
+  	  var filename = esc(flnm);
+  	  // Error context
+  	  var context = lines.slice(start, end).map(function (line, i){
+  	    var curr = i + start + 1;
+  	    return (curr == lineno ? ' >> ' : '    ')
+  	      + curr
+  	      + '| '
+  	      + line;
+  	  }).join('\n');
+
+  	  // Alter exception message
+  	  err.path = filename;
+  	  err.message = (filename || 'ejs') + ':'
+  	    + lineno + '\n'
+  	    + context + '\n\n'
+  	    + err.message;
+
+  	  throw err;
+  	}
+
+  	function stripSemi(str){
+  	  return str.replace(/;(\s*$)/, '$1');
+  	}
+
+  	/**
+  	 * Compile the given `str` of ejs into a template function.
+  	 *
+  	 * @param {String}  template EJS template
+  	 *
+  	 * @param {Options} [opts] compilation options
+  	 *
+  	 * @return {(TemplateFunction|ClientFunction)}
+  	 * Depending on the value of `opts.client`, either type might be returned.
+  	 * Note that the return type of the function also depends on the value of `opts.async`.
+  	 * @public
+  	 */
+
+  	exports.compile = function compile(template, opts) {
+  	  var templ;
+
+  	  // v1 compat
+  	  // 'scope' is 'context'
+  	  // FIXME: Remove this in a future version
+  	  if (opts && opts.scope) {
+  	    if (!scopeOptionWarned){
+  	      console.warn('`scope` option is deprecated and will be removed in EJS 3');
+  	      scopeOptionWarned = true;
+  	    }
+  	    if (!opts.context) {
+  	      opts.context = opts.scope;
+  	    }
+  	    delete opts.scope;
+  	  }
+  	  templ = new Template(template, opts);
+  	  return templ.compile();
+  	};
+
+  	/**
+  	 * Render the given `template` of ejs.
+  	 *
+  	 * If you would like to include options but not data, you need to explicitly
+  	 * call this function with `data` being an empty object or `null`.
+  	 *
+  	 * @param {String}   template EJS template
+  	 * @param {Object}  [data={}] template data
+  	 * @param {Options} [opts={}] compilation and rendering options
+  	 * @return {(String|Promise<String>)}
+  	 * Return value type depends on `opts.async`.
+  	 * @public
+  	 */
+
+  	exports.render = function (template, d, o) {
+  	  var data = d || utils$1.createNullProtoObjWherePossible();
+  	  var opts = o || utils$1.createNullProtoObjWherePossible();
+
+  	  // No options object -- if there are optiony names
+  	  // in the data, copy them to options
+  	  if (arguments.length == 2) {
+  	    utils$1.shallowCopyFromList(opts, data, _OPTS_PASSABLE_WITH_DATA);
+  	  }
+
+  	  return handleCache(opts, template)(data);
+  	};
+
+  	/**
+  	 * Render an EJS file at the given `path` and callback `cb(err, str)`.
+  	 *
+  	 * If you would like to include options but not data, you need to explicitly
+  	 * call this function with `data` being an empty object or `null`.
+  	 *
+  	 * @param {String}             path     path to the EJS file
+  	 * @param {Object}            [data={}] template data
+  	 * @param {Options}           [opts={}] compilation and rendering options
+  	 * @param {RenderFileCallback} cb callback
+  	 * @public
+  	 */
+
+  	exports.renderFile = function () {
+  	  var args = Array.prototype.slice.call(arguments);
+  	  var filename = args.shift();
+  	  var cb;
+  	  var opts = {filename: filename};
+  	  var data;
+  	  var viewOpts;
+
+  	  // Do we have a callback?
+  	  if (typeof arguments[arguments.length - 1] == 'function') {
+  	    cb = args.pop();
+  	  }
+  	  // Do we have data/opts?
+  	  if (args.length) {
+  	    // Should always have data obj
+  	    data = args.shift();
+  	    // Normal passed opts (data obj + opts obj)
+  	    if (args.length) {
+  	      // Use shallowCopy so we don't pollute passed in opts obj with new vals
+  	      utils$1.shallowCopy(opts, args.pop());
+  	    }
+  	    // Special casing for Express (settings + opts-in-data)
+  	    else {
+  	      // Express 3 and 4
+  	      if (data.settings) {
+  	        // Pull a few things from known locations
+  	        if (data.settings.views) {
+  	          opts.views = data.settings.views;
+  	        }
+  	        if (data.settings['view cache']) {
+  	          opts.cache = true;
+  	        }
+  	        // Undocumented after Express 2, but still usable, esp. for
+  	        // items that are unsafe to be passed along with data, like `root`
+  	        viewOpts = data.settings['view options'];
+  	        if (viewOpts) {
+  	          utils$1.shallowCopy(opts, viewOpts);
+  	        }
+  	      }
+  	      // Express 2 and lower, values set in app.locals, or people who just
+  	      // want to pass options in their data. NOTE: These values will override
+  	      // anything previously set in settings  or settings['view options']
+  	      utils$1.shallowCopyFromList(opts, data, _OPTS_PASSABLE_WITH_DATA_EXPRESS);
+  	    }
+  	    opts.filename = filename;
+  	  }
+  	  else {
+  	    data = utils$1.createNullProtoObjWherePossible();
+  	  }
+
+  	  return tryHandleCache(opts, data, cb);
+  	};
+
+  	/**
+  	 * Clear intermediate JavaScript cache. Calls {@link Cache#reset}.
+  	 * @public
+  	 */
+
+  	/**
+  	 * EJS template class
+  	 * @public
+  	 */
+  	exports.Template = Template;
+
+  	exports.clearCache = function () {
+  	  exports.cache.reset();
+  	};
+
+  	function Template(text, optsParam) {
+  	  var opts = utils$1.hasOwnOnlyObject(optsParam);
+  	  var options = utils$1.createNullProtoObjWherePossible();
+  	  this.templateText = text;
+  	  /** @type {string | null} */
+  	  this.mode = null;
+  	  this.truncate = false;
+  	  this.currentLine = 1;
+  	  this.source = '';
+  	  options.client = opts.client || false;
+  	  options.escapeFunction = opts.escape || opts.escapeFunction || utils$1.escapeXML;
+  	  options.compileDebug = opts.compileDebug !== false;
+  	  options.debug = !!opts.debug;
+  	  options.filename = opts.filename;
+  	  options.openDelimiter = opts.openDelimiter || exports.openDelimiter || _DEFAULT_OPEN_DELIMITER;
+  	  options.closeDelimiter = opts.closeDelimiter || exports.closeDelimiter || _DEFAULT_CLOSE_DELIMITER;
+  	  options.delimiter = opts.delimiter || exports.delimiter || _DEFAULT_DELIMITER;
+  	  options.strict = opts.strict || false;
+  	  options.context = opts.context;
+  	  options.cache = opts.cache || false;
+  	  options.rmWhitespace = opts.rmWhitespace;
+  	  options.root = opts.root;
+  	  options.includer = opts.includer;
+  	  options.outputFunctionName = opts.outputFunctionName;
+  	  options.localsName = opts.localsName || exports.localsName || _DEFAULT_LOCALS_NAME;
+  	  options.views = opts.views;
+  	  options.async = opts.async;
+  	  options.destructuredLocals = opts.destructuredLocals;
+  	  options.legacyInclude = typeof opts.legacyInclude != 'undefined' ? !!opts.legacyInclude : true;
+
+  	  if (options.strict) {
+  	    options._with = false;
+  	  }
+  	  else {
+  	    options._with = typeof opts._with != 'undefined' ? opts._with : true;
+  	  }
+
+  	  this.opts = options;
+
+  	  this.regex = this.createRegex();
+  	}
+
+  	Template.modes = {
+  	  EVAL: 'eval',
+  	  ESCAPED: 'escaped',
+  	  RAW: 'raw',
+  	  COMMENT: 'comment',
+  	  LITERAL: 'literal'
+  	};
+
+  	Template.prototype = {
+  	  createRegex: function () {
+  	    var str = _REGEX_STRING;
+  	    var delim = utils$1.escapeRegExpChars(this.opts.delimiter);
+  	    var open = utils$1.escapeRegExpChars(this.opts.openDelimiter);
+  	    var close = utils$1.escapeRegExpChars(this.opts.closeDelimiter);
+  	    str = str.replace(/%/g, delim)
+  	      .replace(/</g, open)
+  	      .replace(/>/g, close);
+  	    return new RegExp(str);
+  	  },
+
+  	  compile: function () {
+  	    /** @type {string} */
+  	    var src;
+  	    /** @type {ClientFunction} */
+  	    var fn;
+  	    var opts = this.opts;
+  	    var prepended = '';
+  	    var appended = '';
+  	    /** @type {EscapeCallback} */
+  	    var escapeFn = opts.escapeFunction;
+  	    /** @type {FunctionConstructor} */
+  	    var ctor;
+  	    /** @type {string} */
+  	    var sanitizedFilename = opts.filename ? JSON.stringify(opts.filename) : 'undefined';
+
+  	    if (!this.source) {
+  	      this.generateSource();
+  	      prepended +=
+  	        '  var __output = "";\n' +
+  	        '  function __append(s) { if (s !== undefined && s !== null) __output += s }\n';
+  	      if (opts.outputFunctionName) {
+  	        if (!_JS_IDENTIFIER.test(opts.outputFunctionName)) {
+  	          throw new Error('outputFunctionName is not a valid JS identifier.');
+  	        }
+  	        prepended += '  var ' + opts.outputFunctionName + ' = __append;' + '\n';
+  	      }
+  	      if (opts.localsName && !_JS_IDENTIFIER.test(opts.localsName)) {
+  	        throw new Error('localsName is not a valid JS identifier.');
+  	      }
+  	      if (opts.destructuredLocals && opts.destructuredLocals.length) {
+  	        var destructuring = '  var __locals = (' + opts.localsName + ' || {}),\n';
+  	        for (var i = 0; i < opts.destructuredLocals.length; i++) {
+  	          var name = opts.destructuredLocals[i];
+  	          if (!_JS_IDENTIFIER.test(name)) {
+  	            throw new Error('destructuredLocals[' + i + '] is not a valid JS identifier.');
+  	          }
+  	          if (i > 0) {
+  	            destructuring += ',\n  ';
+  	          }
+  	          destructuring += name + ' = __locals.' + name;
+  	        }
+  	        prepended += destructuring + ';\n';
+  	      }
+  	      if (opts._with !== false) {
+  	        prepended +=  '  with (' + opts.localsName + ' || {}) {' + '\n';
+  	        appended += '  }' + '\n';
+  	      }
+  	      appended += '  return __output;' + '\n';
+  	      this.source = prepended + this.source + appended;
+  	    }
+
+  	    if (opts.compileDebug) {
+  	      src = 'var __line = 1' + '\n'
+  	        + '  , __lines = ' + JSON.stringify(this.templateText) + '\n'
+  	        + '  , __filename = ' + sanitizedFilename + ';' + '\n'
+  	        + 'try {' + '\n'
+  	        + this.source
+  	        + '} catch (e) {' + '\n'
+  	        + '  rethrow(e, __lines, __filename, __line, escapeFn);' + '\n'
+  	        + '}' + '\n';
+  	    }
+  	    else {
+  	      src = this.source;
+  	    }
+
+  	    if (opts.client) {
+  	      src = 'escapeFn = escapeFn || ' + escapeFn.toString() + ';' + '\n' + src;
+  	      if (opts.compileDebug) {
+  	        src = 'rethrow = rethrow || ' + rethrow.toString() + ';' + '\n' + src;
+  	      }
+  	    }
+
+  	    if (opts.strict) {
+  	      src = '"use strict";\n' + src;
+  	    }
+  	    if (opts.debug) {
+  	      console.log(src);
+  	    }
+  	    if (opts.compileDebug && opts.filename) {
+  	      src = src + '\n'
+  	        + '//# sourceURL=' + sanitizedFilename + '\n';
+  	    }
+
+  	    try {
+  	      if (opts.async) {
+  	        // Have to use generated function for this, since in envs without support,
+  	        // it breaks in parsing
+  	        try {
+  	          ctor = (new Function('return (async function(){}).constructor;'))();
+  	        }
+  	        catch(e) {
+  	          if (e instanceof SyntaxError) {
+  	            throw new Error('This environment does not support async/await');
+  	          }
+  	          else {
+  	            throw e;
+  	          }
+  	        }
+  	      }
+  	      else {
+  	        ctor = Function;
+  	      }
+  	      fn = new ctor(opts.localsName + ', escapeFn, include, rethrow', src);
+  	    }
+  	    catch(e) {
+  	      // istanbul ignore else
+  	      if (e instanceof SyntaxError) {
+  	        if (opts.filename) {
+  	          e.message += ' in ' + opts.filename;
+  	        }
+  	        e.message += ' while compiling ejs\n\n';
+  	        e.message += 'If the above error is not helpful, you may want to try EJS-Lint:\n';
+  	        e.message += 'https://github.com/RyanZim/EJS-Lint';
+  	        if (!opts.async) {
+  	          e.message += '\n';
+  	          e.message += 'Or, if you meant to create an async function, pass `async: true` as an option.';
+  	        }
+  	      }
+  	      throw e;
+  	    }
+
+  	    // Return a callable function which will execute the function
+  	    // created by the source-code, with the passed data as locals
+  	    // Adds a local `include` function which allows full recursive include
+  	    var returnedFn = opts.client ? fn : function anonymous(data) {
+  	      var include = function (path, includeData) {
+  	        var d = utils$1.shallowCopy(utils$1.createNullProtoObjWherePossible(), data);
+  	        if (includeData) {
+  	          d = utils$1.shallowCopy(d, includeData);
+  	        }
+  	        return includeFile(path, opts)(d);
+  	      };
+  	      return fn.apply(opts.context,
+  	        [data || utils$1.createNullProtoObjWherePossible(), escapeFn, include, rethrow]);
+  	    };
+  	    if (opts.filename && typeof Object.defineProperty === 'function') {
+  	      var filename = opts.filename;
+  	      var basename = path.basename(filename, path.extname(filename));
+  	      try {
+  	        Object.defineProperty(returnedFn, 'name', {
+  	          value: basename,
+  	          writable: false,
+  	          enumerable: false,
+  	          configurable: true
+  	        });
+  	      } catch (e) {/* ignore */}
+  	    }
+  	    return returnedFn;
+  	  },
+
+  	  generateSource: function () {
+  	    var opts = this.opts;
+
+  	    if (opts.rmWhitespace) {
+  	      // Have to use two separate replace here as `^` and `$` operators don't
+  	      // work well with `\r` and empty lines don't work well with the `m` flag.
+  	      this.templateText =
+  	        this.templateText.replace(/[\r\n]+/g, '\n').replace(/^\s+|\s+$/gm, '');
+  	    }
+
+  	    // Slurp spaces and tabs before <%_ and after _%>
+  	    this.templateText =
+  	      this.templateText.replace(/[ \t]*<%_/gm, '<%_').replace(/_%>[ \t]*/gm, '_%>');
+
+  	    var self = this;
+  	    var matches = this.parseTemplateText();
+  	    var d = this.opts.delimiter;
+  	    var o = this.opts.openDelimiter;
+  	    var c = this.opts.closeDelimiter;
+
+  	    if (matches && matches.length) {
+  	      matches.forEach(function (line, index) {
+  	        var closing;
+  	        // If this is an opening tag, check for closing tags
+  	        // FIXME: May end up with some false positives here
+  	        // Better to store modes as k/v with openDelimiter + delimiter as key
+  	        // Then this can simply check against the map
+  	        if ( line.indexOf(o + d) === 0        // If it is a tag
+  	          && line.indexOf(o + d + d) !== 0) { // and is not escaped
+  	          closing = matches[index + 2];
+  	          if (!(closing == d + c || closing == '-' + d + c || closing == '_' + d + c)) {
+  	            throw new Error('Could not find matching close tag for "' + line + '".');
+  	          }
+  	        }
+  	        self.scanLine(line);
+  	      });
+  	    }
+
+  	  },
+
+  	  parseTemplateText: function () {
+  	    var str = this.templateText;
+  	    var pat = this.regex;
+  	    var result = pat.exec(str);
+  	    var arr = [];
+  	    var firstPos;
+
+  	    while (result) {
+  	      firstPos = result.index;
+
+  	      if (firstPos !== 0) {
+  	        arr.push(str.substring(0, firstPos));
+  	        str = str.slice(firstPos);
+  	      }
+
+  	      arr.push(result[0]);
+  	      str = str.slice(result[0].length);
+  	      result = pat.exec(str);
+  	    }
+
+  	    if (str) {
+  	      arr.push(str);
+  	    }
+
+  	    return arr;
+  	  },
+
+  	  _addOutput: function (line) {
+  	    if (this.truncate) {
+  	      // Only replace single leading linebreak in the line after
+  	      // -%> tag -- this is the single, trailing linebreak
+  	      // after the tag that the truncation mode replaces
+  	      // Handle Win / Unix / old Mac linebreaks -- do the \r\n
+  	      // combo first in the regex-or
+  	      line = line.replace(/^(?:\r\n|\r|\n)/, '');
+  	      this.truncate = false;
+  	    }
+  	    if (!line) {
+  	      return line;
+  	    }
+
+  	    // Preserve literal slashes
+  	    line = line.replace(/\\/g, '\\\\');
+
+  	    // Convert linebreaks
+  	    line = line.replace(/\n/g, '\\n');
+  	    line = line.replace(/\r/g, '\\r');
+
+  	    // Escape double-quotes
+  	    // - this will be the delimiter during execution
+  	    line = line.replace(/"/g, '\\"');
+  	    this.source += '    ; __append("' + line + '")' + '\n';
+  	  },
+
+  	  scanLine: function (line) {
+  	    var self = this;
+  	    var d = this.opts.delimiter;
+  	    var o = this.opts.openDelimiter;
+  	    var c = this.opts.closeDelimiter;
+  	    var newLineCount = 0;
+
+  	    newLineCount = (line.split('\n').length - 1);
+
+  	    switch (line) {
+  	    case o + d:
+  	    case o + d + '_':
+  	      this.mode = Template.modes.EVAL;
+  	      break;
+  	    case o + d + '=':
+  	      this.mode = Template.modes.ESCAPED;
+  	      break;
+  	    case o + d + '-':
+  	      this.mode = Template.modes.RAW;
+  	      break;
+  	    case o + d + '#':
+  	      this.mode = Template.modes.COMMENT;
+  	      break;
+  	    case o + d + d:
+  	      this.mode = Template.modes.LITERAL;
+  	      this.source += '    ; __append("' + line.replace(o + d + d, o + d) + '")' + '\n';
+  	      break;
+  	    case d + d + c:
+  	      this.mode = Template.modes.LITERAL;
+  	      this.source += '    ; __append("' + line.replace(d + d + c, d + c) + '")' + '\n';
+  	      break;
+  	    case d + c:
+  	    case '-' + d + c:
+  	    case '_' + d + c:
+  	      if (this.mode == Template.modes.LITERAL) {
+  	        this._addOutput(line);
+  	      }
+
+  	      this.mode = null;
+  	      this.truncate = line.indexOf('-') === 0 || line.indexOf('_') === 0;
+  	      break;
+  	    default:
+  	      // In script mode, depends on type of tag
+  	      if (this.mode) {
+  	        // If '//' is found without a line break, add a line break.
+  	        switch (this.mode) {
+  	        case Template.modes.EVAL:
+  	        case Template.modes.ESCAPED:
+  	        case Template.modes.RAW:
+  	          if (line.lastIndexOf('//') > line.lastIndexOf('\n')) {
+  	            line += '\n';
+  	          }
+  	        }
+  	        switch (this.mode) {
+  	        // Just executing code
+  	        case Template.modes.EVAL:
+  	          this.source += '    ; ' + line + '\n';
+  	          break;
+  	          // Exec, esc, and output
+  	        case Template.modes.ESCAPED:
+  	          this.source += '    ; __append(escapeFn(' + stripSemi(line) + '))' + '\n';
+  	          break;
+  	          // Exec and output
+  	        case Template.modes.RAW:
+  	          this.source += '    ; __append(' + stripSemi(line) + ')' + '\n';
+  	          break;
+  	        case Template.modes.COMMENT:
+  	          // Do nothing
+  	          break;
+  	          // Literal <%% mode, append as raw output
+  	        case Template.modes.LITERAL:
+  	          this._addOutput(line);
+  	          break;
+  	        }
+  	      }
+  	      // In string mode, just add the output
+  	      else {
+  	        this._addOutput(line);
+  	      }
+  	    }
+
+  	    if (self.opts.compileDebug && newLineCount) {
+  	      this.currentLine += newLineCount;
+  	      this.source += '    ; __line = ' + this.currentLine + '\n';
+  	    }
+  	  }
+  	};
+
+  	/**
+  	 * Escape characters reserved in XML.
+  	 *
+  	 * This is simply an export of {@link module:utils.escapeXML}.
+  	 *
+  	 * If `markup` is `undefined` or `null`, the empty string is returned.
+  	 *
+  	 * @param {String} markup Input string
+  	 * @return {String} Escaped string
+  	 * @public
+  	 * @func
+  	 * */
+  	exports.escapeXML = utils$1.escapeXML;
+
+  	/**
+  	 * Express.js support.
+  	 *
+  	 * This is an alias for {@link module:ejs.renderFile}, in order to support
+  	 * Express.js out-of-the-box.
+  	 *
+  	 * @func
+  	 */
+
+  	exports.__express = exports.renderFile;
+
+  	/**
+  	 * Version of EJS.
+  	 *
+  	 * @readonly
+  	 * @type {String}
+  	 * @public
+  	 */
+
+  	exports.VERSION = _VERSION_STRING;
+
+  	/**
+  	 * Name for detection of EJS.
+  	 *
+  	 * @readonly
+  	 * @type {String}
+  	 * @public
+  	 */
+
+  	exports.name = _NAME;
+
+  	/* istanbul ignore if */
+  	if (typeof window != 'undefined') {
+  	  window.ejs = exports;
+  	}
+  } (ejs));
+
+  const COOKIE_NAME_SEGMENTATION_CDP_SEGMENTS = 'cdp_segments';
+  const COOKIE_NAME_SEGMENTATION_CUSTOMER_PROFILE = 'customer_profile';
+  const DEFAULT_CURRENCY = '$';
+  const DEFAULT_PAGE_SIZE = 16;
+  const DEFAULT_SEARCH_PARAMETER = 'q';
+  const DEFAULT_START = 0;
+
+  /**
+   * Extracts the segmentation value from the Bloomreach segmentation pixel
+   * @remarks Designed to check for the cookie,and if not present will set a default
+   * @returns {string}
+   */
+  function extractSegmentationCookie() {
+    const cookiePrefix = `${COOKIE_NAME_SEGMENTATION_CDP_SEGMENTS}=`;
+    const segmentationCookie = document.cookie.split('; ').find(cookie => cookie.startsWith(cookiePrefix));
+    return (segmentationCookie || '').replace(cookiePrefix, '');
+  }
+
+  // /utils/getRequest.ts
+  /**
+   * Method used to initiate the API request
+   * @remarks The Assignment of the API specific promise is set in the respective API
+   * @param {string} url
+   * @param {{}} options
+   * @returns {Promise<any>}
+   */
+  async function getRequest(url, options) {
+    /**
+     * Use of Client-Side Fetch API to retrieve the response
+     * @type {Response}
+     */
+    const response = await fetch(url, options);
+    /**
+     * Formats the response as json and returns the typed promise
+     * @type {any}
+     */
+    const result = await response.json();
+    /**
+     * Sets the type for the promise
+     */
+    return result;
+  }
+
+  // utils.requestOptions.ts
+  /**
+   *
+   * @type {{headers: {'Content-Type': string}, method: string}}
+   */
+  const requestOptions = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  // utils/extractTrackingCookie.ts
+  /**
+   * Extracts the tracking cookie from the Bloomreach cookie pixel
+   * @remarks Designed to check for the cookie,and if not present will set a default
+   * @returns {string}
+   */
+  function extractTrackingCookie() {
+    const trackingCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('_br_uid_2='));
+    return trackingCookie ? trackingCookie.replace('_br_uid_2=', '') : 'uid%3D7797686432023%3Av%3D11.5%3Ats%3D1428617911187%3Ahc%3D55';
+  }
+
+  // utils/formatAsCurrency.ts
+  /**
+   * Formats a value returned as a double into currency
+   * @param {number} cents
+   * @param {string} currencySign
+   * @param {boolean} onFront
+   * @returns {string}
+   */
+  const formatAsCurrency = (cents, currencySign = '$', onFront = true) => `${onFront ? currencySign : ''}${(cents / 100.0).toLocaleString(undefined, {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+})}${!onFront ? ` ${currencySign}` : ''}`;
+
+  // utils/generateRequestID.ts
+  /**
+   * Generates a randomized request ID that is 13 characters long
+   * @returns {number}
+   */
+  function generateRequestId() {
+    // eslint-disable-next-line no-mixed-operators
+    const requestID = Math.floor(1000000000000 + Math.random() * 9000000000000);
+    return requestID;
+  }
+  const ENDPOINT_WIDGETS_API = 'https://pathways.dxpapi.com/api/v2/widgets/';
+  const NO_ENCODE_PARAMETERS = ['_br_uid_2', 'fq', 'sort'];
+  const FIELD_LIST_WIDGETS = 'pid,price,sale_price,title,thumb_image,url';
+
+  function buildQueryParameters(apiCallParameters) {
+    return `?${Object.keys(apiCallParameters).reduce((queryParameters, parameterName) => [...queryParameters, `${parameterName}=${NO_ENCODE_PARAMETERS.includes(parameterName) ? apiCallParameters[parameterName] : encodeURIComponent(apiCallParameters[parameterName])}`], []).join('&')}`;
+  }
+  function buildRecommendationWidgetsRequestUrl(parameters) {
+    const apiParameters = Object.assign({}, parameters);
+    const endpoint = `${apiParameters.endpoint || ENDPOINT_WIDGETS_API}${apiParameters.type}/${apiParameters.id}`;
+    if (apiParameters.endpoint) delete apiParameters.endpoint;
+    if (apiParameters.type) delete apiParameters.type;
+    if (apiParameters.id) delete apiParameters.id;
+    if (!apiParameters.fields) apiParameters.fields = FIELD_LIST_WIDGETS;
+    return `${endpoint}${buildQueryParameters(apiParameters)}`;
+  }
+
+  /**
+   * Get category widget API
+   * @returns {Promise<RecommendationWidgetsResponse>}
+   */
+  async function getCategoryWidget(params) {
+    const url = buildRecommendationWidgetsRequestUrl(Object.assign(Object.assign({}, params), {
+      type: 'category'
+    }));
+    const options = requestOptions;
+    return getRequest(url, options);
+  }
+  /**
+   * Get keyword widget API
+   * @returns {Promise<RecommendationWidgetsResponse>}
+   */
+  async function getKeywordWidget(params) {
+    const url = buildRecommendationWidgetsRequestUrl(Object.assign(Object.assign({}, params), {
+      type: 'keyword'
+    }));
+    const options = requestOptions;
+    return getRequest(url, options);
+  }
+  /**
+   * Get global widget API
+   * @returns {Promise<RecommendationWidgetsResponse>}
+   */
+  async function getGlobalWidget(params) {
+    const url = buildRecommendationWidgetsRequestUrl(Object.assign(Object.assign({}, params), {
+      type: 'global'
+    }));
+    const options = requestOptions;
+    return getRequest(url, options);
+  }
+  /**
+   * Get personalized widget API
+   * @returns {Promise<RecommendationWidgetsResponse>}
+   */
+  async function getPersonalizedWidget(params) {
+    const url = buildRecommendationWidgetsRequestUrl(Object.assign(Object.assign({}, params), {
+      type: 'personalized'
+    }));
+    const options = requestOptions;
+    return getRequest(url, options);
+  }
+  /**
+   * Get item widget API
+   * @returns {Promise<RecommendationWidgetsResponse>}
+   */
+  async function getItemWidget(params) {
+    const url = buildRecommendationWidgetsRequestUrl(Object.assign(Object.assign({}, params), {
+      type: 'item'
+    }));
+    const options = requestOptions;
+    return getRequest(url, options);
+  }
+
+  var recommendationWidgetTemplate = "<div class=\"blm-recommendation-widget-content\" data-rid=\"<%= widgetMetadata.rid %>\" data-type=\"<%= widgetMetadata.type %>\" data-id=\"<%= widgetMetadata.id %>\">\n  <% if (products.length > config.number_of_items_to_show) { %>\n  <span class=\"blm-carousel__item blm-carousel-previous blm-invisible\">\n    <svg\n      xmlns=\"http://www.w3.org/2000/svg\"\n      width=\"24\"\n      height=\"24\"\n      viewBox=\"0 0 24 24\">\n      <path fill=\"none\" d=\"M0 0h24v24H0V0z\" />\n      <path d=\"M15.61 7.41L14.2 6l-6 6 6 6 1.41-1.41L11.03 12l4.58-4.59z\" />\n    </svg>\n  </span>\n  <% } %>\n\n  <section class=\"blm-recommendation__products\" style=\"--number-of-items-to-show: <%= config.number_of_items_to_show %>\">\n    <% products.forEach(function(product) { %>\n    <div class=\"blm-recommendation__product\" data-id=\"<%= product.id %>\">\n      <div class=\"blm-recommendation__product-inner\">\n        <div class=\"blm-product-image-container\">\n          <a href=\"<%= product.link %>\" class=\"blm-widget-link\">\n            <img\n              class=\"blm-product-image-container__image\"\n              alt=\"<%= product.title %>\"\n              src=\"<%= product.image %>\"\n            />\n          </a>\n        </div>\n        <div class=\"blm-product-details-container\">\n          <div class=\"blm-product-details-title-container\">\n            <a href=\"<%= product.link %>\" class=\"blm-product-details-container__title blm-widget-link\"><%= product.title %></a>\n          </div>\n          <% if (product.price && product.sale_price) { %>\n            <p class=\"blm-product-details-container__price\">\n              <% if (config.format_money) { %>\n                <%= config.format_money(product.sale_price.toFixed(2) * 100) %>&nbsp;<strike class=\"blm-product-details-container__original-price\"><%= config.format_money(product.price.toFixed(2) * 100) %></strike>\n              <% } else { %>\n                <%= config.default_currency %><%= product.sale_price.toFixed(2) %>&nbsp;<strike class=\"blm-product-details-container__original-price\"><%= config.default_currency %><%= product.price.toFixed(2) %></strike>\n              <% } %>\n            </p>\n          <% } else { %>\n            <p class=\"blm-product-details-container__price\">\n              <% if (config.format_money) { %>\n                <%= config.format_money(product.price.toFixed(2) * 100) %>\n              <% } else { %>\n                <%= config.default_currency %><%= product.price.toFixed(2) %>\n              <% } %>\n            </p>\n          <% } %>\n        </div>\n      </div>\n    </div>\n    <% }); %>\n  </section>\n\n  <% if (products.length > config.number_of_items_to_show) { %>\n  <span class=\"blm-carousel__item blm-carousel-next\">\n    <svg\n    xmlns=\"http://www.w3.org/2000/svg\"\n    width=\"24\"\n    height=\"24\"\n    viewBox=\"0 0 24 24\">\n    <path fill=\"none\" d=\"M0 0h24v24H0V0z\" />\n    <path d=\"M10.02 6L8.61 7.41 13.19 12l-4.58 4.59L10.02 18l6-6-6-6z\" />\n    </svg>\n  </span>\n  <% } %>\n</div>\n";
+
+  function buildBaseConfig() {
+    const connectorConfig = window?.bloomreachConnector?.config;
+    const config = {
+      default_search_parameter: DEFAULT_SEARCH_PARAMETER,
+      url: window.location.href,
+      ref_url: window.location.href,
+      tracking_cookie: extractTrackingCookie(),
+      format_money: cents => formatAsCurrency(cents, window.bloomreachDefaultCurrency || DEFAULT_CURRENCY),
+      default_currency: window.bloomreachDefaultCurrency || DEFAULT_CURRENCY,
+      ...connectorConfig
+    };
+    return config;
+  }
+  function buildRecommendationsConfig(widgetNode) {
+    const baseConfig = buildBaseConfig();
+    const {
+      endpoint,
+      fields
+    } = widgetNode.dataset;
+    const config = {
+      ...baseConfig,
+      widget: {
+        endpoint: '',
+        fields: '',
+        template: recommendationWidgetTemplate,
+        ...(baseConfig?.widget ?? {}),
+        ...(endpoint ? {
+          endpoint
+        } : {}),
+        ...(fields ? {
+          fields
+        } : {})
+      }
+    };
+    return config;
+  }
+
+  function findUpElementWithClassName(startElement, className) {
+    let element = startElement;
+    // eslint-disable-next-line functional/no-loop-statement
+    while (element && element.parentElement) {
+      element = element.parentElement;
+      if (element && element.classList?.contains(className)) {
+        return element;
+      }
+    }
+    console.warn(`CSS class '${className}' not found in ancestors of ${startElement.nodeName}`);
+    return null;
+  }
+
+  var breakpoints;
+  (function (breakpoints) {
+    breakpoints["small"] = "480px";
+    breakpoints["medium"] = "680px";
+    breakpoints["large"] = "750px";
+    breakpoints["xlarge"] = "875px";
+    breakpoints["xxlarge"] = "1000px";
+    breakpoints["xxxlarge"] = "1200px";
+  })(breakpoints || (breakpoints = {}));
+  const isMobileView = window.matchMedia(`(max-width: ${breakpoints.medium})`);
+  const isTabletView = window.matchMedia(`(min-width:${breakpoints.medium}) and (max-width: ${breakpoints.xlarge})`);
+
+  function formatAdditionalParams(additionalParams) {
+    return additionalParams?.replaceAll('&quot;', '"').split(/&(?!#\d+;|#x[\da-fA-F]+;|[a-zA-Z]+;)/) // matches standalone '&', but excludes those that are part of HTML entities
+    .reduce((accu, curr) => {
+      const index = curr.indexOf('=');
+      if (index > 0) {
+        const key = curr.slice(0, index);
+        const value = curr.slice(index + 1);
+        accu[key] = value;
+      }
+      return accu;
+    }, {}) ?? {};
+  }
+
+  /** Detect free variable `global` from Node.js. */
+
+  var freeGlobal$1 = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
+
+  var _freeGlobal = freeGlobal$1;
+
+  var freeGlobal = _freeGlobal;
+
+  /** Detect free variable `self`. */
+  var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+  /** Used as a reference to the global object. */
+  var root$1 = freeGlobal || freeSelf || Function('return this')();
+
+  var _root = root$1;
+
+  var root = _root;
+
+  /** Built-in value references. */
+  var Symbol$2 = root.Symbol;
+
+  var _Symbol = Symbol$2;
+
+  var Symbol$1 = _Symbol;
+
+  /** Built-in value references. */
+  Symbol$1 ? Symbol$1.toStringTag : undefined;
+
+  var Symbol = _Symbol;
+
+  /** Built-in value references. */
+  Symbol ? Symbol.toStringTag : undefined;
+
+  function mapRecommendationsApiResponse(responseData, config) {
+    return {
+      config,
+      products: [...(responseData.response.docs ? responseData.response.docs.map(product => ({
+        ...product,
+        id: product.pid,
+        image: product.thumb_image,
+        title: product.title,
+        link: product.url,
+        sale_price: product.sale_price,
+        price: product.price
+      })) : [])],
+      widgetMetadata: responseData.metadata.widget
+    };
+  }
+
+  function buildWidgetAddToCartButtonClickListener(widgetElement, parameters) {
+    const widgetAddToCartEventData = {
+      wrid: parameters.widgetRid,
+      wid: parameters.widgetId,
+      wty: parameters.widgetType,
+      item_id: parameters.blmWidgetAddToCartProdId,
+      ...(parameters.query ? {
+        wq: parameters.query
+      } : {}),
+      sku: parameters.blmWidgetAddToCartSku
+    };
+    return () => {
+      widgetElement.dispatchEvent(new CustomEvent('brCartWidgetAdd', {
+        bubbles: true,
+        detail: {
+          ...widgetAddToCartEventData
+        }
+      }));
+    };
+  }
+  function addWidgetAddToCartButtonClickListener() {
+    getCurrentRecommendationsUiState().widgets.forEach(widgetData => {
+      const widgetElement = widgetData.node;
+      const widgetContentElement = widgetElement.querySelector('.blm-recommendation-widget-content');
+      const {
+        id: widgetId = '',
+        type: widgetType = '',
+        rid: widgetRid = ''
+      } = widgetContentElement.dataset;
+      widgetElement.querySelectorAll('[data-blm-widget-add-to-cart]').forEach(addToCartElement => {
+        const {
+          blmWidgetAddToCartSku = '',
+          blmWidgetAddToCartProdId = ''
+        } = addToCartElement.dataset;
+        if (!addToCartElement.getAttribute('hasListener')) {
+          addToCartElement.addEventListener('click', buildWidgetAddToCartButtonClickListener(addToCartElement, {
+            widgetRid,
+            widgetId,
+            widgetType,
+            blmWidgetAddToCartSku,
+            blmWidgetAddToCartProdId,
+            query: widgetElement?.dataset?.query
+          }));
+          addToCartElement.setAttribute('hasListener', 'true');
+        }
+      });
+    });
+  }
+
+  function buildWidgetLinkElementClickListener(widgetElement, parameters) {
+    return () => {
+      const widgetClickEventData = {
+        wrid: parameters.widgetRid,
+        wid: parameters.widgetId,
+        wty: parameters.widgetType,
+        item_id: parameters.productId,
+        ...(parameters.query ? {
+          wq: parameters.query
+        } : {})
+      };
+      widgetElement.dispatchEvent(new CustomEvent('brWidgetClick', {
+        bubbles: true,
+        detail: {
+          ...widgetClickEventData
+        }
+      }));
+    };
+  }
+  function addWidgetLinkElementClickListener() {
+    getCurrentRecommendationsUiState().widgets.forEach(widgetData => {
+      const widgetElement = widgetData.node;
+      const widgetContentElement = widgetElement.querySelector('.blm-recommendation-widget-content');
+      const {
+        id: widgetId = '',
+        type: widgetType = '',
+        rid: widgetRid = ''
+      } = widgetContentElement.dataset;
+      widgetElement.querySelectorAll('.blm-widget-link').forEach(linkElement => {
+        const productElement = findUpElementWithClassName(linkElement, 'blm-recommendation__product');
+        const productId = productElement.dataset.id || '';
+        if (!linkElement.getAttribute('hasListener')) {
+          linkElement.addEventListener('click', buildWidgetLinkElementClickListener(linkElement, {
+            widgetRid,
+            widgetId,
+            widgetType,
+            productId,
+            query: widgetElement?.dataset?.query
+          }));
+          linkElement.setAttribute('hasListener', 'true');
+        }
+      });
+    });
+  }
+
+  function buildRecommendationsModule() {
+    let currentRecommendationsRequestState = {
+      request_id: 0
+    };
+    let currentRecommendationsUiState = {
+      widgets: []
+    };
+    return {
+      setCurrentRecommendationsRequestState: requestState => {
+        currentRecommendationsRequestState = requestState;
+      },
+      getCurrentRecommendationsRequestState: () => currentRecommendationsRequestState,
+      setCurrentRecommendationsUiState: uiState => {
+        currentRecommendationsUiState = uiState;
+      },
+      getCurrentRecommendationsUiState: () => currentRecommendationsUiState,
+      load: async () => {
+        updateCurrentRecommendationsRequestState({
+          request_id: generateRequestId()
+        });
+        storeSegmentationPixelData();
+        collectWidgetsFromDom();
+        // get and populate widgets data into the DOM
+        const loadWidgets = getCurrentRecommendationsUiState().widgets.reduce((allPromises, widgetData) => [...allPromises, new Promise((resolve, reject) => {
+          // build API call parameters
+          try {
+            const apiCallParameters = buildApiCallParameters(widgetData.node);
+            // call api and get data
+            let widgetResponse;
+            if (isKeywordWidgetRequest(apiCallParameters)) {
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+              widgetResponse = getKeywordWidget(apiCallParameters);
+            } else if (isCategoryWidgetRequest(apiCallParameters)) {
+              widgetResponse = getCategoryWidget(apiCallParameters);
+            } else if (isItemWidgetRequest(apiCallParameters)) {
+              widgetResponse = getItemWidget(apiCallParameters);
+            } else if (isPersonalizedWidgetRequest(apiCallParameters)) {
+              widgetResponse = getPersonalizedWidget(apiCallParameters);
+            } else {
+              widgetResponse = getGlobalWidget(apiCallParameters);
+            }
+            resolve(widgetResponse);
+          } catch (e) {
+            reject(e);
+          }
+        }).then(widgetResponse => {
+          const widgetElement = widgetData.node;
+          const config = buildRecommendationsConfig(widgetElement);
+          // build template data
+          const templateData = mapRecommendationsApiResponse(widgetResponse, config);
+          const widgetAttributes = widgetElement.dataset;
+          templateData.config.number_of_items_to_show = Number(widgetAttributes.numberOfItemsToShow);
+          // render widget template into its container
+          widgetElement.innerHTML = ejs.render(config.widget?.template || '', templateData);
+          logWidgetViewEvent(widgetElement);
+          widgetElement.classList.add('blm-widget-loaded');
+          return {
+            widgetElement,
+            templateData
+          };
+        })], []);
+        const loadedWidgets = await Promise.all(loadWidgets).catch(console.error);
+        // add event listeners to loaded widget content
+        addWidgetAddToCartButtonClickListener();
+        addWidgetLinkElementClickListener();
+        (loadedWidgets || []).forEach(widgetResult => {
+          setupCarousel(widgetResult.widgetElement, widgetResult.templateData);
+        });
+      }
+    };
+  }
+  function buildApiCallParameters(widgetNode) {
+    const config = buildRecommendationsConfig(widgetNode);
+    const urlParameters = new URLSearchParams(window.location.search);
+    const currentRecommendationsRequestState = getCurrentRecommendationsRequestState();
+    const {
+      id,
+      type,
+      categoryId,
+      query,
+      itemIds,
+      userId,
+      numberOfItemsToFetch,
+      additionalParams
+    } = widgetNode.dataset;
+    const apiParameters = {
+      ...(config?.widget?.endpoint ? {
+        endpoint: config.widget.endpoint
+      } : {}),
+      ...(config?.widget?.fields ? {
+        fields: config.widget.fields
+      } : {}),
+      type: type,
+      id: id ?? '',
+      account_id: config.account_id,
+      domain_key: config.domain_key,
+      request_id: currentRecommendationsRequestState.request_id,
+      _br_uid_2: config.tracking_cookie ?? '',
+      ref_url: config.ref_url ?? '',
+      url: config.url ?? '',
+      rows: Number(numberOfItemsToFetch) || DEFAULT_PAGE_SIZE,
+      start: DEFAULT_START,
+      ...(config.view_id ? {
+        view_id: config.view_id
+      } : {}),
+      ...formatAdditionalParams(additionalParams || config.widget.additional_parameters)
+    };
+    // add URL parameters
+    // eslint-disable-next-line functional/no-loop-statement
+    for (const [key, value] of urlParameters.entries()) {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+      if (!Object.keys(apiParameters).includes(key)) {
+        apiParameters[key] = value;
+      }
+    }
+    const segmentationData = extractSegmentationCookie();
+    if (segmentationData) {
+      apiParameters.brSeg = `seg:${segmentationData}`;
+      apiParameters.segment = `customer_profile:${segmentationData}`;
+      apiParameters.cdp_segments = segmentationData;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    if (isKeywordWidgetRequest(apiParameters)) {
+      apiParameters.query = query ?? '';
+    } else if (isCategoryWidgetRequest(apiParameters)) {
+      apiParameters.cat_id = categoryId ?? '';
+    } else if (isItemWidgetRequest(apiParameters)) {
+      apiParameters.item_ids = itemIds;
+    } else if (isPersonalizedWidgetRequest(apiParameters)) {
+      apiParameters.user_id = userId;
+    } else if (!isGlobalWidgetRequest(apiParameters)) {
+      throw new Error(`Invalid widget type: "${type}"`);
+    }
+    return apiParameters;
+  }
+  function getCurrentRecommendationsUiState() {
+    return window.BloomreachModules.pathwaysRecommendations.getCurrentRecommendationsUiState();
+  }
+  function updateCurrentRecommendationsUiState(state) {
+    window.BloomreachModules.pathwaysRecommendations.setCurrentRecommendationsUiState({
+      ...getCurrentRecommendationsUiState(),
+      ...state
+    });
+  }
+  function getCurrentRecommendationsRequestState() {
+    return window.BloomreachModules.pathwaysRecommendations.getCurrentRecommendationsRequestState();
+  }
+  function updateCurrentRecommendationsRequestState(state) {
+    window.BloomreachModules.pathwaysRecommendations.setCurrentRecommendationsRequestState({
+      ...getCurrentRecommendationsRequestState(),
+      ...state
+    });
+  }
+  function collectWidgetsFromDom() {
+    const widgets = [];
+    document.querySelectorAll('.blm-recommendations-widget').forEach(widgetNode => {
+      widgets.push({
+        loaded: false,
+        node: widgetNode
+      });
+    });
+    updateCurrentRecommendationsUiState({
+      widgets
+    });
+  }
+  function storeSegmentationPixelData() {
+    const segmentationData = extractSegmentationCookie();
+    if (segmentationData) {
+      const br_data = window.br_data || {};
+      br_data[COOKIE_NAME_SEGMENTATION_CUSTOMER_PROFILE] = segmentationData;
+    }
+  }
+  function isKeywordWidgetRequest(apiCallParameters) {
+    return apiCallParameters.type === 'keyword';
+  }
+  function isCategoryWidgetRequest(apiCallParameters) {
+    return apiCallParameters.type === 'category';
+  }
+  function isItemWidgetRequest(apiCallParameters) {
+    return apiCallParameters.type === 'item';
+  }
+  function isPersonalizedWidgetRequest(apiCallParameters) {
+    return apiCallParameters.type === 'personalized';
+  }
+  function isGlobalWidgetRequest(apiCallParameters) {
+    return apiCallParameters.type === 'global';
+  }
+  function logWidgetViewEvent(widgetElement) {
+    const widgetContentElement = widgetElement.querySelector('.blm-recommendation-widget-content');
+    const {
+      id: widgetId = '',
+      type: widgetType = '',
+      rid: widgetRid = ''
+    } = widgetContentElement.dataset;
+    const widgetViewEventData = {
+      wrid: widgetRid,
+      wid: widgetId,
+      wty: widgetType,
+      ...(widgetElement.dataset.query ? {
+        wq: widgetElement.dataset.query
+      } : {})
+    };
+    widgetElement.dispatchEvent(new CustomEvent('brWidgetView', {
+      bubbles: true,
+      detail: {
+        ...widgetViewEventData
+      }
+    }));
+  }
+  function setupCarousel(widgetElement, templateData) {
+    const carouselPrevious = widgetElement.querySelector('.blm-carousel-previous');
+    const carouselNext = widgetElement.querySelector('.blm-carousel-next');
+    // @ts-ignore
+    const products = widgetElement.querySelectorAll('.blm-recommendation__product');
+    const displayedProducts = Number(isMobileView.matches ? 1 : isTabletView.matches ? 2 : templateData.config.number_of_items_to_show);
+    const productPage = Math.ceil(products.length / displayedProducts);
+    let productCardWidth = 0;
+    if (products.length) {
+      const productsContainer = widgetElement.querySelector('.blm-recommendation__products');
+      const computedStyles = window.getComputedStyle(productsContainer);
+      productCardWidth = Number(computedStyles.width.replace('px', '')) / displayedProducts;
+    }
+    let eachItemWidth = 0;
+    const movePer = productCardWidth;
+    const maxMove = (products.length - displayedProducts) * productCardWidth;
+    const adjustArrowVisibilities = () => {
+      if (products?.[0]?.style?.left === '0px') {
+        carouselPrevious?.classList.add('blm-invisible');
+      } else {
+        carouselPrevious?.classList.remove('blm-invisible');
+      }
+      if (products?.[0]?.style?.left === `-${maxMove}px`) {
+        carouselNext?.classList.add('blm-invisible');
+      } else {
+        carouselNext?.classList.remove('blm-invisible');
+      }
+    };
+    const moveRight = () => {
+      eachItemWidth = eachItemWidth + movePer;
+      if (products.length === 1) {
+        eachItemWidth = 0;
+      }
+      // eslint-disable-next-line functional/no-loop-statement
+      for (const product of products) {
+        if (eachItemWidth > maxMove) {
+          eachItemWidth = eachItemWidth - movePer;
+        }
+        product.style.left = `-${eachItemWidth}px`;
+      }
+      adjustArrowVisibilities();
+    };
+    const moveLeft = () => {
+      eachItemWidth = eachItemWidth - movePer;
+      if (eachItemWidth <= 0) {
+        eachItemWidth = 0;
+      }
+      // eslint-disable-next-line functional/no-loop-statement
+      for (const product of products) {
+        if (productPage > 1) product.style.left = `-${eachItemWidth}px`;
+      }
+      adjustArrowVisibilities();
+    };
+    if (carouselPrevious !== null && carouselNext !== null) {
+      carouselPrevious.addEventListener('click', () => {
+        moveLeft();
+      });
+      carouselNext.addEventListener('click', () => {
+        moveRight();
+      });
+    }
+  }
+
+  const recommendationsModule = buildRecommendationsModule();
+  window.BloomreachModules = {
+    ...globalBloomreachModules,
+    pathwaysRecommendations: recommendationsModule
+  };
+  // window.recommendationsReady = recommendationsModule.load().catch(console.error);
+
+})();
 //# sourceMappingURL=recommendations.js.map

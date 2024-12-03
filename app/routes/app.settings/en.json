@@ -21,7 +21,20 @@
       "description": "Re-install Bloomreach on all your themes."
     },
     "version": {
-      "title": "App Version"
+      "title": "Version Info",
+      "description": "This shows the app version and SDK version it's using."
+    },
+    "catalogs": {
+      "title": "Bloomreach Catalogs",
+      "description": "Configure Shopify markets to Bloomreach catalogs mappings."
+    },
+    "views": {
+      "title": "Bloomreach Views",
+      "description": "Configure Shopify countries to Bloomreach views mappings."
+    },
+    "themes": {
+      "title": "Working Theme",
+      "description": "The working theme will be used by the app when adding Bloomreach Embed Block and App Blocks. You can also add them to any themes in Shopify Theme Editor."
     }
   }
 }

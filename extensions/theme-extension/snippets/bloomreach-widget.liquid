@@ -1,11 +1,9 @@
 <script>
-  if (!window.bloomreachConnector.config.widget) {
-    bloomreachConnector.config.widget = {
-      endpoint: "{{ app.metafields.recommendations.endpoint }}",
-      fields: "{{ app.metafields.recommendations.fl_fields }}",
-      template: "{{ app.metafields.templates.recommendations | url_decode | strip_newlines | replace: '"', '\"' }}",
-    };
-  }
+  (function() {
+    document.addEventListener("DOMContentLoaded", () => {
+      window.recommendationsReady = window.recommendationsReady || window.BloomreachModules.pathwaysRecommendations.load().catch(console.log);
+    });
+  })();
 </script>
 {% if block.settings.widget_id %}
   <section
@@ -24,8 +22,13 @@
       data-type="{{ widget_type }}"
       data-title="{{ block.settings.title }}"
       data-id="{{ block.settings.widget_id }}"
-      data-number-of-items-to-show="{{ block.settings.items_to_show }}"
-      data-number-of-items-to-fetch="{{ block.settings.items_to_fetch }}"
+      data-number-of-items-to-show="{% if block.settings.use_default %}{{ app.metafields.recommendations.items_to_show }}{% else %}{{ block.settings.items_to_show }}{% endif %}"
+      data-number-of-items-to-fetch="{% if block.settings.use_default %}{{ app.metafields.recommendations.items_to_fetch }}{% else %}{{ block.settings.items_to_fetch }}{% endif %}"
+    {%- unless block.settings.use_default %}
+      data-fields="{{ block.settings.fl_fields }}"
+      data-endpoint="https:{{ block.settings.endpoint }}"
+      data-additional-params="{{ block.settings.additional_parameters | replace: '"', '\"' }}"
+    {%- endunless %}
       {% if data_extra %}{{ data_extra }}{% endif %}>
     </div>
   </section>
@@ -36,5 +39,9 @@
   .blm-recommendations__container {}
   .blm-recommendations__header { padding: 1.5em; text-align: center; }
   .blm-recommendations__title { max-width: 32em; margin: 0 auto; }
+  {% if block.settings.use_default -%}
+  {{ app.metafields.recommendations.custom_css }}
+  {%- else -%}
   {{ block.settings.custom_css }}
+  {%- endif %}
 {% endstyle %}

@@ -2,7 +2,15 @@
   "SearchPage": {
     "theme": {
       "title": "Enable Bloomreach Search on a Theme",
-      "description": "Click on a theme to open theme editor and configure Bloomreach Search App embeds to replace the built in Shopify search results page."
+      "description": "Bloomreach needs to integrate into your theme to handle search on your store. Read more in our ",
+      "reference": {
+        "primaryAction": "Documentation",
+        "primaryActionUrl": "https://documentation.bloomreach.com/discovery/docs/shopify-app-user-guide#searchcollections"
+      },
+      "primaryAction": {
+        "label": "Add Bloomreach Search App Block",
+        "description": "To add Bloomreach Search on your search page, click on the button below. This will allow you to customize its settings."
+      }
     },
     "searchTemplate": {
       "title": "Template",

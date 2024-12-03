@@ -1,16 +1,15 @@
-import { Icon, InlineStack, Link } from "@shopify/polaris";
-import { ExternalSmallIcon } from "@shopify/polaris-icons";
+import { Button } from "@shopify/polaris";
+
+import type { ButtonProps } from "@shopify/polaris";
 
 interface ExternalLinkProps {
   url: string;
   text: string;
+  variant?: ButtonProps["variant"];
 }
 
-export default function ExternalLink({ url, text }: ExternalLinkProps) {
+export default function ExternalLink({ url, text, variant }: ExternalLinkProps) {
   return (
-    <InlineStack blockAlign="center">
-      <Link url={url} target="_blank">{text}</Link>
-      <div><Icon source={ExternalSmallIcon} tone="info"/></div>
-    </InlineStack>
+    <Button variant={variant ?? "plain"} url={url} target="_blank">{text}</Button>
   );
 }

@@ -1,12 +1,13 @@
+import { useEffect } from "react";
 import { useFetcher } from "@remix-run/react";
 import { Bleed, BlockStack, Box, Card, InlineStack, Spinner, Text } from "@shopify/polaris";
 import Toggle from "react-toggle";
 import { useI18n } from "@shopify/react-i18n";
 import { useChoiceField } from "@shopify/react-form";
 import { ConsoleLogger } from "../ConsoleLogger";
+import { ExternalLink } from "../ExternalLink";
+
 import en from "./en.json";
-import { ExternalLink } from "..";
-import { useEffect } from "react";
 
 interface MultiCurrencyToggleProps {
   multicurrency_enabled?: boolean;
@@ -39,7 +40,7 @@ export default function MultiCurrencyToggle(props: MultiCurrencyToggleProps) {
   const multicurrencyEnabled = useChoiceField(props.multicurrency_enabled ?? false);
 
   const handleToggleChange = () => {
-    const data = { multicurrency_enabled: !multicurrencyEnabled.checked };
+    const data = { account: { multicurrency_enabled: !multicurrencyEnabled.checked } };
     ConsoleLogger("log: MultiCurrencyToggle: handleToggleChange: multicurrency_enabled: ", data);
     fetcher.submit(data, { method: "post", encType: "application/json" });
   }
@@ -59,7 +60,7 @@ export default function MultiCurrencyToggle(props: MultiCurrencyToggleProps) {
               />
               <Text as="span">
                 {i18n.translate("MultiCurrencyToggle.label")}
-                {multicurrencyEnabled
+                {multicurrencyEnabled.checked
                   ? i18n.translate("MultiCurrencyToggle.enabled")
                   : i18n.translate("MultiCurrencyToggle.disabled")}
               </Text>
@@ -74,10 +75,13 @@ export default function MultiCurrencyToggle(props: MultiCurrencyToggleProps) {
             </InlineStack>
           </Box>
         </Bleed>
-        <ExternalLink
-          url={i18n.translate("MultiCurrencyToggle.primaryActionUrl")}
-          text={i18n.translate("MultiCurrencyToggle.primaryAction")}
-        />
+        <div>
+          <ExternalLink
+            url={i18n.translate("MultiCurrencyToggle.primaryActionUrl")}
+            text={i18n.translate("MultiCurrencyToggle.primaryAction")}
+            variant="primary"
+          />
+        </div>
       </BlockStack>
     </Card>
   );

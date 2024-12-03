@@ -1,0 +1,290 @@
+<script>
+  function getCatalog() {
+    const defaultCatalog = "{{ app.metafields.account.domain_key }}";
+    const catalogsValue = "{{ localization.market.metafields["$app:account"].catalogs | replace: '"', '\"' }}";
+    const multi_catalog_enabled = "{{ app.metafields.account.multi_catalog_enabled }}" === "true";
+    if (!multi_catalog_enabled) {
+      return defaultCatalog;
+    }
+
+    let catalog;
+    try {
+      catalog = JSON.parse(catalogsValue)['{{ localization.language.iso_code }}'];
+    } catch(e) {}
+
+    return catalog || defaultCatalog;
+  }
+
+  function getView() {
+    const viewsValue = "{{ localization.market.metafields["$app:account"].views | replace: '"', '\"' }}";
+    let viewId;
+    try {
+      viewId = JSON.parse(viewsValue)['{{ localization.country.iso_code }}'];
+    } catch(e) {}
+
+    return viewId;
+  }
+
+  window.bloomreachConnector = {};
+  bloomreachConnector.config = {
+    account_id: "{{ app.metafields.account.account_id }}",
+    domain_key: getCatalog(),
+    view_id: getView(),
+    auth_key: "{{ app.metafields.account.auth_key }}",
+    default_search_parameter: "q",
+    search_page_url: "{{ app.metafields.account.search_page_url }}",
+    format_money: function(cents) {
+      var shopCurrency = "{{shop.currency}}";
+      var shopCurrencySymbol = "{% for currency in shop.enabled_currencies %}{% if currency.iso_code == shop.currency %}{{ currency.symbol }}{% break %}{% endif %}{% endfor %}";
+      var priceInCents = cents;
+      {% if app.metafields.account.multicurrency_enabled %}
+      if (
+        typeof Shopify !== 'undefined' &&
+        typeof Shopify.currency !== 'undefined' &&
+        typeof Shopify.currency.rate !== 'undefined' &&
+        typeof Shopify.currency.active !== 'undefined'
+      ) {
+        if (shopCurrency !== Shopify.currency.active) {
+          switch(Shopify.currency.active) {
+            case "USD":
+              shopCurrencySymbol = '$';
+              break;
+            case "GBP":
+              shopCurrencySymbol = '£';
+              break;
+            case "CAD":
+              shopCurrencySymbol = 'CA$';
+              break;
+            default:
+              shopCurrencySymbol = Shopify.currency.active;
+              break;
+          }
+        }
+        priceInCents = priceInCents * Shopify.currency.rate;
+        priceInCents = Math.ceil(priceInCents);
+      }
+      {% endif %}
+      var val = (priceInCents / 100.0).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+      return shopCurrencySymbol + val;
+    },
+    widget: {
+      endpoint: "{{ app.metafields.recommendations.endpoint }}",
+      fields: "{{ app.metafields.recommendations.fl_fields }}",
+      additional_parameters: "{{ app.metafields.recommendations.additional_parameters | replace: '"', '\"' }}",
+    },
+  };
+  {% render "bloomreach-template", template_name: "recommendations" %}
+</script>
+{% if block.settings.pixel_enable %}
+  {%- liquid
+    if request.page_type == "index"
+      assign page_type = "homepage"
+    elsif request.page_type == "product"
+      assign page_type = "product"
+    elsif request.page_type == "collection" or request.page_type == "list-collections"
+      assign page_type = "category"
+    elsif request.page_type == "search"
+      assign page_type = "search"
+    elsif request.page_type == "article" or request.page_type == "blog"
+      assign page_type = "content"
+    else
+      assign page_type = "other"
+    endif
+  -%}
+<script src="{{ 'product-events.js' | asset_url }}" defer="defer"></script>
+<script>
+  bloomreachConnector.config.pixel = {
+    enabled: true,
+  };
+
+  (function() {
+    const br_data = {};
+    br_data.ptype = "{{ page_type }}";
+    {%  if block.settings.pixel_debug -%}
+    br_data.debug = true;
+    {%- endif -%}
+    {% if app.metafields.account.multi_catalog_enabled -%}
+    br_data.domain_key = bloomreachConnector.config.domain_key;
+    {%- endif -%}
+    br_data.view_id = bloomreachConnector.config.view_id || '';
+    // br_data.tms = "{{ 'NEED_MORE_INFO' }}";
+    {% if page_type == "product" -%}
+    // Product page view
+    br_data.prod_id = "{{ product[block.settings.pixel_pid] | url_param_escape }}";
+    br_data.prod_name = "{{ product.title | url_param_escape }}";
+    br_data.sku = "{{ product.selected_or_first_available_variant.sku }}";
+    {%- endif -%}
+
+    {%- if page_type == "content" -%}
+    // Content page view
+      {%- if request.page_type == "article" -%}
+    br_data.catalogs = [{ name : "{{ blog.handle | url_param_escape  }}" }];
+    br_data.item_id = "{{ article.handle | url_param_escape }}";
+    br_data.item_name = "{{ article.title | url_param_escape }}";
+      {%- endif -%}
+      {%- if request.page_type == "blog" -%}
+    br_data.catalogs = [{ name : "{{ blog.handle | url_param_escape }}" }];
+    br_data.item_id = "{{ blog.handle | url_param_escape }}";
+    br_data.item_name = "{{ blog.title | url_param_escape }}";
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if page_type == "category" -%}
+    // Category page view
+    br_data.cat_id = "{{ collection.handle | url_param_escape }}";
+    br_data.cat = "{{ collection.title | url_param_escape }}";
+    {%- endif -%}
+
+    {%- if page_type == "search" -%}
+    // Search results page view
+    br_data.search_term = "{{ search.terms | url_param_escape }}";
+    {%- endif -%}
+
+    localStorage.setItem("br_data", JSON.stringify(br_data));
+
+    document.addEventListener("brCartClickAdd", (event) => {
+      event.stopImmediatePropagation();
+      const eventData = {
+        etype: "click-add",
+        pid_field: "{{ block.settings.pixel_pid }}",
+      };
+      sessionStorage.setItem("br_atc_event_data", JSON.stringify(eventData));
+    });
+
+    document.addEventListener("brCartWidgetAdd", (event) => {
+      event.stopImmediatePropagation();
+      const eventData = {
+        etype: "widget-add",
+        pid_field: "{{ block.settings.pixel_pid }}",
+        ...event.detail,
+      };
+      sessionStorage.setItem("br_atc_event_data", JSON.stringify(eventData));
+    });
+
+    document.addEventListener("brProductQuickview", (event) => {
+      event.stopImmediatePropagation();
+      Shopify.analytics.publish("br_product_quickview", event.detail);
+    });
+
+    document.addEventListener("brSuggestSubmit", (event) => {
+      event.stopImmediatePropagation();
+      Shopify.analytics.publish("br_suggest_submit", event.detail);
+    });
+
+    document.addEventListener("brSuggestClick", (event) => {
+      event.stopImmediatePropagation();
+      Shopify.analytics.publish("br_suggest_click", event.detail);
+    });
+
+    document.addEventListener("brWidgetClick", (event) => {
+      event.stopImmediatePropagation();
+      Shopify.analytics.publish("br_widget_click", event.detail);
+    });
+
+    document.addEventListener("brWidgetView", (event) => {
+      event.stopImmediatePropagation();
+      Shopify.analytics.publish("br_widget_view", event.detail);
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      window.BloomreachModules.productEvents.load().catch(console.log);
+    });
+
+  })();
+</script>
+{% else %}
+<script>
+  localStorage.removeItem("br_data");
+</script>
+{% endif %}
+
+{% if block.settings.autosuggest_enable %}
+<script src="{{ 'autosuggest.js' | asset_url }}" defer="defer"></script>
+<link rel="stylesheet" href="{{ 'autosuggest.css' | asset_url }}" />
+  {% assign market_fields = localization.market.metafields["$app:autosuggest"] %}
+<script>
+  bloomreachConnector.config.autosuggest = {
+    enabled: true,
+    catalog_views: bloomreachConnector.config.viewId ? `${bloomreachConnector.config.domain_key}:${bloomreachConnector.config.viewId}` : bloomreachConnector.config.domain_key,
+    endpoint: "{{ market_fields.endpoint | default: app.metafields.autosuggest.endpoint }}",
+    selector: "{{ market_fields.css_selector | default: app.metafields.autosuggest.css_selector | replace: '"', '\"'}}",
+    number_of_terms: {{ market_fields.number_of_terms | default: app.metafields.autosuggest.number_of_terms | default: 4 }},
+    number_of_products: {{ market_fields.number_of_products | default: app.metafields.autosuggest.number_of_products  | default: 8 }},
+    number_of_collections: {{ market_fields.number_of_collections | default: app.metafields.autosuggest.number_of_collections  | default: 8 }},
+    additional_parameters: "{{ market_fields.additional_parameters | default: app.metafields.autosuggest.additional_parameters | replace: '"', '\"' }}"
+  };
+
+  {% render "bloomreach-template", template_name: "autosuggest" %}
+
+  (function() {
+    document.addEventListener("DOMContentLoaded", () => {
+      window.BloomreachModules.autosuggest.load().catch(console.log);
+    });
+  })();
+</script>
+  {% assign custom_css = market_fields.custom_css | default: app.metafields.autosuggest.custom_css %}
+  {% unless custom_css == blank %}
+    {% style %}
+      {{ custom_css }}
+    {% endstyle %}
+  {% endunless %}
+{% endif %}
+
+{% schema %}
+  {
+    "name": "t:bloomreachConfig.settings.name",
+    "target": "head",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:bloomreachConfig.settings.description"
+      },
+      {
+        "type": "header",
+        "content": "t:autosuggestConfig.settings.name",
+        "info": "t:autosuggestConfig.settings.description"
+      },
+      {
+        "id": "autosuggest_enable",
+        "type": "checkbox",
+        "label": "t:autosuggestConfig.enable.label"
+      },
+      {
+        "type": "header",
+        "content": "t:pixelConfig.settings.name",
+        "info": "t:pixelConfig.settings.description"
+      },
+      {
+        "id": "pixel_enable",
+        "type": "checkbox",
+        "label": "t:pixelConfig.enable.label"
+      },
+      {
+        "id": "pixel_debug",
+        "type": "checkbox",
+        "label": "t:pixelConfig.debug.label",
+        "info": "t:pixelConfig.debug.info"
+      },
+      {
+        "id": "pixel_pid",
+        "type": "select",
+        "label": "t:pixelConfig.pid.label",
+        "info": "t:pixelConfig.pid.info",
+        "options": [
+          {
+            "label": "handle",
+            "value": "handle"
+          },
+          {
+            "label": "id",
+            "value": "id"
+          }
+        ],
+        "default": "handle"
+      }
+    ]
+  }
+{% endschema %}

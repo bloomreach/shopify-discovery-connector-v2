@@ -1,16 +1,19 @@
-import { Fragment, useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useLoaderData, useNavigation } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import { ActionList, type ActionListItemProps, Badge, BlockStack, Box, Button, CalloutCard, Card, Divider, InlineStack, Layout, Page, Popover, Text } from "@shopify/polaris";
+import { ActionList, type ActionListItemProps, BlockStack, Box, Button, CalloutCard, Card, Layout, Page, Popover, Text } from "@shopify/polaris";
 import { useI18n } from "@shopify/react-i18n";
-import { PageWrapper, TemplateForm, LoadingPage, RecommendationsForm } from "~/components";
-import { getStore, updateStore, getThemes, getTemplate, setDefaultTemplates, runTemplateUpdate, updateTemplate, getRecommendationsSettings, updateRecommendationsSettings } from "~/services";
+import { PageWrapper, TemplateForm, LoadingPage, RecommendationsForm, ExternalLink } from "~/components";
+import { getTemplate, getAppSettings, updateSettings, getMarketsForNamespace, getStore } from "~/services";
 import { authenticate, extensionId } from "../../shopify.server";
+import { generateDeeplinkingUrl } from "~/utils";
+import { NAMESPACE_RECOMMENDATIONS, TEMPLATE_RECOMMENDATIONS } from "~/models";
+import { doTemplateAction } from "~/utils/templates.server";
 
 import en from "./en.json";
 
 import type { ActionFunctionArgs, LoaderFunctionArgs, TypedResponse } from "@remix-run/node";
-import type { Theme } from "node_modules/@shopify/shopify-api/dist/ts/rest/admin/2024-04/theme";
+import type { Recommendations, SettingsAction } from "~/types/store";
 
 const widgetTypes = ["category", "keyword", "item", "personalized", "global"];
 
@@ -18,39 +21,27 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { admin, session } = await authenticate.admin(request);
   console.log("log: RecommendationsPage: loader");
   const shopUrl = session.shop;
-  const store = await getStore(shopUrl);
-  const themes = await getThemes(admin, session);
-  const recommendations = await getRecommendationsSettings(admin);
-  const template = await getTemplate(admin, "recommendations");
-  await setDefaultTemplates(admin, shopUrl);
-  console.log("log: RecommendationsPage: loader: getStoreResponse: ", store);
-  console.log("log: RecommendationsPage: loader: themes: ", themes);
-  return json({ store, themes, shopUrl, template, extensionId, recommendations });
+  const { working_theme } = await getStore(shopUrl) ?? {};
+  const recommendations = await getAppSettings<Recommendations>(admin, NAMESPACE_RECOMMENDATIONS);
+  const template = await getTemplate(admin, TEMPLATE_RECOMMENDATIONS);
+  const markets = await getMarketsForNamespace(admin, NAMESPACE_RECOMMENDATIONS);
+  return json({ shopUrl, template, extensionId, recommendations, markets, workingTheme: working_theme });
 };
 
 export const action = async ({ request }: ActionFunctionArgs): Promise<TypedResponse<ActionResponse>> => {
-  const { session, admin } = await authenticate.admin(request);
+  const { admin } = await authenticate.admin(request);
   console.log("log: RecommendationsPage: action");
-  const shopUrl = session.shop;
 
   /** @type {any} */
-  const data: any = {...Object.fromEntries(await request.formData())};
-  const { _action, template, templateValue, templateVersion, updateVersion, recommendations } = data;
+  const data: any = await request.json();
+  const { _action, recommendations }: SettingsAction = data;
 
   try {
-    if (_action === 'updateRecommendations') {
+    if (_action === 'saveSettings' && recommendations) {
       console.log("log: RecommendationsPage: action: updateRecommendations");
-      await updateRecommendationsSettings(admin, JSON.parse(recommendations));
-    } else if (_action === 'autoUpdateTemplate') {
-      console.log("log: RecommendationsPage: action: autoUpdateTemplate");
-      await runTemplateUpdate(shopUrl, admin, template);
+      await updateSettings<Recommendations>(admin, recommendations, NAMESPACE_RECOMMENDATIONS);
     } else {
-      if (updateVersion) {
-        console.log("log: RecommendationsPage: action: updateTemplateVersion");
-        await updateStore(shopUrl, { [`${template}_template_version`]: templateVersion });
-      }
-      console.log("log: RecommendationsPage: action: save template");
-      await updateTemplate(admin, template, templateValue);
+      await doTemplateAction(admin, data);
     }
 
     console.log("log: RecommendationsPage: action: success.");
@@ -66,7 +57,7 @@ export const action = async ({ request }: ActionFunctionArgs): Promise<TypedResp
 
 export default function RecommendationsPage() {
   console.log("log: RecommendationsPage: render");
-  const { store, themes, shopUrl, extensionId, template, recommendations } = useLoaderData<typeof loader>();
+  const { shopUrl, extensionId, template, recommendations, markets, workingTheme } = useLoaderData<typeof loader>();
   const [i18n] = useI18n({
     id: "RecommendationsPage",
     translations: {
@@ -101,49 +92,46 @@ export default function RecommendationsPage() {
               <Text as="p" tone="subdued">{i18n.translate("RecommendationsPage.welcome.body")}</Text>
             </CalloutCard>
           </Layout.Section>
-          <Layout.AnnotatedSection
-            title={i18n.translate("RecommendationsPage.theme.title")}
-            description={i18n.translate("RecommendationsPage.theme.description")}
-          >
-            <Card padding="500">
-              <Text as="h2" variant="headingMd">
-                {i18n.translate("RecommendationsPage.theme.editForm.title")}
-              </Text>
-              <Box paddingBlock="400">
-                <BlockStack gap="300">
-                  <Divider borderColor="border" />
-                  {themes && (themes as Theme[]).filter((theme) => theme.role === 'main' || theme.role === 'unpublished').map((theme) => (
-                    <Fragment key={theme.id!}>
-                      <InlineStack align="space-between">
-                        <div>
-                          <Text as="span">{theme.name}</Text>&nbsp;&nbsp;
-                          {theme.role === 'main' && <Badge tone="success">Current theme</Badge>}
-                        </div>
-                        <WidgetActions shopUrl={shopUrl} extensionId={extensionId!} theme={theme} />
-                      </InlineStack>
-                      <Divider borderColor="border" />
-                    </Fragment>
-                  ))}
-                </BlockStack>
-              </Box>
-            </Card>
-          </Layout.AnnotatedSection>
-          <Layout.AnnotatedSection
-            title={i18n.translate("RecommendationsPage.recommendations.title")}
-            description={i18n.translate("RecommendationsPage.recommendations.description")}
-          >
-            <RecommendationsForm {...recommendations} />
-          </Layout.AnnotatedSection>
-          <Layout.AnnotatedSection
-            title={i18n.translate("RecommendationsPage.template.title")}
-            description={i18n.translate("RecommendationsPage.template.description")}
-          >
-            <TemplateForm
-              shopUrl={shopUrl}
-              template="recommendations"
-              templateValue={template}
-              templateVersion={store?.recommendations_template_version} />
-          </Layout.AnnotatedSection>
+          <Layout.Section>
+            <Box borderBlockStartWidth="025" borderColor="border" paddingBlockStart="400">
+              <BlockStack gap="200">
+                <Text as="h2" variant="headingMd">{i18n.translate("RecommendationsPage.theme.title")}</Text>
+                <Text as="p" variant="bodyMd">
+                  <Text as="span" tone="subdued">
+                    {i18n.translate("RecommendationsPage.theme.description")}
+                  </Text>
+                  <ExternalLink text={i18n.translate("RecommendationsPage.theme.reference.primaryAction")} url={i18n.translate("RecommendationsPage.theme.reference.primaryActionUrl")} />.
+                </Text>
+                <Card>
+                  <BlockStack gap="400">
+                    <Text as="p" variant="bodyMd" tone="subdued">
+                      {i18n.translate("RecommendationsPage.theme.primaryAction.description")}
+                    </Text>
+                    <WidgetActions shopUrl={shopUrl} extensionId={extensionId!} themeId={workingTheme} />
+                  </BlockStack>
+                </Card>
+              </BlockStack>
+            </Box>
+          </Layout.Section>
+          <Layout.Section>
+            <Box borderBlockStartWidth="025" borderColor="border" paddingBlockStart="400">
+              <RecommendationsForm {...recommendations} />
+            </Box>
+          </Layout.Section>
+          <Layout.Section>
+            <Box borderBlockStartWidth="025" borderColor="border" paddingBlockStart="400">
+              <BlockStack gap="200">
+                <Text as="h2" variant="headingMd">{i18n.translate("RecommendationsPage.template.title")}</Text>
+                <Text as="p" variant="bodyMd" tone="subdued">{i18n.translate("RecommendationsPage.template.description")}</Text>
+              </BlockStack>
+              <TemplateForm
+                shopUrl={shopUrl}
+                template="recommendations"
+                templateValue={template.value}
+                templateVersion={template.version}
+                markets={markets as any} />
+            </Box>
+          </Layout.Section>
         </Layout>
       </Page>
     </PageWrapper>
@@ -152,11 +140,11 @@ export default function RecommendationsPage() {
 
 interface WidgetActionsProps {
   shopUrl: string;
-  theme: Theme;
   extensionId: string;
+  themeId?: string | null;
 }
 
-function WidgetActions({ shopUrl, theme, extensionId }: WidgetActionsProps) {
+function WidgetActions({ shopUrl, themeId, extensionId }: WidgetActionsProps) {
   const [popoverActive, setPopoverActive] = useState(false);
   const [i18n] = useI18n({
     id: "RecommendationsPage",
@@ -173,13 +161,13 @@ function WidgetActions({ shopUrl, theme, extensionId }: WidgetActionsProps) {
   const widgets = useMemo<ActionListItemProps[]>(() => {
     return widgetTypes.map((widgetType) => ({
       content: i18n.translate(`RecommendationsPage.widgets.${widgetType}.displayName`),
-      onAction: () => window.open(`https://${shopUrl}/admin/themes/${theme.id}/editor?addAppBlockId=${extensionId}/bloomreach-recommendations-${widgetType}&target=newAppsSection`, "_blank"),
+      onAction: () => window.open(generateDeeplinkingUrl(false, shopUrl, extensionId, `bloomreach-recommendations-${widgetType}`, themeId, "index", "newAppsSection"), "_blank"),
     }));
-  }, [extensionId, i18n, shopUrl, theme.id]);
+  }, [extensionId, i18n, shopUrl, themeId]);
 
   const activator = (
-    <Button onClick={togglePopoverActive} disclosure>
-      {i18n.translate("RecommendationsPage.theme.editForm.action")}
+    <Button onClick={togglePopoverActive} disclosure variant="primary">
+      {i18n.translate("RecommendationsPage.theme.primaryAction.label")}
     </Button>
   );
 

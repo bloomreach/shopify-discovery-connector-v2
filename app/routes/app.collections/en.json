@@ -2,7 +2,15 @@
   "CollectionsPage": {
     "theme": {
       "title": "Enable Bloomreach Collections on a Theme",
-      "description": "Click on a theme to open theme editor and configure Bloomreach Collections App embeds to replace the built in Shopify collections pages."
+      "description": "Bloomreach needs to integrate into your theme to handle collections on your store. Read more in our ",
+      "reference": {
+        "primaryAction": "Documentation",
+        "primaryActionUrl": "https://documentation.bloomreach.com/discovery/docs/shopify-app-user-guide#searchcollections"
+      },
+      "primaryAction": {
+        "label": "Add Bloomreach Collections App Block",
+        "description": "To add Bloomreach Collections on your collection page, click on the button below. This will allow you to customize its settings."
+      }
     },
     "categoryTemplate": {
       "title": "Template",

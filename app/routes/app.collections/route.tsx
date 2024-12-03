@@ -1,52 +1,46 @@
 import { useLoaderData, useNavigation } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import { Layout, Page } from "@shopify/polaris";
+import { BlockStack, Box, Card, Layout, Page, Text } from "@shopify/polaris";
 import { useI18n } from "@shopify/react-i18n";
-import { PageWrapper, ThemeEditForm, TemplateForm, LoadingPage } from "~/components";
-import { getStore, updateStore, getThemes, getTemplate, setDefaultTemplates, runTemplateUpdate, updateTemplate } from "~/services";
+import { PageWrapper, TemplateForm, LoadingPage, ExternalLink, SearchForm } from "~/components";
+import { getTemplate, getMarketsForNamespace, getStore, getAppSettings, updateSettings } from "~/services";
 import { authenticate, extensionId } from "../../shopify.server";
+import { doTemplateAction } from "~/utils/templates.server";
+import { NAMESPACE_CATEGORY, TEMPLATE_CATEGORY, TEMPLATE_CATEGORY_LIST } from "~/models";
+import { generateDeeplinkingUrl } from "~/utils";
 
 import en from "./en.json";
 
 import type { ActionFunctionArgs, LoaderFunctionArgs, TypedResponse } from "@remix-run/node";
-import type { Theme } from "node_modules/@shopify/shopify-api/dist/ts/rest/admin/2024-04/theme";
+import type { Search, SettingsAction } from "~/types/store";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { admin, session } = await authenticate.admin(request);
   console.log("log: CollectionsPage: loader");
   const shopUrl = session.shop;
-  const store = await getStore(shopUrl);
-  const themes = await getThemes(admin, session);
-  const categoryTemplate = await getTemplate(admin, "category");
-  const categoryListTemplate = await getTemplate(admin, "category_product_list");
-  await setDefaultTemplates(admin, shopUrl);
-  console.log("log: CollectionsPage: loader: getStoreResponse: ", store);
-  console.log("log: CollectionsPage: loader: themes: ", themes);
-  return json({ store, themes, shopUrl, categoryTemplate, categoryListTemplate, extensionId });
+  const categoryTemplate = await getTemplate(admin, TEMPLATE_CATEGORY);
+  const categoryListTemplate = await getTemplate(admin, TEMPLATE_CATEGORY_LIST);
+  const markets = await getMarketsForNamespace(admin, NAMESPACE_CATEGORY);
+  const collections = await getAppSettings<Search>(admin, NAMESPACE_CATEGORY);
+  const { working_theme } = await getStore(shopUrl) ?? {};
+  return json({ shopUrl, categoryTemplate, categoryListTemplate, extensionId, markets, collections, workingTheme: working_theme });
 };
 
 export const action = async ({ request }: ActionFunctionArgs): Promise<TypedResponse<ActionResponse>> => {
-  const { session, admin } = await authenticate.admin(request);
+  const { admin } = await authenticate.admin(request);
   console.log("log: CollectionsPage: action");
-  const shopUrl = session.shop;
 
   /** @type {any} */
-  const data: any = {...Object.fromEntries(await request.formData())};
-  const { _action, template, templateValue, templateVersion, updateVersion } = data;
+  const data: any = await request.json();
+  const { _action, search }: SettingsAction = data;
 
   try {
-    if (_action === 'autoUpdateTemplate') {
-      console.log("log: CollectionsPage: action: autoUpdateTemplate");
-      await runTemplateUpdate(shopUrl, admin, template);
+    if (_action === "saveSettings" && search) {
+      console.log("log: CollectionsPage: action: save settings");
+      await updateSettings<Search>(admin, search, NAMESPACE_CATEGORY);
     } else {
-      if (updateVersion) {
-        console.log("log: CollectionsPage: action: updateTemplateVersion");
-        await updateStore(shopUrl, { [`${template}_template_version`]: templateVersion });
-      }
-      console.log("log: CollectionsPage: action: save template");
-      await updateTemplate(admin, template, templateValue);
+      await doTemplateAction(admin, data);
     }
-
     console.log("log: CollectionsPage: action: success.");
     return json({ status: "success" });
   } catch(error) {
@@ -60,7 +54,7 @@ export const action = async ({ request }: ActionFunctionArgs): Promise<TypedResp
 
 export default function CollectionsPage() {
   console.log("log: CollectionsPage: render");
-  const { store, themes, shopUrl, extensionId, categoryTemplate, categoryListTemplate } = useLoaderData<typeof loader>();
+  const { shopUrl, extensionId, categoryTemplate, categoryListTemplate, markets, collections, workingTheme } = useLoaderData<typeof loader>();
   const [i18n] = useI18n({
     id: "CollectionsPage",
     translations: {
@@ -77,37 +71,62 @@ export default function CollectionsPage() {
     <PageWrapper>
       <Page>
         <Layout>
-          <Layout.AnnotatedSection
-            title={i18n.translate("CollectionsPage.theme.title")}
-            description={i18n.translate("CollectionsPage.theme.description")}
-          >
-            <ThemeEditForm
-              themes={themes as Theme[]}
-              shopUrl={shopUrl}
-              extensionId={extensionId!}
-              handle="bloomreach-category-config"
-              template="collection" />
-          </Layout.AnnotatedSection>
-          <Layout.AnnotatedSection
-            title={i18n.translate("CollectionsPage.categoryTemplate.title")}
-            description={i18n.translate("CollectionsPage.categoryTemplate.description")}
-          >
-            <TemplateForm
-              shopUrl={shopUrl}
-              template="category"
-              templateValue={categoryTemplate}
-              templateVersion={store?.category_template_version} />
-          </Layout.AnnotatedSection>
-          <Layout.AnnotatedSection
-            title={i18n.translate("CollectionsPage.categoryListTemplate.title")}
-            description={i18n.translate("CollectionsPage.categoryListTemplate.description")}
-          >
-            <TemplateForm
-              shopUrl={shopUrl}
-              template="category_product_list"
-              templateValue={categoryListTemplate}
-              templateVersion={store?.category_product_list_template_version} />
-          </Layout.AnnotatedSection>
+          <Layout.Section>
+            <BlockStack gap="200">
+              <Text as="h2" variant="headingMd">
+                {i18n.translate("CollectionsPage.theme.title")}
+              </Text>
+              <Text as="p" variant="bodyMd">
+                <Text as="span" tone="subdued">
+                  {i18n.translate("CollectionsPage.theme.description")}
+                </Text>
+                <ExternalLink text={i18n.translate("CollectionsPage.theme.reference.primaryAction")} url={i18n.translate("CollectionsPage.theme.reference.primaryActionUrl")} />.
+              </Text>
+              <Card>
+                <BlockStack gap="400">
+                  <Text as="p" variant="bodyMd" tone="subdued">
+                    {i18n.translate("CollectionsPage.theme.primaryAction.description")}
+                  </Text>
+                  <div>
+                    <ExternalLink text={i18n.translate("CollectionsPage.theme.primaryAction.label")} url={generateDeeplinkingUrl(false, shopUrl, extensionId!, "bloomreach-category-config", workingTheme, "collection", "mainSection")} variant="primary"/>
+                  </div>
+                </BlockStack>
+              </Card>
+            </BlockStack>
+          </Layout.Section>
+          <Layout.Section>
+            <BlockStack gap="200">
+              <SearchForm search={collections} type="Bloomreach Collections" />
+            </BlockStack>
+          </Layout.Section>
+          <Layout.Section>
+            <Box borderBlockStartWidth="025" borderColor="border" paddingBlockStart="400">
+              <BlockStack gap="200">
+                <Text as="h2" variant="headingMd">{i18n.translate("CollectionsPage.categoryTemplate.title")}</Text>
+                <Text as="p" variant="bodyMd" tone="subdued">{i18n.translate("CollectionsPage.categoryTemplate.description")}</Text>
+                <TemplateForm
+                  shopUrl={shopUrl}
+                  template="category"
+                  templateValue={categoryTemplate.value}
+                  templateVersion={categoryTemplate.version}
+                  markets={markets as any} />
+                </BlockStack>
+            </Box>
+          </Layout.Section>
+          <Layout.Section>
+            <Box borderBlockStartWidth="025" borderColor="border" paddingBlockStart="400">
+              <BlockStack gap="200">
+                <Text as="h2" variant="headingMd">{i18n.translate("CollectionsPage.categoryListTemplate.title")}</Text>
+                <Text as="p" variant="bodyMd" tone="subdued">{i18n.translate("CollectionsPage.categoryListTemplate.description")}</Text>
+                <TemplateForm
+                  shopUrl={shopUrl}
+                  template="category_product_list"
+                  templateValue={categoryListTemplate.value}
+                  templateVersion={categoryListTemplate.version}
+                  markets={markets as any} />
+                </BlockStack>
+            </Box>
+          </Layout.Section>
         </Layout>
       </Page>
     </PageWrapper>

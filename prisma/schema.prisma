@@ -22,6 +22,8 @@ model store {
   category_product_list_template_version  String?   @db.VarChar(100)
   recommendations_template_version        String?   @db.VarChar(100)
   default_templates_added                 Boolean   @default(false)
+  working_theme                           String?   @db.VarChar(250)
+  setup_complete                          Boolean   @default(false)
 }
 
 model session {
