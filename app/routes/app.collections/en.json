@@ -7,9 +7,13 @@
         "primaryAction": "Documentation",
         "primaryActionUrl": "https://documentation.bloomreach.com/discovery/docs/shopify-app-user-guide#searchcollections"
       },
-      "primaryAction": {
+      "step1": {
+        "label": "Enable Bloomreach Configurations Embed Block",
+        "description": "Step 1: Click on the button below to enable Bloomreach Configurations Embed Block in your theme. This will add supporting modules for all Bloomreach components. You can skip this step if it's already enabled."
+      },
+      "step2": {
         "label": "Add Bloomreach Collections App Block",
-        "description": "To add Bloomreach Collections on your collection page, click on the button below. This will allow you to customize its settings."
+        "description": "Step 2: Click on the button below to add Bloomreach Collections on your collection page."
       }
     },
     "categoryTemplate": {

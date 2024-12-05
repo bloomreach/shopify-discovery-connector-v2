@@ -2,6 +2,7 @@
 build
 node_modules
 docs
+extensions
 .github
 .editorconfig
 .env*

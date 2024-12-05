@@ -50,7 +50,7 @@ export default function PixelPage() {
                 <ExternalLink text={i18n.translate("PixelPage.theme.reference.primaryAction")} url={i18n.translate("PixelPage.theme.reference.primaryActionUrl")} />.
               </Text>
               <Card>
-                <BlockStack gap="400">
+                <BlockStack gap="200">
                   <Text as="p" variant="bodyMd" tone="subdued">
                     {i18n.translate("PixelPage.theme.primaryAction.description")}
                   </Text>

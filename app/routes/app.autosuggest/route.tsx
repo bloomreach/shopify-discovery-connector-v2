@@ -88,7 +88,7 @@ export default function AutosuggestPage() {
                 <ExternalLink text={i18n.translate("AutosuggestPage.theme.reference.primaryAction")} url={i18n.translate("AutosuggestPage.theme.reference.primaryActionUrl")} />.
               </Text>
               <Card>
-                <BlockStack gap="400">
+                <BlockStack gap="200">
                   <Text as="p" variant="bodyMd" tone="subdued">
                     {i18n.translate("AutosuggestPage.theme.primaryAction.description")}
                   </Text>
