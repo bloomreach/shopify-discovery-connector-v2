@@ -84,12 +84,22 @@ export default function CollectionsPage() {
               </Text>
               <Card>
                 <BlockStack gap="400">
-                  <Text as="p" variant="bodyMd" tone="subdued">
-                    {i18n.translate("CollectionsPage.theme.primaryAction.description")}
-                  </Text>
-                  <div>
-                    <ExternalLink text={i18n.translate("CollectionsPage.theme.primaryAction.label")} url={generateDeeplinkingUrl(false, shopUrl, extensionId!, "bloomreach-category-config", workingTheme, "collection", "mainSection")} variant="primary"/>
-                  </div>
+                  <BlockStack gap="200">
+                    <Text as="p" variant="bodyMd" tone="subdued">
+                      {i18n.translate("CollectionsPage.theme.step1.description")}
+                    </Text>
+                    <div>
+                      <ExternalLink text={i18n.translate("CollectionsPage.theme.step1.label")} url={generateDeeplinkingUrl(true, shopUrl, extensionId!, "bloomreach-config", workingTheme)} variant="primary"/>
+                    </div>
+                  </BlockStack>
+                  <BlockStack gap="200">
+                    <Text as="p" variant="bodyMd" tone="subdued">
+                      {i18n.translate("CollectionsPage.theme.step2.description")}
+                    </Text>
+                    <div>
+                      <ExternalLink text={i18n.translate("CollectionsPage.theme.step2.label")} url={generateDeeplinkingUrl(false, shopUrl, extensionId!, "bloomreach-category-config", workingTheme, "collection", "mainSection")} variant="primary"/>
+                    </div>
+                  </BlockStack>
                 </BlockStack>
               </Card>
             </BlockStack>
