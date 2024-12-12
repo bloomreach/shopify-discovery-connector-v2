@@ -104,10 +104,20 @@ export default function RecommendationsPage() {
                 </Text>
                 <Card>
                   <BlockStack gap="400">
-                    <Text as="p" variant="bodyMd" tone="subdued">
-                      {i18n.translate("RecommendationsPage.theme.primaryAction.description")}
-                    </Text>
-                    <WidgetActions shopUrl={shopUrl} extensionId={extensionId!} themeId={workingTheme} />
+                    <BlockStack gap="200">
+                      <Text as="p" variant="bodyMd" tone="subdued">
+                        {i18n.translate("RecommendationsPage.theme.step1.description")}
+                      </Text>
+                      <div>
+                        <ExternalLink text={i18n.translate("RecommendationsPage.theme.step1.label")} url={generateDeeplinkingUrl(true, shopUrl, extensionId!, "bloomreach-config", workingTheme)} variant="primary"/>
+                      </div>
+                    </BlockStack>
+                    <BlockStack gap="200">
+                      <Text as="p" variant="bodyMd" tone="subdued">
+                        {i18n.translate("RecommendationsPage.theme.step2.description")}
+                      </Text>
+                      <WidgetActions shopUrl={shopUrl} extensionId={extensionId!} themeId={workingTheme} />
+                    </BlockStack>
                   </BlockStack>
                 </Card>
               </BlockStack>
@@ -167,7 +177,7 @@ function WidgetActions({ shopUrl, themeId, extensionId }: WidgetActionsProps) {
 
   const activator = (
     <Button onClick={togglePopoverActive} disclosure variant="primary">
-      {i18n.translate("RecommendationsPage.theme.primaryAction.label")}
+      {i18n.translate("RecommendationsPage.theme.step2.label")}
     </Button>
   );
 
