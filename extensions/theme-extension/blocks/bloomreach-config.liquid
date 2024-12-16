@@ -25,6 +25,28 @@
     return viewId;
   }
 
+  function getSearchPageUrl() {
+    let searchPageUrl = "{{ app.metafields.account.search_page_url }}";
+    const autoAdjustSearchPageUrl = {{ app.metafields.account.autoadjust_search_page_url | default: false }};
+    if (autoAdjustSearchPageUrl) {
+      try {
+        const subfolder = "{{ localization.language.root_url }}";
+        if (subfolder !== "/") {
+          const tempUrl = new URL(searchPageUrl, window.location);
+          let pathname = subfolder + tempUrl.pathname;
+          if (pathname.length > 1 && pathname.endsWith('/')) {
+            pathname = pathname.slice(0, -1);
+          }
+          searchPageUrl = new URL(pathname, tempUrl).href;
+        }
+      } catch(e) {
+        console.log("warn: unable to add subfolder to search url: ", e);
+      }
+    }
+
+    return searchPageUrl;
+  }
+
   window.bloomreachConnector = {};
   bloomreachConnector.config = {
     account_id: "{{ app.metafields.account.account_id }}",
@@ -32,7 +54,7 @@
     view_id: getView(),
     auth_key: "{{ app.metafields.account.auth_key }}",
     default_search_parameter: "q",
-    search_page_url: "{{ app.metafields.account.search_page_url }}",
+    search_page_url: getSearchPageUrl(),
     format_money: function(cents) {
       var shopCurrency = "{{shop.currency}}";
       var shopCurrencySymbol = "{% for currency in shop.enabled_currencies %}{% if currency.iso_code == shop.currency %}{{ currency.symbol }}{% break %}{% endif %}{% endfor %}";

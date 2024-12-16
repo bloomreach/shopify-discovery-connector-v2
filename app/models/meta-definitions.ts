@@ -27,6 +27,12 @@ const account = [
     type: "single_line_text_field",
   },
   {
+    name: "Auto-adjust search page URL",
+    key: "autoadjust_search_page_url",
+    description: "Auto adjust search page URL for market subfolders",
+    type: "boolean",
+  },
+  {
     name: "Enable Multicurrency Support",
     key: "multicurrency_enabled",
     description: "When enabled, this setting will convert prices from your stores default currency to the user selected currency, if your store supports multiple currencies",

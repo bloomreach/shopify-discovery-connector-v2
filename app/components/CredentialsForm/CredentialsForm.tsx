@@ -1,10 +1,11 @@
 import { useEffect, type FormEvent } from "react";
 import { useFetcher } from "@remix-run/react";
-import { Button, Card, Form, FormLayout, InlineStack, TextField } from "@shopify/polaris";
-import { notEmpty, propagateErrors, useField, validateAll, getValues, useReset, useDirty } from "@shopify/react-form";
+import { Button, Card, Checkbox, Form, FormLayout, InlineStack, Text, TextField } from "@shopify/polaris";
+import { notEmpty, propagateErrors, useField, validateAll, getValues, useReset, useDirty, asChoiceField } from "@shopify/react-form";
 import { useI18n } from "@shopify/react-i18n";
-
 import { ConsoleLogger } from "../ConsoleLogger";
+import { ExternalLink } from "../ExternalLink";
+
 import en from "./en.json";
 import type { Account } from "~/types/store";
 
@@ -63,6 +64,7 @@ export default function CredentialsForm(props: Account) {
         ),
       ],
     }),
+    autoadjust_search_page_url: useField(props.autoadjust_search_page_url ?? false),
   };
 
   const reset = useReset(fields);
@@ -106,6 +108,18 @@ export default function CredentialsForm(props: Account) {
               )}
               autoComplete="off"
               {...fields.search_page_url}
+            />
+            <Checkbox
+              label={i18n.translate(
+                "CredentialsForm.fields.searchPageUrl.checkbox"
+              )}
+              {...asChoiceField(fields.autoadjust_search_page_url)}
+              helpText={
+                <Text as="span" variant="bodyMd" tone="subdued">
+                  {i18n.translate("CredentialsForm.fields.searchPageUrl.description")}
+                  <ExternalLink text={i18n.translate("CredentialsForm.fields.searchPageUrl.linkText")} url={i18n.translate("CredentialsForm.fields.searchPageUrl.linkUrl")} />
+                </Text>
+              }
             />
           </div>
           <div>
