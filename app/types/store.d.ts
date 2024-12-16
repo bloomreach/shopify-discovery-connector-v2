@@ -8,6 +8,7 @@ export interface Account {
   search_page_url?: string;
   multicurrency_enabled?: boolean;
   multi_catalog_enabled?: boolean;
+  autoadjust_search_page_url?: boolean;
 }
 
 export interface Recommendations {

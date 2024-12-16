@@ -1,6 +1,6 @@
 const autosuggest = {
   endpoint: "https://staging-suggest.dxpapi.com/api/v1/suggest/",
-  css_selector: 'form[action="/search"] input[type="text"], form[action="/search"] input[type="search"]',
+  css_selector: 'form[role="search"] input[type="text"], form[role="search"] input[type="search"]',
   number_of_terms: 4,
   number_of_products: 8,
   number_of_collections: 8,
