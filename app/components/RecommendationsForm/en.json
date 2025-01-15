@@ -3,15 +3,32 @@
     "fields": {
       "endpoint": {
         "title": "Endpoint",
-        "description": ""
+        "description": "Select the Bloomreach API endpoint"
       },
       "flFields": {
         "title": "Fields",
-        "description": "",
+        "description": "Product attributes included in the API response",
         "validation": "This field is required"
+      },
+      "itemsToShow": {
+        "title": "How Many Items to Show",
+        "description": "",
+        "validation": "Must be an integer between 4 and 12"
+      },
+      "itemsToFetch": {
+        "title": "How Many Items to Fetch",
+        "description": "",
+        "validation": "Must be an integer between 4 and 32"
+      },
+      "additionalParameters": {
+        "title": "Additional Parameters",
+        "description": "Any additional parameters you would like to send to the Bloomreach API"
       }
     },
+    "title": "Recommendations Widgets Default Settings",
+    "description": "Customize default settings for your Bloomreach recommendations widgets. You can override them for an individual widget in the theme editor.",
     "primaryAction": "Save",
+    "reset": "Reset",
     "toaster": {
       "success": "Settings Saved",
       "error": "Something went wrong"

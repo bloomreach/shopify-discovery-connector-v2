@@ -127,4 +127,6 @@ const SearchListTemplate = `<% function printProduct(product) { %>
 
 <% } %>`;
 
-export default SearchListTemplate;
+const SearchListTemplateVersion = "3";
+
+export { SearchListTemplate, SearchListTemplateVersion };

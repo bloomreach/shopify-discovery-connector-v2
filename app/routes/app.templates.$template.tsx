@@ -1,10 +1,5 @@
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
-import autosuggestTemplate from "~/templates/autosuggestTemplate";
-import categoryListTemplate from "~/templates/categoryListTemplate";
-import categoryTemplate from "~/templates/categoryTemplate";
-import searchListTemplate from "~/templates/searchListTemplate";
-import searchTemplate from "~/templates/searchTemplate";
-import recommendationTemplate from "~/templates/recommendationTemplate";
+import { AutosuggestTemplate, CategoryListTemplate, CategoryTemplate, RecommendationTemplate, SearchListTemplate, SearchTemplate } from "~/templates";
 
 const templatesFileMap: Record<string, string> = {
   autosuggest: "autosuggest.ejs",
@@ -16,12 +11,12 @@ const templatesFileMap: Record<string, string> = {
 };
 
 const templatesMap: Record<string, string> = {
-  autosuggest: autosuggestTemplate,
-  search: searchTemplate,
-  search_product_list: searchListTemplate,
-  category: categoryTemplate,
-  category_product_list: categoryListTemplate,
-  recommendations: recommendationTemplate,
+  autosuggest: AutosuggestTemplate,
+  search: SearchTemplate,
+  search_product_list: SearchListTemplate,
+  category: CategoryTemplate,
+  category_product_list: CategoryListTemplate,
+  recommendations: RecommendationTemplate,
 };
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {

@@ -1,14 +1,14 @@
 import { useEffect, type FormEvent } from "react";
 import { useFetcher } from "@remix-run/react";
-import { Button, Card, Form, FormLayout, InlineStack, Select, TextField } from "@shopify/polaris";
-import { notEmpty, propagateErrors, useField, validateAll, getValues } from "@shopify/react-form";
+import { Button, Card, Form, FormLayout, InlineGrid, InlineStack, Select, TextField, Text, BlockStack } from "@shopify/polaris";
+import { notEmpty, propagateErrors, useField, validateAll, getValues, useReset, useDirty } from "@shopify/react-form";
 import { useI18n } from "@shopify/react-i18n";
+import * as predicates from '@shopify/predicates';
 import { ConsoleLogger } from "../ConsoleLogger";
+import { defaults } from "~/models";
 import en from "./en.json";
 
-import type { Recommendations } from "~/types/store";
-
-const DEFAULT_WIDGET_FIELDS = "pid,price,sale_price,title,thumb_image,url";
+import type { Recommendations, SettingsAction } from "~/types/store";
 
 export default function RecommendationsForm(props: Recommendations) {
   ConsoleLogger("log: RecommendationsForm: render");
@@ -45,55 +45,143 @@ export default function RecommendationsForm(props: Recommendations) {
   ];
 
   const fields = {
-    endpoint: useField(props.endpoint || endpointOptions[0].value),
+    endpoint: useField(props.endpoint ?? defaults.recommendations.endpoint),
     fl_fields: useField({
-      value: props.fl_fields || DEFAULT_WIDGET_FIELDS,
+      value: props.fl_fields ?? '',
       validates: [
         notEmpty(
           i18n.translate("RecommendationsForm.fields.flFields.validation")
         ),
       ],
     }),
+    items_to_show: useField({
+      value: props.items_to_show?.toString() ?? '',
+      validates: (value: string) => {
+        if (!predicates.isPositiveIntegerString(value) || Number(value) < 4 || Number(value) > 12) {
+          return i18n.translate("RecommendationsForm.fields.itemsToShow.validation")
+       }
+      }
+    }),
+    items_to_fetch: useField({
+      value: props.items_to_fetch?.toString() ?? '',
+      validates: (value: string) => {
+        if (!predicates.isPositiveIntegerString(value) || Number(value) < 4 || Number(value) > 32) {
+          return i18n.translate("RecommendationsForm.fields.itemsToFetch.validation")
+       }
+      }
+    }),
+    additional_parameters: useField(props.additional_parameters ?? ''),
   };
+  const reset = useReset(fields);
 
-  const submit = (event: FormEvent) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const isDirty = useDirty(fields);
+
+  const doSubmit = (event: FormEvent) => {
     event.preventDefault();
     const formErrors = validateAll(fields);
     if (formErrors.length > 0) {
       propagateErrors(fields, formErrors);
       return false;
     }
-    const recommendations = { ...props, ...getValues(fields) };
-    fetcher.submit({ recommendations: JSON.stringify(recommendations), _action: "updateRecommendations" }, { method: "post" });
-  }
+    const data: SettingsAction = {
+      _action: "saveSettings",
+      recommendations: {...getValues(fields)},
+    };
+    fetcher.submit(data, { method: "post", encType: "application/json" });
+  };
+
+  const doReset = () => {
+    reset();
+  };
 
   return (
-    <Card>
-      <Form onSubmit={submit}>
-        <FormLayout>
-          <div>
-            <Select
-              label={i18n.translate("RecommendationsForm.fields.endpoint.title")}
-              options={endpointOptions}
-              {...fields.endpoint}
-            />
-          </div>
-          <div>
-            <TextField
-              label={i18n.translate("RecommendationsForm.fields.flFields.title")}
-              autoComplete="off"
-              {...fields.fl_fields}
-            />
-          </div>
-          <div>
-            <InlineStack align="end">
-              <Button variant="primary" submit loading={submitting}>
+    <BlockStack gap="200">
+      <Text as="h2" variant="headingMd">{i18n.translate("RecommendationsForm.title")}</Text>
+      <Text as="p" variant="bodyMd" tone="subdued">{i18n.translate("RecommendationsForm.description")}</Text>
+      <Card>
+        <Form onSubmit={doSubmit}>
+          <FormLayout>
+            <InlineGrid columns={['oneThird', 'twoThirds']}>
+              <Text as="p" fontWeight="semibold">
+                {i18n.translate("RecommendationsForm.fields.endpoint.title")}
+              </Text>
+              <Select
+                label="Endpoint"
+                labelHidden
+                options={endpointOptions}
+                helpText={i18n.translate("RecommendationsForm.fields.endpoint.description")}
+                {...fields.endpoint}
+              />
+            </InlineGrid>
+            <InlineGrid columns={['oneThird', 'twoThirds']}>
+              <Text as="p" fontWeight="semibold">
+                {i18n.translate("RecommendationsForm.fields.flFields.title")}
+              </Text>
+              <TextField
+                label="Fields"
+                labelHidden
+                autoComplete="off"
+                helpText={i18n.translate("RecommendationsForm.fields.flFields.description")}
+                {...fields.fl_fields}
+              />
+            </InlineGrid>
+            <InlineGrid columns={['oneThird', 'twoThirds']}>
+              <Text as="p" fontWeight="semibold">
+                {i18n.translate("RecommendationsForm.fields.itemsToShow.title")}
+              </Text>
+              <div className="Bloomreach-Annotated-form__condensed-input-max">
+                <TextField
+                  label="Items to Show"
+                  labelHidden
+                  type="number"
+                  autoComplete="off"
+                  min={4}
+                  max={12}
+                  {...fields.items_to_show}
+                />
+              </div>
+            </InlineGrid>
+            <InlineGrid columns={['oneThird', 'twoThirds']}>
+              <Text as="p" fontWeight="semibold">
+                {i18n.translate("RecommendationsForm.fields.itemsToFetch.title")}
+              </Text>
+              <div className="Bloomreach-Annotated-form__condensed-input-max">
+                <TextField
+                  label="Items to Fetch"
+                  labelHidden
+                  type="number"
+                  autoComplete="off"
+                  min={4}
+                  max={32}
+                  {...fields.items_to_fetch}
+                />
+              </div>
+            </InlineGrid>
+            <InlineGrid columns={['oneThird', 'twoThirds']}>
+              <Text as="p" fontWeight="semibold">
+                {i18n.translate("RecommendationsForm.fields.additionalParameters.title")}
+              </Text>
+              <TextField
+                label="Additional Parameters"
+                labelHidden
+                autoComplete="off"
+                placeholder="name1=value1&name2=value2"
+                helpText={i18n.translate("RecommendationsForm.fields.additionalParameters.description")}
+                {...fields.additional_parameters}
+              />
+            </InlineGrid>
+            <InlineStack align="end" gap="300">
+              <Button variant="primary" submit loading={submitting} disabled={!isDirty}>
                 {i18n.translate("RecommendationsForm.primaryAction")}
               </Button>
+              <Button variant="secondary" loading={submitting} disabled={!isDirty} onClick={doReset}>
+                {i18n.translate("RecommendationsForm.reset")}
+              </Button>
             </InlineStack>
-          </div>
-        </FormLayout>
-      </Form>
-    </Card>
+          </FormLayout>
+        </Form>
+      </Card>
+    </BlockStack>
   );
 }

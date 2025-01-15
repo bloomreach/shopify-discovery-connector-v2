@@ -1,10 +1,11 @@
 import { useEffect, type FormEvent } from "react";
 import { useFetcher } from "@remix-run/react";
-import { Button, Card, Form, FormLayout, InlineStack, TextField } from "@shopify/polaris";
-import { notEmpty, propagateErrors, useField, validateAll, getValues } from "@shopify/react-form";
+import { Button, Card, Checkbox, Form, FormLayout, InlineStack, Text, TextField } from "@shopify/polaris";
+import { notEmpty, propagateErrors, useField, validateAll, getValues, useReset, useDirty, asChoiceField } from "@shopify/react-form";
 import { useI18n } from "@shopify/react-i18n";
-
 import { ConsoleLogger } from "../ConsoleLogger";
+import { ExternalLink } from "../ExternalLink";
+
 import en from "./en.json";
 import type { Account } from "~/types/store";
 
@@ -63,7 +64,12 @@ export default function CredentialsForm(props: Account) {
         ),
       ],
     }),
+    autoadjust_search_page_url: useField(props.autoadjust_search_page_url ?? false),
   };
+
+  const reset = useReset(fields);
+
+  const isDirty = useDirty(fields);
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
@@ -72,7 +78,7 @@ export default function CredentialsForm(props: Account) {
       propagateErrors(fields, formErrors);
       return false;
     }
-    const data = { ...props, ...getValues(fields) };
+    const data = { account: getValues(fields) };
     fetcher.submit(data, { method: "post", encType: "application/json" });
   }
 
@@ -85,13 +91,6 @@ export default function CredentialsForm(props: Account) {
               label={i18n.translate("CredentialsForm.fields.accountID.title")}
               autoComplete="off"
               {...fields.account_id}
-            />
-          </div>
-          <div>
-            <TextField
-              label={i18n.translate("CredentialsForm.fields.domainKey.title")}
-              autoComplete="off"
-              {...fields.domain_key}
             />
           </div>
           <div>
@@ -110,11 +109,26 @@ export default function CredentialsForm(props: Account) {
               autoComplete="off"
               {...fields.search_page_url}
             />
+            <Checkbox
+              label={i18n.translate(
+                "CredentialsForm.fields.searchPageUrl.checkbox"
+              )}
+              {...asChoiceField(fields.autoadjust_search_page_url)}
+              helpText={
+                <Text as="span" variant="bodyMd" tone="subdued">
+                  {i18n.translate("CredentialsForm.fields.searchPageUrl.description")}
+                  <ExternalLink text={i18n.translate("CredentialsForm.fields.searchPageUrl.linkText")} url={i18n.translate("CredentialsForm.fields.searchPageUrl.linkUrl")} />
+                </Text>
+              }
+            />
           </div>
           <div>
-            <InlineStack align="end">
-              <Button variant="primary" submit loading={submitting}>
+            <InlineStack align="end" gap="300">
+              <Button variant="primary" submit loading={submitting} disabled={!isDirty}>
                 {i18n.translate("CredentialsForm.primaryAction")}
+              </Button>
+              <Button variant="secondary" loading={submitting} onClick={reset} disabled={!isDirty}>
+                {i18n.translate("CredentialsForm.reset")}
               </Button>
             </InlineStack>
           </div>

@@ -74,4 +74,6 @@ const AutosuggestTemplate = `<% if (terms.length || productSuggestions.length) {
   </div>
   <% } %>`;
 
-export default AutosuggestTemplate;
+const AutosuggestTemplateVersion = "3";
+
+export { AutosuggestTemplate, AutosuggestTemplateVersion };

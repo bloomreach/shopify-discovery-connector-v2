@@ -84,10 +84,13 @@ export default function Index() {
               <BlockStack gap="400">
                 <Text as="p" tone="subdued">{i18n.translate("DashboardPage.enterprise.body1")}</Text>
                 <Text as="p" tone="subdued">{i18n.translate("DashboardPage.enterprise.body2")}</Text>
-                <ExternalLink
-                  url={i18n.translate("DashboardPage.enterprise.primaryActionUrl")}
-                  text={i18n.translate("DashboardPage.enterprise.primaryAction")}
-                />
+                <div>
+                  <ExternalLink
+                    url={i18n.translate("DashboardPage.enterprise.primaryActionUrl")}
+                    text={i18n.translate("DashboardPage.enterprise.primaryAction")}
+                    variant="primary"
+                  />
+                </div>
               </BlockStack>
             </Card>
           </Layout.AnnotatedSection>
@@ -99,10 +102,13 @@ export default function Index() {
               <BlockStack gap="400">
                 <Text as="p" tone="subdued">{i18n.translate("DashboardPage.contact.body")}</Text>
                 <HtmlBlock content={i18n.translate("DashboardPage.contact.address")} />
-                <ExternalLink
-                  url={i18n.translate("DashboardPage.contact.primaryActionUrl")}
-                  text={i18n.translate("DashboardPage.contact.primaryAction")}
-                />
+                <div>
+                  <ExternalLink
+                    url={i18n.translate("DashboardPage.contact.primaryActionUrl")}
+                    text={i18n.translate("DashboardPage.contact.primaryAction")}
+                    variant="primary"
+                  />
+                </div>
               </BlockStack>
             </Card>
           </Layout.AnnotatedSection>

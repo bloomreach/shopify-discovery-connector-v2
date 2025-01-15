@@ -1,0 +1,12 @@
+{
+  "ThemeChoiceForm": {
+    "primaryAction": "Save",
+    "themeSelector": {
+      "label": "Select Theme"
+    },
+    "toaster": {
+      "success": "Settings Saved",
+      "error": "Something went wrong"
+    }
+  }
+}

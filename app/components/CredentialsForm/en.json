@@ -17,12 +17,16 @@
         "validation": "This field is required"
       },
       "searchPageUrl": {
-        "title": "Search Page",
-        "description": "",
-        "validation": "This field is required"
+        "title": "Search Page URL",
+        "description": "Your store's search page URL, can be absolute or relative. If you use subfolders for markets (example: '/fr-ca'), you can check the 'Automatically adjust for subfolders' option, and enter a search page URL WITHOUT subfolders.",
+        "validation": "This field is required",
+        "checkbox": "Automatically adjust for subfolders",
+        "linkText": "Learn more",
+        "linkUrl": "https://help.shopify.com/en/manual/international/international-domains/setting-up-unique-urls/set-up-urls#set-up-target-markets-using-subfolders"
       }
     },
     "primaryAction": "Save",
+    "reset": "Reset",
     "toaster": {
       "success": "Settings Saved",
       "error": "Something went wrong"

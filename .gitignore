@@ -20,3 +20,4 @@ database.sqlite
 package-lock.json
 yarn.lock
 shopify.app.*.toml
+!shopify.app.qa.toml

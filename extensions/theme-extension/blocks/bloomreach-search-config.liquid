@@ -1,38 +1,59 @@
-{% render "bloomreach-config" %}
+{% liquid
+  if block.settings.use_default
+    assign settings = app.metafields.search
+  else
+    assign settings = block.settings
+  endif
+%}
 <script>
   bloomreachConnector.config.search = {
     enabled: true,
-    fields: "{{ block.settings.fl_fields }}",
-    endpoint: "{{ block.settings.endpoint }}",
-    selector: "{{ block.settings.css_selector | replace: '"', '\"'}}",
-    template: "{{ app.metafields.templates.search | url_decode | strip_newlines | replace: '"', '\"' }}",
-    product_list_template: "{{ app.metafields.templates.search_product_list | url_decode | strip_newlines | replace: '"', '\"' }}",
-    items_per_page: {{ block.settings.items_per_page }},
-    display_variants: {{ block.settings.display_variants }},
-    facets_included: {{ block.settings.facets_included }},
-    initial_number_of_facets: {{ block.settings.initial_number_of_facets }},
-    initial_number_of_facet_values: {{ block.settings.initial_number_of_facet_values }},
-    infinite_scroll: {{ block.settings.infinite_scroll }},
-    sorting_options: [
-      {label: "Relevance", value: ""},
-      {label: "Name (A - Z)", value: "title+asc"},
-      {label: "Name (Z - A)", value: "title+desc"},
-      {label: "Price (low - high)", value: "sale_price+asc"},
-      {label: "Price (high - low)", value: "sale_price+desc"}
-    ],
+    selector: "#br-product-search-container",
+    fields: "{{ settings.fl_fields }}",
+    endpoint: "{{ settings.endpoint }}",
+    items_per_page: {{ settings.items_per_page }},
+    display_variants: {{ settings.display_variants }},
+    facets_included: {{ settings.facets_included }},
+    initial_number_of_facets: {{ settings.initial_number_of_facets }},
+    initial_number_of_facet_values: {{ settings.initial_number_of_facet_values }},
+    infinite_scroll: {{ settings.infinite_scroll }},
+    sorting_options: {{ app.metafields.search.sorting_options }},
     is_search_page: {% if request.page_type == "search" %}true{% else %}false{% endif %},
+    additional_parameters: "{{ settings.additional_parameters | replace: '"', '\"' }}",
+    force_v3_facets: {{ block.settings.force_v3_facets | default: false }},
+{%- if request.design_mode %}
+    test_query: "{{ block.settings.test_query | replace: '"', '\"' }}",
+{%- endif %}
   };
+
+  {% render "bloomreach-template", template_name: "search" %}
+  {% render "bloomreach-template", template_name: "search_product_list" %}
+
+  (function() {
+    document.addEventListener("DOMContentLoaded", () => {
+      window.BloomreachModules.search.load().catch(console.log);
+    });
+  })();
 </script>
-{% unless block.settings.custom_css == blank %}
+{% unless settings.custom_css == blank %}
 {% style %}
-  {{ block.settings.custom_css }}
+  {{ settings.custom_css }}
 {% endstyle %}
 {% endunless %}
+
+<div id="br-product-search-container" class="br-product-search-container">&nbsp;</div>
+
+{% if request.design_mode %}
+  <!-- This will only render in the theme editor -->
+  {% style %}
+    .br-product-search-container { display: block; padding: 1.5em; min-height: 90vh; }
+  {% endstyle %}
+{% endif %}
 
 {% schema %}
   {
     "name": "t:searchConfig.settings.name",
-    "target": "head",
+    "target": "section",
     "javascript": "search.js",
     "stylesheet": "search.css",
     "enabled_on": {
@@ -42,6 +63,19 @@
       {
         "type": "paragraph",
         "content": "t:searchConfig.settings.description"
+      },
+      {
+        "id": "test_query",
+        "label": "t:searchConfig.testQuery.label",
+        "type": "text",
+        "info": "t:searchConfig.testQuery.info"
+      },
+      {
+        "id": "use_default",
+        "label": "t:searchConfig.useDefault.label",
+        "type": "checkbox",
+        "info": "t:searchConfig.useDefault.info",
+        "default": true
       },
       {
         "id": "endpoint",
@@ -57,12 +91,6 @@
             "value": "https://core.dxpapi.com/api/v1/core/"
           }
         ]
-      },
-      {
-        "id": "css_selector",
-        "label": "t:searchConfig.cssSelector.label",
-        "type": "text",
-        "default": ".main-content"
       },
       {
         "id": "items_per_page",
@@ -95,6 +123,12 @@
         "default": 6
       },
       {
+        "id": "force_v3_facets",
+        "label": "Force V3 Facets?",
+        "type": "checkbox",
+        "default": false
+      },
+      {
         "id": "infinite_scroll",
         "label": "t:searchConfig.infiniteScroll.label",
         "type": "checkbox",
@@ -103,13 +137,19 @@
       {
         "id": "fl_fields",
         "label": "t:searchConfig.flFields.label",
-        "type": "textarea",
-        "default": "pid,title,brand,price,sale_price,thumb_image,sku_thumb_images,sku_swatch_images,sku_color_group,url,price_range,sale_price_range,description"
+        "type": "text"
       },
       {
         "id": "custom_css",
         "label": "t:searchConfig.customCss.label",
         "type": "textarea"
+      },
+      {
+        "id": "additional_parameters",
+        "label": "t:searchConfig.additionalParameters.label",
+        "type": "text",
+        "info": "t:searchConfig.additionalParameters.info",
+        "placeholder": "name1=value1&name2=value2"
       }
     ]
   }

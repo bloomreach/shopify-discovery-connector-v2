@@ -66,4 +66,6 @@ const RecommendationTemplate = `<div class="blm-recommendation-widget-content" d
   <% } %>
 </div>`;
 
-export default RecommendationTemplate;
+const RecommendationTemplateVersion = "3";
+
+export { RecommendationTemplate, RecommendationTemplateVersion };

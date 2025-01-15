@@ -1,0 +1,61 @@
+{
+  "AutosuggestForm": {
+    "title": "Autosuggest Settings",
+    "description": "Replace the built in Shopify Autosuggest with Bloomreach Autosuggest.",
+    "fields": {
+      "marketSelector": {
+        "label": "Select Market or Default settings",
+        "description": "For each Shopify Market, you can have its own settings, or choose to use the default ones"
+      },
+      "endpoint": {
+        "title": "Endpoint",
+        "description": "Select the Bloomreach API endpoint"
+      },
+      "cssSelector": {
+        "title": "CSS Selector",
+        "description": "CSS Selector for the search input. You might have to change this value to an element selector that works for your theme.",
+        "validation": "This field is required"
+      },
+      "numberOfTerms": {
+        "title": "Number of Terms",
+        "description": "",
+        "validation": "Must be an integer between 0 to 20"
+      },
+      "numberOfProducts": {
+        "title": "Number of Products",
+        "description": "",
+        "validation": "Must be an integer between 0 to 20"
+      },
+      "numberOfCollections": {
+        "title": "Number of Collections",
+        "description": "",
+        "validation": "Must be an integer between 0 to 20"
+      },
+      "customCss": {
+        "title": "Custom CSS",
+        "description": ""
+      },
+      "additionalParameters": {
+        "title": "Additional Parameters",
+        "description": "Any additional parameters you would like to send to the Bloomreach API"
+      },
+      "reference": {
+        "body": "We've designed the Autosuggest to be highly flexible within Shopify. If you'd like to learn more, or customize what is happening with Autosuggest, check out our ",
+        "primaryAction": "Documentation",
+        "primaryActionUrl": "https://documentation.bloomreach.com/discovery/docs/shopify-app-user-guide#autosuggest"
+      },
+      "useDefault": {
+        "title": "Use Default",
+        "description": ""
+      }
+    },
+    "primaryAction": "Save",
+    "reset": "Reset",
+    "saveAll": "Save All",
+    "resetAll": "Reset All",
+    "toaster": {
+      "success": "Settings Saved",
+      "error": "Something went wrong"
+    }
+  }
+}

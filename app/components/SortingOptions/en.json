@@ -1,0 +1,30 @@
+{
+  "SortingOptions": {
+    "list": {
+      "addItem": "Add Option"
+    },
+    "fields": {
+      "selectOption": {
+        "label": "Select an option",
+        "description": "Select a predefined option, or customize one",
+        "customize": "Customize..."
+      },
+      "label": {
+        "label": "Label",
+        "validation": "This field is required"
+      },
+      "value": {
+        "label": "Value",
+        "description": "A valid fl field name",
+        "validation": "This field is required"
+      },
+      "direction": {
+        "label": "Direction: ",
+        "option": {
+          "asc": "Ascending",
+          "desc": "Descending"
+        }
+      }
+    }
+  }
+}

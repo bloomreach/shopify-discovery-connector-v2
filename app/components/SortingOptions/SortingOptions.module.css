@@ -1,0 +1,11 @@
+.list-option {
+  width: 100%;
+}
+
+.list-option .actions {
+  visibility: hidden;
+}
+
+.list-option:hover .actions {
+  visibility: visible;
+}

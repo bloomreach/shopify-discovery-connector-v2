@@ -1,27 +1,26 @@
-import { getStore, removeSensitiveKeys, updateStore } from "./store.server";
-import { getMetafields, upsertAppDataMetafield } from "./admin.server";
-import autosuggestTemplate from "~/templates/autosuggestTemplate";
-import categoryListTemplate from "~/templates/categoryListTemplate";
-import categoryTemplate from "~/templates/categoryTemplate";
-import searchListTemplate from "~/templates/searchListTemplate";
-import searchTemplate from "~/templates/searchTemplate";
-import recommendationTemplate from "~/templates/recommendationTemplate";
-import packageJson from "../../package.json";
+import { getStore, updateStore } from "./store.server";
+import { getAppDataMetafield, getAppOwnerId, getOrCreateMetaDefinitions, upsertAppDataMetafields, upsertMetafields, MetafieldOwnerType, deleteMetafields } from "./admin.server";
+import * as templates from "~/templates";
+import { NAMESPACE_TEMPLATES, TEMPLATE_AUTOSUGGEST, TEMPLATE_CATEGORY, TEMPLATE_CATEGORY_LIST, TEMPLATE_RECOMMENDATIONS, TEMPLATE_SEARCH, TEMPLATE_SEARCH_LIST } from "~/models/constants";
 
+import type { MetafieldIdentifierInput, MetafieldsSetInput } from "~/types/admin.types";
 import type { AdminApiContext } from "@shopify/shopify-app-remix/server";
+import type { Template, TemplateAction } from "~/types/store";
 
-const { sdkVersion } = packageJson;
-const templatesMap = {
-  autosuggest: autosuggestTemplate,
-  search: searchTemplate,
-  search_product_list: searchListTemplate,
-  category: categoryTemplate,
-  category_product_list: categoryListTemplate,
-  recommendations: recommendationTemplate,
+const templatesMap: Record<string, string> = {
+  [TEMPLATE_AUTOSUGGEST]: templates.AutosuggestTemplate,
+  [`${TEMPLATE_AUTOSUGGEST}_version`]: templates.AutosuggestTemplateVersion,
+  [TEMPLATE_SEARCH]: templates.SearchTemplate,
+  [`${TEMPLATE_SEARCH}_version`]: templates.SearchTemplateVersion,
+  [TEMPLATE_SEARCH_LIST]: templates.SearchListTemplate,
+  [`${TEMPLATE_SEARCH_LIST}_version`]: templates.SearchListTemplateVersion,
+  [TEMPLATE_CATEGORY]: templates.CategoryTemplate,
+  [`${TEMPLATE_CATEGORY}_version`]: templates.CategoryTemplateVersion,
+  [TEMPLATE_CATEGORY_LIST]: templates.CategoryListTemplate,
+  [`${TEMPLATE_CATEGORY_LIST}_version`]: templates.CategoryListTemplateVersion,
+  [TEMPLATE_RECOMMENDATIONS]: templates.RecommendationTemplate,
+  [`${TEMPLATE_RECOMMENDATIONS}_version`]: templates.RecommendationTemplateVersion,
 };
-const namespace = "templates";
-
-type TemplatesMap = typeof templatesMap;
 
 const setDefaultTemplates = async (admin: AdminApiContext, shopUrl: string) => {
   console.log("log: setDefaultTemplates");
@@ -40,67 +39,145 @@ const setDefaultTemplates = async (admin: AdminApiContext, shopUrl: string) => {
   }
   console.log("log: setDefaultTemplates: adding templates");
 
-  const input = Object.keys(templatesMap).map((key) => ({
-    namespace,
-    key,
-    type: "multi_line_text_field",
-    value: encodeURIComponent(templatesMap[key as keyof TemplatesMap]),
-  }));
+  const inputs: Omit<MetafieldsSetInput, "ownerId">[] = Object.keys(templatesMap).flatMap((key) => ([
+    {
+      namespace: NAMESPACE_TEMPLATES,
+      key,
+      type: "multi_line_text_field",
+      value: encodeURIComponent(templatesMap[key]),
+    },
+    {
+      namespace: NAMESPACE_TEMPLATES,
+      key: `${key}_version`,
+      type: "single_line_text_field",
+      value: templatesMap[`${key}_version`],
+    }
+  ]));
 
-  const metafields = await upsertAppDataMetafield(admin, input);
-  await setTemplateVersions(shopUrl);
+  const metafields = await upsertAppDataMetafields(admin, inputs);
+
   console.log("log: setDefaultTemplates: setting `default_templates_added` flag");
   await updateStore(shopUrl, { default_templates_added: true });
   return metafields;
 };
 
-const setTemplateVersions = async (shopUrl: string) => {
-  console.log("log: setTemplateVersions");
-  console.log("log: setTemplateVersions: new version:", sdkVersion);
-  const data = {
-    autosuggest_template_version: sdkVersion,
-    search_template_version: sdkVersion,
-    search_product_list_template_version: sdkVersion,
-    category_template_version: sdkVersion,
-    category_product_list_template_version: sdkVersion,
-    recommendations_template_version: sdkVersion,
-  };
-  const updatedStore = await updateStore(shopUrl, data);
-  return removeSensitiveKeys(updatedStore);
+const runTemplateUpdate = async (admin: AdminApiContext, template: string, marketId?: string) => {
+  console.log("log: runTemplateUpdate: template: %s, marketId: %s", template, marketId);
+  return await updateTemplate(admin, template, templatesMap[template], templatesMap[`${template}_version`], marketId);
 };
 
-const runTemplateUpdate = async (shopUrl: string, admin: AdminApiContext, template: keyof TemplatesMap) => {
-  console.log("log: runTemplateUpdate: shopUrl: %s, template: %s, version: %s", shopUrl, template, sdkVersion);
-  const metafields = await upsertAppDataMetafield(admin, [{
+const getTemplate = async (admin: AdminApiContext, template: string): Promise<Template> => {
+  console.log("log: getTemplate: template: %s", template);
+
+  const templateValue = (await getAppDataMetafield(admin, NAMESPACE_TEMPLATES, template))?.value;
+  const templateVersion = (await getAppDataMetafield(admin, NAMESPACE_TEMPLATES, `${template}_version`))?.value;
+  console.log("log: getTemplate: templateValue: %s, templateVersion: %s", templateValue, templateVersion);
+  return { value: templateValue, version: templateVersion };
+};
+
+const createMetafieldsSetInputs = (template: string, templateValue: string, namespace: string, ownerId: string, version?: string): MetafieldsSetInput[] => {
+  console.log("log: createMetafieldsSetInputs: template: %s, templareValue: %s, namespace: %s, ownerId: %s, version: %s", template, templateValue, namespace, ownerId, version);
+
+  const metafieldsInputs: MetafieldsSetInput[] = [{
     namespace,
     key: template,
-    type: "multi_line_text_field",
-    value: encodeURIComponent(templatesMap[template]),
-  }]);
-
-  console.log("log: runTemplateUpdate: updating template version for: ", template);
-  await updateStore(shopUrl, { [`${template}_template_version`]: sdkVersion });
-  return metafields;
-};
-
-const getTemplate = async (admin: AdminApiContext, template: keyof TemplatesMap) => {
-  console.log("log: getTemplate: template: ", template);
-  const metafields = await getMetafields(admin, namespace);
-  const templateValue = metafields?.find(({ key }) => key === template)?.value;
-  console.log("log: getTemplate: templateValue: ", templateValue);
-  return templateValue;
-};
-
-const updateTemplate = async (admin: AdminApiContext, template: keyof TemplatesMap, templateValue: string) => {
-  console.log("log: updateTemplate: template: %s, templareValue: %s", template, templateValue);
-  const metafields = await upsertAppDataMetafield(admin, [{
-    namespace,
-    key: template,
-    type: "multi_line_text_field",
     value: encodeURIComponent(templateValue),
-  }]);
+    type: "multi_line_text_field",
+    ownerId,
+  }];
+  if (version) {
+    metafieldsInputs.push({
+      namespace,
+      key: `${template}_version`,
+      value: version,
+      type: "single_line_text_field",
+      ownerId,
+    });
+  }
+  console.log("log: createMetafieldsSetInputs: result: ", metafieldsInputs);
+  return metafieldsInputs;
+};
+
+const updateTemplate = async (admin: AdminApiContext, template: string, templateValue: string, version?: string, marketId?: string) => {
+  console.log("log: updateTemplate: template: %s, templareValue: %s, version: %s, marketId: %s", template, templateValue, version, marketId);
+  const namespace = marketId ? `$app:${NAMESPACE_TEMPLATES}` : NAMESPACE_TEMPLATES;
+  const ownerId = marketId || await getAppOwnerId(admin);
+  if (!ownerId) {
+    throw Error("App ID could not be fetched");
+  }
+  const metafieldsInputs = createMetafieldsSetInputs(template, templateValue, namespace, ownerId, version);
+
+  if (marketId) {
+    await getOrCreateMetaDefinitions(admin, namespace, MetafieldOwnerType.Market);
+  }
+  const metafields = await upsertMetafields(admin, metafieldsInputs);
   console.log("log: updateTemplate: response: ", metafields);
   return metafields;
 };
 
-export { setDefaultTemplates, setTemplateVersions, runTemplateUpdate, getTemplate, updateTemplate };
+const deleteTemplate = async (admin: AdminApiContext, template: string, marketId: string) => {
+  console.log("log: deleteTemplate: template: %s, marketId: %s", template, marketId);
+  const namespace = `$app:${NAMESPACE_TEMPLATES}`;
+  const inputs = [
+    {
+      ownerId: marketId,
+      namespace,
+      key: template,
+    },
+    {
+      ownerId: marketId,
+      namespace,
+      key: `${template}_version`,
+    }
+  ];
+
+  const metafields = await deleteMetafields(admin, inputs);
+  console.log("log: deleteTemplate: response: ", metafields);
+  return metafields;
+};
+
+const updateAllMarketTemplates = async (admin: AdminApiContext, template: string, actions: TemplateAction[]) => {
+  console.log("log: updateAllMarketTemplates: template: %s, actions: %s", template, actions);
+  const appOwnerId =await getAppOwnerId(admin);
+  if (!appOwnerId) {
+    throw Error("App ID could not be fetched");
+  }
+
+  const saveInputs: MetafieldsSetInput[] = [];
+  const deleteInputs: MetafieldIdentifierInput[] = [];
+  actions.forEach((action) => {
+    const namespace = action.marketId ? `$app:${NAMESPACE_TEMPLATES}` : NAMESPACE_TEMPLATES;
+    const ownerId = action.marketId ?? appOwnerId;
+
+    if (action._action === 'saveTemplate') {
+      saveInputs.push(...createMetafieldsSetInputs(template, action.templateValue, namespace, ownerId, action.templateVersion));
+    } else if (action._action === 'deleteTemplate') {
+      deleteInputs.push(
+        {
+          ownerId,
+          namespace,
+          key: template,
+        },
+        {
+          ownerId,
+          namespace,
+          key: `${template}_version`,
+        }
+      );
+    } else {
+      console.log("warn: updateAllMarketTemplates: Invalid action: ", action._action);
+    }
+  });
+
+  await getOrCreateMetaDefinitions(admin, `$app:${NAMESPACE_TEMPLATES}`, MetafieldOwnerType.Market);
+  if (saveInputs.length) {
+    const metafields = await upsertMetafields(admin, saveInputs);
+    console.log("log: updateAllMarketTemplates: saved metafields: ", metafields);
+  }
+  if (deleteInputs.length) {
+    const metafields = await deleteMetafields(admin, deleteInputs);
+    console.log("log: updateAllMarketTemplates: deleted metafields: ", metafields);
+  }
+};
+
+export { setDefaultTemplates, runTemplateUpdate, getTemplate, updateTemplate, deleteTemplate, updateAllMarketTemplates };
