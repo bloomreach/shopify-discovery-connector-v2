@@ -54,6 +54,13 @@ export default function CatalogsForm({ account, markets }: CatalogsFormProps) {
     mappings: useList(catalogMappings.map(mapping => ({ catalog: mapping.catalog ?? '' })) ?? []),
   };
 
+  useEffect(() => {
+    if (!catalogMappings.length) {
+      fields.multi_catalog_enabled.onChange(false);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [catalogMappings.length]);
+
   const reset = useReset(fields);
 
   const isDirty = useDirty(fields);
