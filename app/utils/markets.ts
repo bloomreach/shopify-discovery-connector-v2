@@ -4,15 +4,20 @@ import type { MarketCatalogMapping, MarketCatalogViewReturn, MarketReturn, Marke
 export function getCatalogMappingsFromMarkets(markets: MarketCatalogViewReturn[]): MarketCatalogMapping[] {
   const mappings: MarketCatalogMapping[] = [];
 
-  const primaryMarket = markets.find((market) => market.primary)!;
+  const primaryMarket = markets.find((market) => market.primary);
 
   for (const market of markets) {
     if (!market.enabled) {
       continue;
     }
 
-    const webPresence = market.webPresence ?? primaryMarket.webPresence!;
-    const languages = webPresence.rootUrls.map<string>((rootUrl) => rootUrl.locale);
+    const webPresence = market.webPresence ?? primaryMarket?.webPresence;
+    const languages = webPresence?.rootUrls.map<string>((rootUrl) => rootUrl.locale);
+
+    if (!languages) {
+      console.log("warn: cannot get languages data from Shopify markets");
+      return [];
+    }
 
     // Create mappings from existing metafields, if any
     const catalogsValue = (market.brCatalogs)?.value;

@@ -41,7 +41,7 @@ export const action = async ({ request }: ActionFunctionArgs): Promise<TypedResp
       await updateAccount(admin, account);
       console.log("log: SettingsPage: action: update account: success.");
     }
-    if (catalogMappings) {
+    if (catalogMappings?.length) {
       console.log("log: SettingsPage: action: update catalog mappings");
       await updateCatalogMappings(admin, catalogMappings);
       console.log("log: SettingsPage: action: update catalog mappings: success.");
@@ -51,7 +51,7 @@ export const action = async ({ request }: ActionFunctionArgs): Promise<TypedResp
       await updateStore(session.shop, store);
       console.log("log: SettingsPage: action: update store: success.");
     }
-    if (viewMappings) {
+    if (viewMappings?.length) {
       console.log("log: SettingsPage: action: update view mappings");
       await updateViewMappings(admin, viewMappings);
       console.log("log: SettingsPage: action: update view mappings: success.");
