@@ -3,7 +3,7 @@
     "fields": {
       "multiCatalogEnabled": {
         "title": "Enable multi-catalog support",
-        "disabled": "Multi-catalog is only supported when there is at least one market"
+        "disabled": "There is no Shopify market defined, or your Shopify markets are managed by a third party"
       },
       "defaultCatalog": {
         "title": "Default Bloomreach Catalog",
