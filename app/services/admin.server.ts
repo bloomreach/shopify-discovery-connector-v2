@@ -623,6 +623,7 @@ export {
   getThemes,
   getMarketsWithCatalogsViews,
   getMarketsForNamespace,
+  getWebPixelId,
   upsertWebPixel,
   getOrCreateMetaDefinitions,
   MetafieldOwnerType,

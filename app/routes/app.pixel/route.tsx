@@ -3,17 +3,27 @@ import { json } from "@remix-run/node";
 import { BlockStack, Card, Layout, Page, Text } from "@shopify/polaris";
 import { useI18n } from "@shopify/react-i18n";
 import { PageWrapper, LoadingPage, ExternalLink } from "~/components";
-import { getStore } from "~/services";
+import { getAppSettings, getStore, getWebPixelId, upsertWebPixel } from "~/services";
 import { authenticate, extensionId } from "../../shopify.server";
 import { generateDeeplinkingUrl } from "~/utils";
+import { NAMESPACE_ACCOUNT } from "~/models";
 
 import en from "./en.json";
 
 import type { LoaderFunctionArgs } from "@remix-run/node";
+import type { Account } from "~/types/store";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const { session } = await authenticate.admin(request);
+  const { admin, session } = await authenticate.admin(request);
   console.log("log: PixelPage: loader");
+  const webPixelId = await getWebPixelId(admin);
+  if (!webPixelId) {
+    const account = await getAppSettings<Account>(admin, NAMESPACE_ACCOUNT);
+    if (account.account_id) {
+      console.log("log: PixelPage: loader: init webPixel: account_id: %s", account.account_id);
+      await upsertWebPixel(admin, { settings: { account_id: account.account_id } });
+    }
+  }
   const shopUrl = session.shop;
   const { working_theme } = await getStore(shopUrl) ?? {};
   return json({ shopUrl, extensionId, workingTheme: working_theme });
