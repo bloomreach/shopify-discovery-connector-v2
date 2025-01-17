@@ -1,3 +1,9 @@
+## 2.2.1
+
+### Fixed
+
+- [`Fixed`]: Fix settings error when markets are disabled or managed by a third party (https://bloomreach.atlassian.net/browse/DCONN-92).
+
 ## 2.2.0
 
 ### Added
