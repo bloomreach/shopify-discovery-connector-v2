@@ -14,9 +14,16 @@ register(async ({analytics, browser, init, settings}) => {
     //ignore
   }
 
-  const br_region = await browser.localStorage.getItem('br_region');
+  const br_region = await (async () => {
+    try {
+      const region = await browser.localStorage.getItem('br_region');
+      return region || 'p.brsrvr.com';
+    } catch {
+      return 'p.brsrvr.com';
+    }
+  })();
 
-  if (!br_data || !br_region) {
+  if (!br_data) {
     return;
   }
 
