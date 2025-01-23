@@ -955,7 +955,7 @@ Next, in the opened theme editor, under **Bloomreach Configurations** app embed,
   "images": [
     {
       "image": [
-        "https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/pixel-app-embeds.png",
+        "https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/pixel-app-embeds_2.png",
         null,
         "Enable Pixel"
       ],
@@ -981,6 +981,7 @@ Once **enabled**, the app will inject the pixel into your theme. The pixel will 
 In addition, you can customize the following options in the app embed settings:
 
 - **Enable debug mode**: Flag the pixel data as test data for real-time debugging purpose. You can track debug events using **Integration mode** in Bloomreach Dashboard's [Events Management](https://documentation.bloomreach.com/discovery/docs/events-management#21-mode). Note that debug events are discarded and don’t impact any production features. So you should turn this option **off** on your live site.
+- **Pixel Region**: Define to which region the pixel should send the pixel data. The region is depending on what region your account is provisioned in: North America or Europe
 - **Product ID field**: Specify the Shopify product field used as the unique **product_id** (**pid**) sent in your Bloomreach feed. Can be either **handle** or **id**. You should set this option based on your Bloomreach product feed data.
 
 #### Page View Pixels
