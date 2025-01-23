@@ -96,6 +96,10 @@
     "enable": {
       "label": "Enable Bloomreach Pixel"
     },
+    "region": {
+      "label": "Pixel Region",
+      "info": "The region the account is provisioned in"
+    },
     "debug": {
       "label": "Enable debug mode",
       "info": "Flag the pixel data as test data for real-time debugging purpose. You can track debug events using Integration mode in [Events Management](https://documentation.bloomreach.com/discovery/docs/events-management#21-mode). Note that debug events are discarded and don’t impact any production features."

@@ -1,7 +1,7 @@
-import { register } from "@shopify/web-pixels-extension";
-import { escape, getPid, sendPixelData } from "./utils";
+import {register} from "@shopify/web-pixels-extension";
+import {escape, getPid, sendPixelData} from "./utils";
 
-register(async ({ analytics, browser, init, settings }) => {
+register(async ({analytics, browser, init, settings}) => {
   // Bootstrap and insert pixel script tag here
   const accountId = settings.account_id;
   let br_data: Record<string, any> | null = null;
@@ -13,6 +13,16 @@ register(async ({ analytics, browser, init, settings }) => {
   } catch (e) {
     //ignore
   }
+
+  const br_region = await (async () => {
+    try {
+      const region = await browser.localStorage.getItem('br_region');
+      return region || 'p.brsrvr.com';
+    } catch {
+      return 'p.brsrvr.com';
+    }
+  })();
+
   if (!br_data) {
     return;
   }
@@ -44,7 +54,7 @@ register(async ({ analytics, browser, init, settings }) => {
       type: "pageview",
     };
 
-    sendPixelData(data);
+    sendPixelData(br_region, data);
   });
 
   analytics.subscribe('checkout_completed', (event) => {
@@ -61,15 +71,15 @@ register(async ({ analytics, browser, init, settings }) => {
     };
 
     data.basket = checkout.lineItems.reduce<string>((str, lineItem) =>
-      str.concat('!',
-        `i${escape(lineItem.variant?.product.id ?? '')}%27`,
-        lineItem.variant?.sku ? `s${escape(lineItem.variant.sku)}%27` : '',
-        `n${escape(lineItem.title)}%27`,
-        `q${lineItem.quantity}%27`,
-        `p${lineItem.variant?.price.amount ?? ''}`)
+        str.concat('!',
+          `i${escape(lineItem.variant?.product.id ?? '')}%27`,
+          lineItem.variant?.sku ? `s${escape(lineItem.variant.sku)}%27` : '',
+          `n${escape(lineItem.title)}%27`,
+          `q${lineItem.quantity}%27`,
+          `p${lineItem.variant?.price.amount ?? ''}`)
       , '');
 
-    sendPixelData(data);
+    sendPixelData(br_region, data);
     browser.localStorage.removeItem('br_data');
   });
 
@@ -92,7 +102,7 @@ register(async ({ analytics, browser, init, settings }) => {
 
     console.log('product_added_to_cart: cartLine: ', cartLine);
     console.log('product_added_to_cart: brAtcEventData: ', eventData);
-    const { pid_field, ...extraParams } = eventData;
+    const {pid_field, ...extraParams} = eventData;
     const pid = getPid(cartLine.merchandise.product, pid_field);
     const data: Record<string, any> = {
       ...br_data,
@@ -110,12 +120,12 @@ register(async ({ analytics, browser, init, settings }) => {
       data.sku = cartLine.merchandise.sku;
     }
 
-    sendPixelData(data);
+    sendPixelData(br_region, data);
     browser.sessionStorage.removeItem('br_atc_event_data');
   });
 
   analytics.subscribe('br_product_quickview', async (event) => {
-    const { customData } = event;
+    const {customData} = event;
     console.log('br_product_quickview: customData: ', customData);
     const data: Record<string, any> = {
       ...br_data,
@@ -124,11 +134,11 @@ register(async ({ analytics, browser, init, settings }) => {
       type: "event",
       ...customData,
     };
-    sendPixelData(data);
+    sendPixelData(br_region, data);
   });
 
   analytics.subscribe('br_suggest_submit', async (event) => {
-    const { customData } = event;
+    const {customData} = event;
     console.log('br_suggest_submit: customData: ', customData);
     const data: Record<string, any> = {
       ...br_data,
@@ -137,11 +147,11 @@ register(async ({ analytics, browser, init, settings }) => {
       type: "event",
       ...customData,
     };
-    sendPixelData(data);
+    sendPixelData(br_region, data);
   });
 
   analytics.subscribe('br_suggest_click', async (event) => {
-    const { customData } = event;
+    const {customData} = event;
     console.log('br_suggest_click: customData: ', customData);
     const data: Record<string, any> = {
       ...br_data,
@@ -150,11 +160,11 @@ register(async ({ analytics, browser, init, settings }) => {
       type: "event",
       ...customData,
     };
-    sendPixelData(data);
+    sendPixelData(br_region, data);
   });
 
   analytics.subscribe('br_widget_click', async (event) => {
-    const { customData } = event;
+    const {customData} = event;
     console.log('br_widget_click: customData: ', customData);
     const data: Record<string, any> = {
       ...br_data,
@@ -163,11 +173,11 @@ register(async ({ analytics, browser, init, settings }) => {
       type: "event",
       ...customData,
     };
-    sendPixelData(data);
+    sendPixelData(br_region, data);
   });
 
   analytics.subscribe('br_widget_view', async (event) => {
-    const { customData } = event;
+    const {customData} = event;
     console.log('br_widget_view: customData: ', customData);
     const data: Record<string, any> = {
       ...br_data,
@@ -176,6 +186,6 @@ register(async ({ analytics, browser, init, settings }) => {
       type: "event",
       ...customData,
     };
-    sendPixelData(data);
+    sendPixelData(br_region, data);
   });
 });
