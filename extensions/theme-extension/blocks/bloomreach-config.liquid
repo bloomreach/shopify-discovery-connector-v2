@@ -122,6 +122,8 @@
     enabled: true,
   };
 
+  localStorage.setItem("br_region", "{{block.settings.pixel_region }}");
+
   (function() {
     const br_data = {};
     br_data.ptype = "{{ page_type }}";
@@ -166,6 +168,7 @@
     {%- endif -%}
 
     localStorage.setItem("br_data", JSON.stringify(br_data));
+    {% comment %}localStorage.setItem("br_region", "{{block.settings.pixel_region }}");{% endcomment %}
 
     document.addEventListener("brCartClickAdd", (event) => {
       event.stopImmediatePropagation();
@@ -283,6 +286,23 @@
         "id": "pixel_enable",
         "type": "checkbox",
         "label": "t:pixelConfig.enable.label"
+      },
+      {
+        "id": "pixel_region",
+        "type": "select",
+        "label": "t:pixelConfig.region.label",
+        "info": "t:pixelConfig.region.info",
+        "options": [
+          {
+            "label": "North America",
+            "value": "p.brsrvr.com"
+          },
+          {
+            "label": "Europe",
+            "value": "p-eu.brsrvr.com"
+          }
+        ],
+        "default": "p.brsrvr.com"
       },
       {
         "id": "pixel_debug",

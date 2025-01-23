@@ -15,11 +15,11 @@ export function escape(str?: string | null): string {
     .replaceAll(")", "%29");
 }
 
-export function sendPixelData(data: Record<string, any>) {
+export function sendPixelData(region:string, data: Record<string, any>) {
   console.log('sendPixelData: data: ', data);
   const params = Object.keys(data).filter((key) => !!data[key]).map((key) => `${key}=${data[key]}`).join('&');
-  console.log('sendPixelData: params: ', params);
-  fetch(`https://p.brsrvr.com/pix.gif?${params}`, {
+  console.log('sendPixelData: params: ', params, region);
+  fetch(`https://${region}/pix.gif?${params}`, {
     method: 'GET',
     mode: 'no-cors',
   });
