@@ -1,5 +1,5 @@
 import {register} from "@shopify/web-pixels-extension";
-import {escape, getPid, sendPixelData} from "./utils";
+import {escape, getPid, sendPixelData, setBrCookieIfNeeded} from "./utils";
 
 register(async ({analytics, browser, init, settings}) => {
   // Bootstrap and insert pixel script tag here
@@ -27,6 +27,7 @@ register(async ({analytics, browser, init, settings}) => {
     return;
   }
 
+  setBrCookieIfNeeded();
   const cookie2 = await browser.cookie.get('_br_uid_2');
 
   const commonData = {
