@@ -1,4 +1,4 @@
-import type { Product } from "@shopify/web-pixels-extension";
+import type {Browser, Product, WebPixelsDocument} from "@shopify/web-pixels-extension";
 
 export function escape(str?: string | null): string {
   if (!str) {
@@ -15,7 +15,7 @@ export function escape(str?: string | null): string {
     .replaceAll(")", "%29");
 }
 
-export function sendPixelData(region:string, data: Record<string, any>) {
+export function sendPixelData(region: string, data: Record<string, any>) {
   console.log('sendPixelData: data: ', data);
   const params = Object.keys(data).filter((key) => !!data[key]).map((key) => `${key}=${data[key]}`).join('&');
   console.log('sendPixelData: params: ', params, region);
@@ -67,13 +67,14 @@ function getBaseDomain(host: string): string {
  * @param cookieValue value of the cookie
  * @param domain cookie domain
  * @param timeout timeout in seconds from now(). Can be negative.
+ * @param document
  * @return void
  */
 function setPersistentCookie(
   cookieName: string,
   cookieValue: string,
   domain?: string,
-  timeout?: number
+  timeout?: number,
 ): void {
   const expiryDate = new Date();
 
@@ -85,17 +86,23 @@ function setPersistentCookie(
     expiryDate.setTime(Date.now() + timeout);
   }
 
-  let cookie = `${cookieName}=${encodeURIComponent(cookieValue)}; expires=${expiryDate.toUTCString()}; path=/`;
+  let cookie = `${encodeURIComponent(cookieValue)}; expires=${expiryDate.toUTCString()}; path=/`;
 
   if (domain) {
     cookie += `; domain=${domain}`;
   }
-
-  document.cookie = cookie;
+  console.log('setting cookie: ', cookie);
+  if (typeof cookie !== "undefined") {
+    // need help here - can't figure out how to set a persistent cookie with typescript.
+    // everything else is in place and should work except this line :(
+    document.cookie = cookie;
+  } else {
+    console.error("Cookie is undefined!");
+  }
 }
 
 // generate cookie if it does not exist
-export function setBrCookieIfNeeded() {
+export function setBrCookieIfNeeded(browser: string | Browser, brCookieValue: undefined, document: WebPixelsDocument) {
   var brCookieValueCandidate = browser.cookie.get('_br_uid_2');
   var newPresent = brCookieValueCandidate && brCookieValueCandidate.length > 0;
 
@@ -130,7 +137,7 @@ export function setBrCookieIfNeeded() {
   }
   // Update the mutable cookie properties and create the ones that are missing.
   // shopify connector version (never changed once set)
-  cookieProps.v = cookieProps.v || settings.shopify_connector_version;
+  cookieProps.v = cookieProps.v || 'shop2.2';
   // Creation timestamp (never changed once set)
   cookieProps.ts = cookieProps.ts || (new Date()).getTime();
   // Hit count (incremeted on every pageview)
@@ -142,12 +149,11 @@ export function setBrCookieIfNeeded() {
     builder.push(key + "=" + cookieProps[key]);
   }
   brCookieValueCandidate = builder.join(":");
-
-  if (brCookieValueCandidate != brCookieValue &&
-    // Sanity check to ensure that cookie length is not too large
-    brCookieValueCandidate.length < 1000) {
-    var cookieDomain = getBaseDomain(document.domain);
+  console.log(brCookieValueCandidate);
+  console.log(brCookieValue)
+  if (brCookieValueCandidate != brCookieValue && brCookieValueCandidate.length < 1000) {
+    let cookieDomain = getBaseDomain(document.location.hostname);
     setPersistentCookie('_br_uid_2', brCookieValueCandidate, cookieDomain);
-    brCookieValue = browser.cookie.get('_br_uid_2'); // Refetch cookie since the browser might not support cookies.
+    brCookieValue = browser.cookie.get('_br_uid_2');
   }
 }

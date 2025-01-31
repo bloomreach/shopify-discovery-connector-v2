@@ -27,7 +27,16 @@ register(async ({analytics, browser, init, settings}) => {
     return;
   }
 
-  setBrCookieIfNeeded();
+  var pixelLocation = 'http://p.brsrvr.com/pix.gif';
+  var sslPixelLocation = 'https://p.brsrvr.com/pix.gif';
+  var brCookieName = '_br_uid_2';
+  var brDeferCookieName = brCookieName + "_d";
+  var brCookieValue;
+  var brShortCookieTime = 2 * 60 * 1000;
+  var brExpireCookieTime = 48 * 60 * 60 * 1000 * -1;
+  var maxCookieHeaderSize = 3700;
+
+  setBrCookieIfNeeded(browser, brCookieValue, init.context.document);
   const cookie2 = await browser.cookie.get('_br_uid_2');
 
   const commonData = {
