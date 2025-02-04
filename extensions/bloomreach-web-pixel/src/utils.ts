@@ -72,7 +72,7 @@ function getBaseDomain(host: string): string {
 async function setPersistentCookie(
   cookieName: string,
   cookieValue: string,
-  browser,
+  browser: Browser,
   domain?: string,
   timeout?: number,
 ): void {
@@ -95,12 +95,12 @@ async function setPersistentCookie(
 }
 
 // generate cookie if it does not exist
-export function setBrCookieIfNeeded(browser: string | Browser, brCookieValue: undefined, document: WebPixelsDocument) {
-  var brCookieValueCandidate = browser.cookie.get('_br_uid_2');
-  var brCookieValue = browser.cookie.get('_br_uid_2');
-  var returningVisitor: boolean = brCookieValueCandidate && brCookieValueCandidate.length > 0;
-  var uid;
-  var cookieProps = {};
+export async function setBrCookieIfNeeded(browser: Browser, document: WebPixelsDocument) {
+  let brCookieValueCandidate = await browser.cookie.get('_br_uid_2');
+  let brCookieValue = await browser.cookie.get('_br_uid_2');
+  let returningVisitor: boolean = brCookieValueCandidate && brCookieValueCandidate.length > 0;
+  let uid: string;
+  let cookieProps = {};
 
   if (!returningVisitor) {
     var randUid = Math.round(Math.random() * 10E12);
@@ -117,13 +117,11 @@ export function setBrCookieIfNeeded(browser: string | Browser, brCookieValue: un
     }
     for (var i = 1, len = parts.length; i < len; i++) {
       // The old cookies go the the separate array for verification.
-      if (parts[i].substring(0, "_uid".length) == "_uid") {
-        // Don't do anything for old Ids
-      } else {
+      if (parts[i].substring(0, "_uid".length) !== "_uid") {
         // Add the valid key-value pairs to the parameters map
-        var kv = parts[i].split("=");
-        if (kv[0] && kv[1]) {
-          cookieProps[kv[0]] = kv[1];
+        const [key, value] = parts[i].split("=");
+        if (key && value) {
+          cookieProps[key] = value;
         }
       }
     }
@@ -141,10 +139,11 @@ export function setBrCookieIfNeeded(browser: string | Browser, brCookieValue: un
   for (var key in cookieProps) {
     builder.push(key + "=" + cookieProps[key]);
   }
-  brCookieValueCandidate = builder.join(":");
-  if (brCookieValueCandidate != brCookieValue && brCookieValueCandidate.length < 1000) {
+  brCookieValueCandidate = Object.keys(cookieProps)
+    .reduce((builder, key) => `${builder}:${key}=${cookieProps[key]}`, uid);
+
+  if (brCookieValueCandidate !== brCookieValue && brCookieValueCandidate.length < 1000) {
     let cookieDomain = getBaseDomain(document.location.hostname);
     setPersistentCookie('_br_uid_2', brCookieValueCandidate, browser, cookieDomain);
-    brCookieValue = browser.cookie.get('_br_uid_2');
   }
 }
