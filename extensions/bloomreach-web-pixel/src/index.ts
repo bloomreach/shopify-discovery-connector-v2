@@ -28,7 +28,7 @@ register(async ({analytics, browser, init, settings}) => {
   }
 
   setBrCookieIfNeeded(browser, init.context.document);
-  let cookie2 = await browser.cookie.get('_br_uid_2');
+  const cookie2 = await browser.cookie.get('_br_uid_2');
   const commonData = {
     acct_id: accountId,
     cookie2,

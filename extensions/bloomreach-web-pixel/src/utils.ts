@@ -98,34 +98,33 @@ async function setPersistentCookie(
 export async function setBrCookieIfNeeded(browser: Browser, document: WebPixelsDocument) {
   let brCookieValueCandidate = await browser.cookie.get('_br_uid_2');
   let brCookieValue = await browser.cookie.get('_br_uid_2');
-  let returningVisitor: boolean = brCookieValueCandidate && brCookieValueCandidate.length > 0;
+  let returningVisitor: boolean = !!brCookieValueCandidate?.length;
   let uid: string;
   let cookieProps = {};
 
   if (!returningVisitor) {
-    var randUid = Math.round(Math.random() * 10E12);
+    const randUid = Math.round(Math.random() * 10E12);
     uid = "uid=" + randUid;
   } else {
     // Split the existing cookie values and extract the parameters
-    var parts = brCookieValueCandidate.split(":");
+    const parts = brCookieValueCandidate.split(":");
     // Loop over the split parts (starting from index 1 since index 0 is the special user ID that always comes first) and extract cookie values.
     uid = parts[0];
     // If cookie is corrupted then set the new uid
     if (uid.indexOf("uid=") == -1) {
-      var randUid = Math.round(Math.random() * 10E12);
+      const randUid = Math.round(Math.random() * 10E12);
       uid = "uid=" + randUid;
     }
     for (var i = 1, len = parts.length; i < len; i++) {
       // The old cookies go the the separate array for verification.
-      if (parts[i].substring(0, "_uid".length) !== "_uid") {
+      parts.filter(part => part.substring(0, "_uid".length) !== "_uid").forEach(part => {
         // Add the valid key-value pairs to the parameters map
-        const [key, value] = parts[i].split("=");
+        const [key, value] = part.split("=");
         if (key && value) {
           cookieProps[key] = value;
         }
-      }
+      });
     }
-  }
   // Update the mutable cookie properties and create the ones that are missing.
   // shopify connector version (never changed once set)
   cookieProps.v = cookieProps.v || 'shop2.2';
@@ -143,7 +142,7 @@ export async function setBrCookieIfNeeded(browser: Browser, document: WebPixelsD
     .reduce((builder, key) => `${builder}:${key}=${cookieProps[key]}`, uid);
 
   if (brCookieValueCandidate !== brCookieValue && brCookieValueCandidate.length < 1000) {
-    let cookieDomain = getBaseDomain(document.location.hostname);
+    const cookieDomain = getBaseDomain(document.location.hostname);
     setPersistentCookie('_br_uid_2', brCookieValueCandidate, browser, cookieDomain);
   }
 }
