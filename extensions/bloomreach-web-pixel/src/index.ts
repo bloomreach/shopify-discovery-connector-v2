@@ -26,7 +26,7 @@ register(async ({analytics, browser, init, settings}) => {
   if (!br_data) {
     return;
   }
-  await browser.cookie.set('joeytest=foo');
+
   await setBrCookieIfNeeded(browser, init.context.document);
   const cookie2 = await browser.cookie.get('_br_uid_2');
   const commonData = {
