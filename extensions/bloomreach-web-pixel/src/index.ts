@@ -26,8 +26,8 @@ register(async ({analytics, browser, init, settings}) => {
   if (!br_data) {
     return;
   }
-
-  setBrCookieIfNeeded(browser, init.context.document);
+  await browser.cookie.set('joeytest=foo');
+  await setBrCookieIfNeeded(browser, init.context.document);
   const cookie2 = await browser.cookie.get('_br_uid_2');
   const commonData = {
     acct_id: accountId,
@@ -53,7 +53,7 @@ register(async ({analytics, browser, init, settings}) => {
       ...br_data,
       type: "pageview",
     };
-
+    console.log('data: ', data);
     sendPixelData(br_region, data);
   });
 
