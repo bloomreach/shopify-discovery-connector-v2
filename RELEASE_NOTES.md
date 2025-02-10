@@ -3,6 +3,7 @@
 ### Fixed
 
 - [`Fixed`]: Fix settings error when markets are disabled or managed by a third party (https://bloomreach.atlassian.net/browse/DCONN-92).
+- [`ADDED`]: Created a settings for pixel to toggle region: EU or US
 
 ## 2.2.0
 
