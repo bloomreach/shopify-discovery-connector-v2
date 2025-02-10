@@ -1,3 +1,9 @@
+## 2.2.2
+
+### Fixed
+
+- [`Fixed`]: Fix when bloomreach pixel is enabled to also send cookie2 param value. Param includes connector version 'shop2.2' and increments hit count.
+
 ## 2.2.1
 
 ### Fixed
