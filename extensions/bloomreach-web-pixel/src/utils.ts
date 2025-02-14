@@ -131,9 +131,11 @@ export async function setBrCookieIfNeeded(browser: Browser, document: WebPixelsD
   // Hit count (incremented on every page view)
   cookieProps.hc = Number(cookieProps.hc || 0) + 1;
   // Build the new cookie candidate string.
-  let builder: string[] = [];
+  let builder = [uid];
   for (let key in cookieProps) {
-    builder.push(key + "=" + cookieProps[key]);
+    if (key !== 'uid'){
+      builder.push(key + "=" + cookieProps[key]);
+    }
   }
   brCookieValueCandidate = builder.join(":");
   if (!returningVisitor || brCookieValueCandidate !== brCookieValue && brCookieValueCandidate.length < 1000) {
