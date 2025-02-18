@@ -86,7 +86,6 @@ export async function setPersistentCookie(
   }
 
   let cookie = `${cookieName}=${encodeURIComponent(cookieValue)}; expires=${expiryDate.toUTCString()}; path=/`;
-
   if (domain) {
     cookie += `; domain=${domain}`;
   }
@@ -121,6 +120,7 @@ export async function setBrCookieIfNeeded(browser: Browser, document: WebPixelsD
       if (key && value) {
         cookieProps[key] = value;
       }
+
     });
   }
   // Update the mutable cookie properties and create the ones that are missing.
@@ -131,7 +131,13 @@ export async function setBrCookieIfNeeded(browser: Browser, document: WebPixelsD
   // Hit count (incremented on every page view)
   cookieProps.hc = Number(cookieProps.hc || 0) + 1;
   // Build the new cookie candidate string.
-  brCookieValueCandidate = Object.keys(cookieProps).reduce((builder, key) => `${builder}:${key}=${cookieProps[key]}`, uid);
+  let builder = [uid];
+  for (let key in cookieProps) {
+    if (key !== 'uid'){
+      builder.push(key + "=" + cookieProps[key]);
+    }
+  }
+  brCookieValueCandidate = builder.join(":");
   if (!returningVisitor || brCookieValueCandidate !== brCookieValue && brCookieValueCandidate.length < 1000) {
     let cookieDomain = document.location.origin.split('://')[1];
     await setPersistentCookie('_br_uid_2', brCookieValueCandidate, browser, cookieDomain);
