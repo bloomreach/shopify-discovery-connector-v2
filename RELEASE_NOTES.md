@@ -1,3 +1,9 @@
+## 2.2.3
+
+### Fixed
+
+- [`Fixed`]: Fix 2.2.2 introduced a bug where the uid would duplicate inside the cookie2 param. This release fixes that issue.
+
 ## 2.2.2
 
 ### Fixed
