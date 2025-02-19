@@ -12,7 +12,9 @@ export function escape(str?: string | null): string {
     .replaceAll("*", "%2A")
     .replaceAll("'", "%27")
     .replaceAll("(", "%28")
-    .replaceAll(")", "%29");
+    .replaceAll(")", "%29")
+    .replaceAll("=", "%3D")
+    .replaceAll(":", "%3A");
 }
 
 export function sendPixelData(region: string, data: Record<string, any>) {
@@ -95,7 +97,7 @@ export async function setPersistentCookie(
 // generate cookie if it does not exist
 export async function setBrCookieIfNeeded(browser: Browser, document: WebPixelsDocument) {
   let brCookieValueCandidate = await browser.cookie.get('_br_uid_2');
-  const brCookieValue = brCookieValueCandidate;
+  const brCookieValue = decodeURIComponent(brCookieValueCandidate);
   const returningVisitor: boolean = !!brCookieValueCandidate?.length;
   let uid: string;
   const cookieProps = {};
@@ -105,7 +107,7 @@ export async function setBrCookieIfNeeded(browser: Browser, document: WebPixelsD
     uid = "uid=" + randUid;
   } else {
     // Split the existing cookie values and extract the parameters
-    const parts = brCookieValueCandidate.split(":");
+    const parts = brCookieValue.split(":");
     // Loop over the split parts (starting from index 1 since index 0 is the special user ID that always comes first) and extract cookie values.
     uid = parts[0];
     // If cookie is corrupted then set the new uid
@@ -120,7 +122,6 @@ export async function setBrCookieIfNeeded(browser: Browser, document: WebPixelsD
       if (key && value) {
         cookieProps[key] = value;
       }
-
     });
   }
   // Update the mutable cookie properties and create the ones that are missing.
@@ -137,9 +138,9 @@ export async function setBrCookieIfNeeded(browser: Browser, document: WebPixelsD
       builder.push(key + "=" + cookieProps[key]);
     }
   }
-  brCookieValueCandidate = builder.join(":");
-  if (!returningVisitor || brCookieValueCandidate !== brCookieValue && brCookieValueCandidate.length < 1000) {
+  const newCookieValue = builder.join(":");
+  if (!returningVisitor || newCookieValue !== brCookieValue && newCookieValue.length < 1000) {
     let cookieDomain = document.location.origin.split('://')[1];
-    await setPersistentCookie('_br_uid_2', brCookieValueCandidate, browser, cookieDomain);
+    await setPersistentCookie('_br_uid_2', newCookieValue, browser, cookieDomain);
   }
 }
