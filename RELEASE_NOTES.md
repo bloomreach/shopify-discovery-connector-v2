@@ -1,3 +1,9 @@
+## 2.2.4
+
+### Fixed
+
+- [`Fixed`]: Fix When firing the pixel, cookie2 param was not properly url-encoded. This update repairs the pixel fire.
+
 ## 2.2.3
 
 ### Fixed
