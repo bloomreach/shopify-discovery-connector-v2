@@ -31,7 +31,7 @@ register(async ({analytics, browser, init, settings}) => {
   const cookie2 = await browser.cookie.get('_br_uid_2');
   const commonData = {
     acct_id: accountId,
-    cookie2,
+    cookie2: encodeURIComponent(cookie2),
     rand: Math.round(Math.random() * 10000000000000),
     url: escape(init.context.document.location.href),
     ref: escape(init.context.document.referrer),
@@ -41,7 +41,6 @@ register(async ({analytics, browser, init, settings}) => {
     view_id: br_data.view_id,
     debug: br_data.debug,
   };
-
   br_data = {
     ...br_data,
     ...commonData,
