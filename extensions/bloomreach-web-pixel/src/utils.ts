@@ -12,9 +12,7 @@ export function escape(str?: string | null): string {
     .replaceAll("*", "%2A")
     .replaceAll("'", "%27")
     .replaceAll("(", "%28")
-    .replaceAll(")", "%29")
-    .replaceAll("=", "%3D")
-    .replaceAll(":", "%3A");
+    .replaceAll(")", "%29");
 }
 
 export function sendPixelData(region: string, data: Record<string, any>) {
