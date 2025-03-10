@@ -1,3 +1,9 @@
+## 2.2.5
+
+### Added
+
+- [`Added`]: Added br-trk v17.1, a custom version for use with the shopify connector that will enable RTS
+
 ## 2.2.4
 
 ### Fixed
