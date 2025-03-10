@@ -221,7 +221,7 @@
 
   })();
   (function() {
-    const br_region = localStorage.getItem('br_region');
+    const br_region = "{{ block.settings.pixel_region }}";
     var brtrk = document.createElement("script");
     brtrk.type = "text/javascript";
     brtrk.async = true;
