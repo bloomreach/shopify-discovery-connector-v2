@@ -17,6 +17,7 @@
 
   function getView() {
     const viewsValue = "{{ localization.market.metafields["$app:account"].views | replace: '"', '\"' }}";
+
     let viewId;
     try {
       viewId = JSON.parse(viewsValue)['{{ localization.country.iso_code }}'];
@@ -219,7 +220,21 @@
     });
 
   })();
+  (function() {
+    const br_region = "{{ block.settings.pixel_region }}";
+    var brtrk = document.createElement("script");
+    brtrk.type = "text/javascript";
+    brtrk.async = true;
+    if (br_region === 'p.brsrvr.com'){
+      brtrk.src = "//cdn.brcdn.com/v1/br-trk-7844.js";
+    } else {
+      brtrk.src = "//cdn.brcdn.com/v1/br-trk-7845.js";
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(brtrk, s);
+  })();
 </script>
+
 {% else %}
 <script>
   localStorage.removeItem("br_data");
