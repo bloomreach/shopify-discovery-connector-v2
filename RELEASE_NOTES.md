@@ -1,3 +1,37 @@
+## 2.2.6
+
+### Added
+
+- [`Added`]: Event dispatcher for other Apps.
+
+```js
+/**
+*
+* The Bloomreach search module dispatches a custom event 'bloomreach:searchResults:updated'
+* whenever search results are redrawn. Other apps (like wishlist) can listen for this event
+* to know when to reinitialize their functionality on the new product tiles.
+*
+* Example usage in another app:
+*
+* // Listen at document level (most reliable)
+* document.addEventListener('bloomreach:searchResults:updated', function(event) {
+*   console.log('Search results updated, refreshing app components');
+*   console.log('Number of products:', event.detail.resultsCount);
+*
+*   // Re-initialize your app's functionality for the updated search results
+*   initializeWishlistHearts();
+* });
+*
+* // Or listen directly on the results container if you prefer
+* document.querySelector('.blm-product-search__results')?.addEventListener(
+*   'bloomreach:searchResults:updated',
+*   function(event) {
+*     // Your code here
+*   }
+* );
+  */
+```
+
 ## 2.2.5
 
 ### Added
