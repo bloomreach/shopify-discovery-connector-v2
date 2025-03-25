@@ -1170,6 +1170,35 @@ If you have any concerns related to the functionality of the connector, try to m
 
 ## Change Log / Release Notes
 
+#### 2.2.6
+
+Event dispatcher for other Apps:
+
+```js
+/**
+*
+* The Bloomreach search module dispatches a custom event 'bloomreach:searchResults:updated'
+* whenever search results are redrawn. Other apps (like wishlist) can listen for this event
+* to know when to reinitialize their functionality on the new product tiles.
+*
+* Example usage in another app:
+*
+* // Listen at document level
+* document.addEventListener('bloomreach:searchResults:updated', function(event) {
+*   console.log('Search results updated, refreshing app components');
+*   console.log('Number of products:', event.detail.resultsCount);
+*
+*   // Re-initialize your app's functionality for the updated search results
+*   initializeWishlistHearts();
+* });
+  */
+```
+
+#### 2.2.1
+
+Settings for pixel to toggle region: EU or US
+
+
 #### 2.2.0
 
 - Added support for Bloomreach Discovery multi-catalog and multi-view, based on Shopify Markets.
