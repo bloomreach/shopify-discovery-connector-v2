@@ -128,7 +128,7 @@
   (function() {
     const br_data = {};
     br_data.ptype = "{{ page_type }}";
-    {%  if block.settings.pixel_debug -%}
+    {% if block.settings.pixel_debug -%}
     br_data.debug = true;
     {%- endif -%}
     {% if app.metafields.account.multi_catalog_enabled -%}
@@ -220,6 +220,8 @@
     });
 
   })();
+
+  {% if block.settings.pixel_mixedMode == false -%}
   (function() {
     const br_region = "{{ block.settings.pixel_region }}";
     var brtrk = document.createElement("script");
@@ -233,6 +235,7 @@
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(brtrk, s);
   })();
+  {%- endif -%}
 </script>
 
 {% else %}
@@ -324,6 +327,12 @@
         "type": "checkbox",
         "label": "t:pixelConfig.debug.label",
         "info": "t:pixelConfig.debug.info"
+      },
+      {
+        "id": "pixel_mixedMode",
+        "type": "checkbox",
+        "label": "t:pixelConfig.mixedMode.label",
+        "info": "t:pixelConfig.mixedMode.info"
       },
       {
         "id": "pixel_pid",

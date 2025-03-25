@@ -104,6 +104,10 @@
       "label": "Enable debug mode",
       "info": "Flag the pixel data as test data for real-time debugging purpose. You can track debug events using Integration mode in [Events Management](https://documentation.bloomreach.com/discovery/docs/events-management#21-mode). Note that debug events are discarded and don’t impact any production features."
     },
+    "mixedMode": {
+      "label": "Enable mixed-mode pixel",
+      "info": "Leave false, unless you are firing pixel events independently of the Bloomreach Shopify Connector. Mixed-mode is intended for customers who need to independently inject br-trk.js on their pages distinct from the connector implementation."
+    },
     "pid": {
       "label": "Product ID field",
       "info": "Shopify product field used as the unique product_id sent in the Bloomreach feed."
