@@ -1,3 +1,9 @@
+## 2.2.7
+
+### Added
+
+- [`Added`]: Added toggle for 'mixed-mode' pixel. This accounts for users who wish to fire some but not all of pixel events.
+
 ## 2.2.6
 
 ### Added
