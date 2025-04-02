@@ -3490,6 +3490,8 @@
   function buildApiCallParameters(config) {
     const urlParameters = new URLSearchParams(window.location.search);
     const currentSearchRequestState = getCurrentSearchRequestState();
+    // Get sort parameter from URL parameters first
+    const sortParameter = urlParameters.get(PARAMETER_NAME_SORT) || config.sort;
     const apiParameters = {
       ...(config.search?.endpoint ? {
         endpoint: config.search.endpoint
@@ -3502,7 +3504,7 @@
       } : {}),
       q: urlParameters.get(config.default_search_parameter || '') || config.search.test_query || config.search.category_id || '',
       rows: config.search?.items_per_page,
-      sort: config.sort,
+      sort: sortParameter, // Use the URL sort parameter instead of config.sort
       start: config.start,
       account_id: config.account_id,
       domain_key: config.domain_key,
