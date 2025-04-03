@@ -1170,6 +1170,10 @@ If you have any concerns related to the functionality of the connector, try to m
 
 ## Change Log / Release Notes
 
+#### 2.2.8
+
+Fixed sorting on search and category pages
+
 #### 2.2.6
 
 Event dispatcher for other Apps:
