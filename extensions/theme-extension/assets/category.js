@@ -1,5 +1,6 @@
 (function () {
   'use strict';
+  //category.js
 
   const globalBloomreachModules = {
     ...(window.BloomreachModules ? window.BloomreachModules : {}),
@@ -3293,6 +3294,31 @@
       br_data[COOKIE_NAME_SEGMENTATION_CDP_SEGMENTS] = segmentationData;
     }
   }
+  /**
+   * Dispatches a custom event to notify other apps that search results have been updated
+   * @param {Object} data - Optional data to include with the event
+   */
+  function dispatchSearchResultsUpdatedEvent(data = {}) {
+    // Create a custom event with a namespaced name for clarity
+    const searchUpdateEvent = new CustomEvent('bloomreach:searchResults:updated', {
+      detail: {
+        timestamp: Date.now(),
+        source: 'bloomreach-discovery',
+        resultsCount: document.querySelectorAll('.blm-product-search__result').length,
+        ...data
+      },
+      bubbles: true,
+      cancelable: true
+    });
+    // First try to dispatch from the results container if it exists
+    const resultsContainer = document.querySelector('.blm-product-search__results');
+    if (resultsContainer) {
+      resultsContainer.dispatchEvent(searchUpdateEvent);
+    } else {
+      // Fallback to dispatching from document for maximum visibility
+      document.dispatchEvent(searchUpdateEvent);
+    }
+  }
   async function initiateSearch(config, options = {
     toReplace: false
   }) {
@@ -3320,9 +3346,23 @@
     if (currentSearchRequestState.is_first_request || !config.search.infinite_scroll || options.toReplace) {
       getSearchResultsContainerElement(config).innerHTML = ejs.render((config.search?.template || '').replace('%%-PRODUCT_LIST_TEMPLATE-%%', config.search?.product_list_template || '').replace(/%%-REQUEST_ID-%%/g, currentSearchRequestState.request_id.toString()), templateData);
       window.scrollTo(0, 0);
+      // Dispatch event after initial load or full replacement
+      dispatchSearchResultsUpdatedEvent({
+        action: 'full_update',
+        searchQuery: apiCallParameters.q,
+        filters: templateData.checkedFacets || {},
+        totalResults: templateData.number_of_results || 0
+      });
     } else if (config.search.infinite_scroll) {
       const resultElements = ejs.render(config.search?.product_list_template || '', templateData);
       getSearchResultsListContainerElement().insertAdjacentHTML('beforeend', resultElements);
+      // Dispatch event after infinite scroll update
+      dispatchSearchResultsUpdatedEvent({
+        action: 'append',
+        searchQuery: apiCallParameters.q,
+        page: new URLSearchParams(window.location.search).get(PARAMETER_NAME_PAGE) || '1',
+        totalResults: templateData.number_of_results || 0
+      });
     }
     // adds swatch hover listener to newly added elements as well
     addSwatchElementHoverListener();
@@ -3443,6 +3483,8 @@
   function buildApiCallParameters(config) {
     const urlParameters = new URLSearchParams(window.location.search);
     const currentSearchRequestState = getCurrentSearchRequestState();
+    // Get sort from URL parameters first, then fall back to config
+    const sortParameter = urlParameters.get(PARAMETER_NAME_SORT) || config.sort;
     const apiParameters = {
       ...(config.search?.endpoint ? {
         endpoint: config.search.endpoint
@@ -3455,7 +3497,7 @@
       } : {}),
       q: urlParameters.get(config.default_search_parameter || '') || config.search.test_query || config.search.category_id || '',
       rows: config.search?.items_per_page,
-      sort: config.sort,
+      sort: sortParameter, // Use the sort from URL or config
       start: config.start,
       account_id: config.account_id,
       domain_key: config.domain_key,

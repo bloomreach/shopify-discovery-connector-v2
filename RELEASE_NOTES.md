@@ -1,3 +1,10 @@
+## 2.2.8
+
+### Fixed
+
+- [`Fixed`]: Fixed sorting on search and category pages without the need to refresh
+
+
 ## 2.2.7
 
 ### Added
