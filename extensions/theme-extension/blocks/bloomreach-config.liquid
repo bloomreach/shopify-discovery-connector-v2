@@ -121,9 +121,12 @@
 <script>
   bloomreachConnector.config.pixel = {
     enabled: true,
+    pid_field: "{{ block.settings.pixel_pid }}",
+    br_region: "{{ block.settings.pixel_region }}",
   };
 
   localStorage.setItem("br_region", "{{block.settings.pixel_region }}");
+  localStorage.setItem("br_pid_field", "{{block.settings.pixel_pid }}");
 
   (function() {
     const br_data = {};
