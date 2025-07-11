@@ -206,10 +206,6 @@
     "endpoint": {
       "label": "Endpoint"
     },
-    "pid": {
-      "label": "Product ID field",
-      "info": "Shopify product field used as the unique product_id sent in widget api call."
-    },
     "useDefault": {
       "label": "Use default settings",
       "info": "If checked, the default settings from the App will be used. And all the settings below will be ignored."

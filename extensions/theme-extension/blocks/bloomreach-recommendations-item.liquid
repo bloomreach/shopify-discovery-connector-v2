@@ -1,4 +1,4 @@
-{% capture data_extra %}data-item-ids="{% if request.page_type == "product" %}{{ product[block.settings.pixel_pid] | escape }}{% else %}{{ block.settings.item_ids }}{% endif %}"{% endcapture %}
+{% capture data_extra %}data-item-ids="{% if request.page_type == "product" %}{{ product.handle | escape }}{% else %}{{ block.settings.item_ids }}{% endif %}"{% endcapture %}
 {% render "bloomreach-widget", data_extra: data_extra, widget_type: "item" %}
 {% schema %}
   {
@@ -44,22 +44,6 @@
           {
             "label": "Production",
             "value": "//pathways.dxpapi.com/api/v2/widgets/"
-          }
-        ]
-      },
-      {
-        "id": "pixel_pid",
-        "label": "t:recommendations.pid.label",
-        "info": "t:recommendations.pid.info",
-        "type": "select",
-        "options": [
-          {
-            "label": "handle",
-            "value": "handle"
-          },
-          {
-            "label": "id",
-            "value": "id"
           }
         ]
       },
