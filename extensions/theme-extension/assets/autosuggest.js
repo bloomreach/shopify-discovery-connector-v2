@@ -1727,37 +1727,50 @@
     console.warn(`'${tagName}' not found in ancestors of ${startElement.nodeName}`);
     return null;
   }
+  //did not work for a comma seperated selector see #getAutosuggestSearchInputElements
   function getAutosuggestSearchInputElement(config) {
-    invariant(config.autosuggest?.selector);
-    const autosuggestInputElement = document.querySelector(config.autosuggest.selector);
-    return autosuggestInputElement;
+    const elements = getAutosuggestSearchInputElements(config);
+    return elements[0] || null;
   }
-  function getAutosuggestResultsContainerElement() {
-    const autosuggestResultsContainerElement = document.querySelector('.blm-autosuggest-search-results');
-    return autosuggestResultsContainerElement;
+  function getAutosuggestResultsContainerElement(inputElement) {
+    // Create unique ID for each input's results container
+    const inputId = inputElement.id || `autosuggest-input-${Array.from(document.querySelectorAll('input')).indexOf(inputElement)}`;
+    const containerId = `blm-autosuggest-search-results-${inputId}`;
+    return document.querySelector(`#${containerId}`);
   }
-  function getAutosuggestSearchFormElement(config) {
-    return findUpElementByTagName(getAutosuggestSearchInputElement(config), 'form');
+  function getAutosuggestSearchFormElement(inputElement) {
+    return findUpElementByTagName(inputElement, 'form');
   }
-  function injectAutosuggestDynamicStyles(config) {
-    if (!getAutosuggestResultsContainerElement()) {
+  function injectAutosuggestDynamicStyles(inputElement) {
+    const containerId = getResultsContainerId(inputElement);
+
+    if (!document.querySelector(`style[data-container-id="${containerId}"]`)) {
       const searchResultsContainerStyles = document.createElement('style');
-      searchResultsContainerStyles.innerHTML = `.blm-autosuggest-search-results {
+      searchResultsContainerStyles.setAttribute('data-container-id', containerId);
+      searchResultsContainerStyles.innerHTML = `#${containerId} {
       width: 100%;
       position: absolute;
       z-index: 100;
       left: 0;
-      transform: translateY(${getAutosuggestSearchInputElement(config).offsetHeight}px);
+      transform: translateY(${inputElement.offsetHeight}px);
     }`;
       document.head.appendChild(searchResultsContainerStyles);
     }
   }
-  function injectAutosuggestResultsContainer(config) {
-    if (!getAutosuggestResultsContainerElement()) {
+  function injectAutosuggestResultsContainer(inputElement) {
+    const containerId = getResultsContainerId(inputElement);
+
+    if (!document.querySelector(`#${containerId}`)) {
       const searchResultsContainerElement = document.createElement('div');
+      searchResultsContainerElement.id = containerId;
       searchResultsContainerElement.classList.add('blm-autosuggest-search-results');
-      getAutosuggestSearchInputElement(config).parentElement?.appendChild(searchResultsContainerElement);
+      inputElement.parentElement?.appendChild(searchResultsContainerElement);
     }
+  }
+  // Helper function to generate consistent container IDs
+  function getResultsContainerId(inputElement) {
+    const inputId = inputElement.id || `autosuggest-input-${Array.from(document.querySelectorAll('input')).indexOf(inputElement)}`;
+    return `blm-autosuggest-search-results-${inputId}`;
   }
 
   var breakpoints;
@@ -1806,16 +1819,20 @@
     }, {}) ?? {};
   }
 
-  function buildCategoryLinkElementClickListener(config) {
+  function buildCategoryLinkElementClickListener(config, inputElement) {
     return event => {
       event.preventDefault();
       const clickedElement = event.target;
       const categoryId = clickedElement.dataset?.categoryId || '';
+      const resultsContainer = getAutosuggestResultsContainerElement(inputElement);
+
       if (window.BloomreachModules && window.BloomreachModules.search) {
         updateParameterInUrl(PARAMETER_NAME_PAGE, '1');
         window.BloomreachModules.search.load(categoryId).then(() => {
-          getAutosuggestSearchInputElement(config).value = clickedElement?.textContent || '';
-          getAutosuggestResultsContainerElement().innerHTML = '';
+          inputElement.value = clickedElement?.textContent || '';
+          if (resultsContainer) {
+            resultsContainer.innerHTML = '';
+          }
           updateCurrentAutosuggestRequestState({
             last_template_data: null
           });
@@ -1824,26 +1841,34 @@
       }
     };
   }
-  function addCategoryLinkElementClickListener(config) {
-    getAutosuggestResultsContainerElement().querySelectorAll('.blm-autosuggest__suggestion-term-link--category').forEach(categoryLinkElement => {
+  function addCategoryLinkElementClickListener(config, inputElement) {
+    const resultsContainer = getAutosuggestResultsContainerElement(inputElement);
+    if (!resultsContainer) return;
+
+    resultsContainer.querySelectorAll('.blm-autosuggest__suggestion-term-link--category').forEach(categoryLinkElement => {
       if (!categoryLinkElement.getAttribute('hasListener')) {
-        categoryLinkElement.addEventListener('click', buildCategoryLinkElementClickListener(config));
+        categoryLinkElement.addEventListener('click', buildCategoryLinkElementClickListener(config, inputElement));
         categoryLinkElement.setAttribute('hasListener', 'true');
       }
     });
   }
 
   function addFormElementSubmitListener(config) {
-    const element = getAutosuggestSearchFormElement(config);
-    if (element && !element.getAttribute('hasListener')) {
-      element.addEventListener('submit', () => element.dispatchEvent(new CustomEvent('brSuggestSubmit', {
-        bubbles: true,
-        detail: {
-          q: getAutosuggestSearchInputElement(config).value
-        }
-      })));
-      element.setAttribute('hasListener', 'true');
-    }
+    const elements = getAutosuggestSearchInputElements(config);
+    elements.forEach(inputElement => {
+      const formElement = getAutosuggestSearchFormElement(inputElement);
+      if (formElement && !formElement.getAttribute('hasListener')) {
+        formElement.addEventListener('submit', () =>
+          formElement.dispatchEvent(new CustomEvent('brSuggestSubmit', {
+            bubbles: true,
+            detail: {
+              q: inputElement.value
+            }
+          }))
+        );
+        formElement.setAttribute('hasListener', 'true');
+      }
+    });
   }
 
   /**
@@ -2385,15 +2410,18 @@
 
   var debounce_1 = debounce;
 
-  function buildSearchInputElementBlurListener() {
+  function buildSearchInputElementBlurListener(inputElement) {
     return () => {
+      const resultsContainer = getAutosuggestResultsContainerElement(inputElement);
       if (getCurrentAutosuggestUiState().mouseDownEventHappenedInsideAutosuggestResultsContainer) {
         updateCurrentAutosuggestUiState({
           mouseDownEventHappenedInsideAutosuggestResultsContainer: false
         });
         return false;
       }
-      getAutosuggestResultsContainerElement().innerHTML = '';
+      if (resultsContainer) {
+        resultsContainer.innerHTML = '';
+      }
       return true;
     };
   }
@@ -2405,28 +2433,36 @@
           mouseDownEventHappenedInsideAutosuggestResultsContainer: true
         });
       } else {
-        getAutosuggestResultsContainerElement().innerHTML = '';
+        // Clear all results containers
+        document.querySelectorAll('.blm-autosuggest-search-results').forEach(container => {
+          container.innerHTML = '';
+        });
       }
     };
   }
-  function buildSearchInputElementFocusListener() {
+  function buildSearchInputElementFocusListener(inputElement) {
     return () => {
       const lastTemplateData = getCurrentAutosuggestRequestState().last_template_data;
-      getCurrentAutosuggestRequestState();
-      if (lastTemplateData) {
-        getAutosuggestResultsContainerElement().innerHTML = ejs.render(autosuggestTemplate, lastTemplateData);
+      const resultsContainer = getAutosuggestResultsContainerElement(inputElement);
+
+      if (lastTemplateData && resultsContainer) {
+        resultsContainer.innerHTML = ejs.render(autosuggestTemplate, lastTemplateData);
       }
     };
   }
-  function buildSearchInputElementKeyupListener(searchInputElement, config) {
+  function buildSearchInputElementKeyupListener(inputElement, config) {
     return event => {
       const query = event.target.value;
+      const resultsContainer = getAutosuggestResultsContainerElement(inputElement);
+
       if (query.length >= AUTOSUGGEST_MINIMUM_QUERY_LENGTH) {
-        searchInputElement.dataset.originalQuery = query;
-        suggest(query, config).catch(console.error);
+        inputElement.dataset.originalQuery = query;
+        suggest(query, config, inputElement).catch(console.error);
       } else {
-        getAutosuggestResultsContainerElement().innerHTML = '';
-        searchInputElement.dataset.originalQuery = '';
+        if (resultsContainer) {
+          resultsContainer.innerHTML = '';
+        }
+        inputElement.dataset.originalQuery = '';
         updateCurrentAutosuggestRequestState({
           last_template_data: null
         });
@@ -2439,47 +2475,57 @@
       document.body.setAttribute('hasMousedownListener', 'true');
     }
     if (!element.getAttribute('hasBlurListener')) {
-      element.addEventListener('blur', buildSearchInputElementBlurListener());
+      element.addEventListener('blur', buildSearchInputElementBlurListener(element));
       element.setAttribute('hasBlurListener', 'true');
     }
   }
   function addSearchInputElementFocusListener(element) {
     if (!element.getAttribute('hasFocusListener')) {
-      element.addEventListener('focus', buildSearchInputElementFocusListener());
+      element.addEventListener('focus', buildSearchInputElementFocusListener(element));
       element.setAttribute('hasFocusListener', 'true');
     }
   }
   function addSearchInputElementKeyupListener(element, config) {
     if (!element.getAttribute('hasKeyupListener')) {
       element.addEventListener('keyup',
-      // @ts-ignore
-      debounce_1(buildSearchInputElementKeyupListener(element, config), 500));
+        debounce_1(buildSearchInputElementKeyupListener(element, config), 500)
+      );
       element.setAttribute('hasKeyupListener', 'true');
     }
   }
   function addSearchInputElementListeners(config) {
-    const element = getAutosuggestSearchInputElement(config);
-    addSearchInputElementBlurListener(element);
-    addSearchInputElementFocusListener(element);
-    addSearchInputElementKeyupListener(element, config);
+    const elements = getAutosuggestSearchInputElements(config);
+    elements.forEach(element => {
+      addSearchInputElementBlurListener(element);
+      addSearchInputElementFocusListener(element);
+      addSearchInputElementKeyupListener(element, config);
+      element.setAttribute('autocomplete', 'off');
+    });
+  }
+  //new works with comma seperated selector
+  function getAutosuggestSearchInputElements(config) {
+    invariant(config.autosuggest?.selector);
+    const autosuggestInputElements = document.querySelectorAll(config.autosuggest.selector);
+    return Array.from(autosuggestInputElements);
   }
 
-  function addSuggestionTermElementClickListener(config) {
-    getAutosuggestResultsContainerElement().querySelectorAll('.blm-autosuggest__suggestion-term-link').forEach(suggestionTermElement => {
+  function addSuggestionTermElementClickListener(config, inputElement) {
+    const resultsContainer = getAutosuggestResultsContainerElement(inputElement);
+    if (!resultsContainer) return;
+
+    resultsContainer.querySelectorAll('.blm-autosuggest__suggestion-term-link').forEach(suggestionTermElement => {
       if (!suggestionTermElement.getAttribute('hasListener')) {
-        const {
-          suggestionText
-        } = suggestionTermElement.dataset;
-        const {
-          originalQuery
-        } = getAutosuggestSearchInputElement(config).dataset;
-        suggestionTermElement.addEventListener('click', () => suggestionTermElement.dispatchEvent(new CustomEvent('brSuggestClick', {
-          bubbles: true,
-          detail: {
-            aq: originalQuery,
-            q: suggestionText
-          }
-        })));
+        const { suggestionText } = suggestionTermElement.dataset;
+        const { originalQuery } = inputElement.dataset;
+        suggestionTermElement.addEventListener('click', () =>
+          suggestionTermElement.dispatchEvent(new CustomEvent('brSuggestClick', {
+            bubbles: true,
+            detail: {
+              aq: originalQuery,
+              q: suggestionText
+            }
+          }))
+        );
         suggestionTermElement.setAttribute('hasListener', 'true');
       }
     });
@@ -2600,21 +2646,25 @@
       }
     };
   }
-  async function suggest(query, config) {
+  async function suggest(query, config, inputElement) {
     updateCurrentAutosuggestRequestState({
       request_id: generateRequestId()
     });
+
     const apiCallParameters = buildApiCallParameters(query, config);
-    // todo remediate typescript issue
-    // @ts-ignore
     const results = await getSuggestions(apiCallParameters);
     const templateData = mapAutosuggestApiResponse(results, config);
+    const resultsContainer = getAutosuggestResultsContainerElement(inputElement);
+
     updateCurrentAutosuggestRequestState({
       last_template_data: templateData
     });
-    getAutosuggestResultsContainerElement().innerHTML = ejs.render(config.autosuggest?.template || '', templateData);
-    addCategoryLinkElementClickListener(config);
-    addSuggestionTermElementClickListener(config);
+
+    if (resultsContainer) {
+      resultsContainer.innerHTML = ejs.render(config.autosuggest?.template || '', templateData);
+      addCategoryLinkElementClickListener(config, inputElement);
+      addSuggestionTermElementClickListener(config, inputElement);
+    }
   }
   function buildApiCallParameters(query, config) {
     const urlParameters = new URLSearchParams(window.location.search);
@@ -2666,15 +2716,22 @@
     try {
       invariant(config.account_id, 'account_id must be set');
       invariant(config.domain_key, 'domain_key must be set');
-      // these check if the elements are in the DOM
-      if (!getAutosuggestSearchInputElement(config)) {
-        throw Error('Search input element not found');
+
+      const inputElements = getAutosuggestSearchInputElements(config);
+      if (inputElements.length === 0) {
+        throw Error('No search input elements found');
       }
-      injectAutosuggestDynamicStyles(config);
-      injectAutosuggestResultsContainer(config);
-      if (!getAutosuggestResultsContainerElement()) {
-        throw Error('Autosuggest results container element cannot be created');
-      }
+
+      // Setup each input element
+      inputElements.forEach(inputElement => {
+        injectAutosuggestDynamicStyles(inputElement);
+        injectAutosuggestResultsContainer(inputElement);
+
+        if (!getAutosuggestResultsContainerElement(inputElement)) {
+          throw Error(`Autosuggest results container element cannot be created for input: ${inputElement}`);
+        }
+      });
+
     } catch (e) {
       console.error(e);
       return false;
