@@ -1,3 +1,11 @@
+## 2.2.9
+
+### Added
+
+- [`Added`]: Enable item recommendations on PDP for handle and id
+- [`Added`]: Enable autosuggest on multiple input fields on the page
+
+
 ## 2.2.8
 
 ### Fixed
