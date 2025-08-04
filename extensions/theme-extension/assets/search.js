@@ -2040,6 +2040,9 @@
         upperBoundary += 1;
       }
     }
+    if(!checkedFacets.price && currentSearchRequestState.price_range_max_value === 0 && currentSearchRequestState.price_range_min_value === 0) {
+      return {};
+    }
     if (!checkedFacets.price && upperBoundary === currentSearchRequestState.price_range_max_value && (lowerBoundary === currentSearchRequestState.price_range_min_value || Number(lowerBoundary) === 0)) {
       return {};
     }
@@ -2845,9 +2848,7 @@
   function buildClearAllSelectedFacetsButtonClickListener(config) {
     return () => {
       resetLoadingIndicator();
-      updateMultipleInstanceParametersInUrl(PARAMETER_NAME_FACETS, {
-        ...buildPriceUrlParameterObject()
-      });
+      updateMultipleInstanceParametersInUrl(PARAMETER_NAME_FACETS, {});
       updateParameterInUrl(PARAMETER_NAME_PAGE, '1');
       // reset price range
       updateCurrentSearchRequestState({
