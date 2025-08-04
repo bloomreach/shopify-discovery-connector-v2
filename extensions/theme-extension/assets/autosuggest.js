@@ -2440,16 +2440,22 @@
       }
     };
   }
-  function buildSearchInputElementFocusListener(inputElement) {
+  function buildSearchInputElementFocusListener(inputElement, config) {
     return () => {
       const lastTemplateData = getCurrentAutosuggestRequestState().last_template_data;
       const resultsContainer = getAutosuggestResultsContainerElement(inputElement);
 
       if (lastTemplateData && resultsContainer) {
-        resultsContainer.innerHTML = ejs.render(autosuggestTemplate, lastTemplateData);
+        // FIX: Use config.autosuggest.template instead of hardcoded autosuggestTemplate
+        resultsContainer.innerHTML = ejs.render(config.autosuggest?.template || '', lastTemplateData);
+
+        // Re-add event listeners after rendering
+        addCategoryLinkElementClickListener(config, inputElement);
+        addSuggestionTermElementClickListener(config, inputElement);
       }
     };
   }
+
   function buildSearchInputElementKeyupListener(inputElement, config) {
     return event => {
       const query = event.target.value;
@@ -2479,9 +2485,10 @@
       element.setAttribute('hasBlurListener', 'true');
     }
   }
-  function addSearchInputElementFocusListener(element) {
+  function addSearchInputElementFocusListener(element, config) {
     if (!element.getAttribute('hasFocusListener')) {
-      element.addEventListener('focus', buildSearchInputElementFocusListener(element));
+      // FIX: Pass config parameter to the focus listener
+      element.addEventListener('focus', buildSearchInputElementFocusListener(element, config));
       element.setAttribute('hasFocusListener', 'true');
     }
   }
@@ -2497,7 +2504,8 @@
     const elements = getAutosuggestSearchInputElements(config);
     elements.forEach(element => {
       addSearchInputElementBlurListener(element);
-      addSearchInputElementFocusListener(element);
+      // FIX: Pass config to focus listener
+      addSearchInputElementFocusListener(element, config);
       addSearchInputElementKeyupListener(element, config);
       element.setAttribute('autocomplete', 'off');
     });
