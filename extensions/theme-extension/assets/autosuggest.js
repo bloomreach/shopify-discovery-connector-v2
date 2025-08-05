@@ -1727,11 +1727,6 @@
     console.warn(`'${tagName}' not found in ancestors of ${startElement.nodeName}`);
     return null;
   }
-  //did not work for a comma seperated selector see #getAutosuggestSearchInputElements
-  function getAutosuggestSearchInputElement(config) {
-    const elements = getAutosuggestSearchInputElements(config);
-    return elements[0] || null;
-  }
   function getAutosuggestResultsContainerElement(inputElement) {
     // Create unique ID for each input's results container
     const inputId = inputElement.id || `autosuggest-input-${Array.from(document.querySelectorAll('input')).indexOf(inputElement)}`;
@@ -2650,7 +2645,10 @@
         }
         addSearchInputElementListeners(config);
         addFormElementSubmitListener(config);
-        getAutosuggestSearchInputElement(config).setAttribute('autocomplete', 'off');
+        const elements = getAutosuggestSearchInputElements(config);
+        elements.forEach(element => {
+          element.setAttribute('autocomplete', 'off');
+        });
       }
     };
   }
