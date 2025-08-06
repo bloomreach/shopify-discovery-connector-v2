@@ -1,3 +1,12 @@
+## 2.2.10
+
+### Fixed
+
+- [`Fixed`]: Fixed autosuggest template customizations revert on focus/blur
+- [`Fixed`]: Fixed price filter stuck in API payload after rapid filter clicks
+- [`Fixed`]: Clear all button clears price filter if present
+
+
 ## 2.2.9
 
 ### Added
