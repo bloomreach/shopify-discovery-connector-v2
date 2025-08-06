@@ -1,10 +1,17 @@
+## 2.2.11
+
+### Fixed
+
+- [`Fixed`]: Price Filter API Bug: Resolved price filter getting stuck in API payload after rapid filter clicks in collections page
+
+
 ## 2.2.10
 
 ### Fixed
 
-- [`Fixed`]: Fixed autosuggest template customizations revert on focus/blur
-- [`Fixed`]: Fixed price filter stuck in API payload after rapid filter clicks
-- [`Fixed`]: Clear all button clears price filter if present
+- [`Fixed`]: Autosuggest Template Customizations: Fixed issue where autosuggest template customizations would revert on focus/blur events
+- [`Fixed`]: Price Filter API Bug: Resolved price filter getting stuck in API payload after rapid filter clicks in search page
+- [`Fixed`]: Clear All Functionality: Enhanced clear all button to properly clear price filters when present
 
 
 ## 2.2.9
