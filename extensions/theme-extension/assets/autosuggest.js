@@ -1727,11 +1727,6 @@
     console.warn(`'${tagName}' not found in ancestors of ${startElement.nodeName}`);
     return null;
   }
-  //did not work for a comma seperated selector see #getAutosuggestSearchInputElements
-  function getAutosuggestSearchInputElement(config) {
-    const elements = getAutosuggestSearchInputElements(config);
-    return elements[0] || null;
-  }
   function getAutosuggestResultsContainerElement(inputElement) {
     // Create unique ID for each input's results container
     const inputId = inputElement.id || `autosuggest-input-${Array.from(document.querySelectorAll('input')).indexOf(inputElement)}`;
@@ -2440,16 +2435,22 @@
       }
     };
   }
-  function buildSearchInputElementFocusListener(inputElement) {
+  function buildSearchInputElementFocusListener(inputElement, config) {
     return () => {
       const lastTemplateData = getCurrentAutosuggestRequestState().last_template_data;
       const resultsContainer = getAutosuggestResultsContainerElement(inputElement);
 
       if (lastTemplateData && resultsContainer) {
-        resultsContainer.innerHTML = ejs.render(autosuggestTemplate, lastTemplateData);
+        // FIX: Use config.autosuggest.template instead of hardcoded autosuggestTemplate
+        resultsContainer.innerHTML = ejs.render(config.autosuggest?.template || '', lastTemplateData);
+
+        // Re-add event listeners after rendering
+        addCategoryLinkElementClickListener(config, inputElement);
+        addSuggestionTermElementClickListener(config, inputElement);
       }
     };
   }
+
   function buildSearchInputElementKeyupListener(inputElement, config) {
     return event => {
       const query = event.target.value;
@@ -2479,9 +2480,10 @@
       element.setAttribute('hasBlurListener', 'true');
     }
   }
-  function addSearchInputElementFocusListener(element) {
+  function addSearchInputElementFocusListener(element, config) {
     if (!element.getAttribute('hasFocusListener')) {
-      element.addEventListener('focus', buildSearchInputElementFocusListener(element));
+      // FIX: Pass config parameter to the focus listener
+      element.addEventListener('focus', buildSearchInputElementFocusListener(element, config));
       element.setAttribute('hasFocusListener', 'true');
     }
   }
@@ -2497,7 +2499,8 @@
     const elements = getAutosuggestSearchInputElements(config);
     elements.forEach(element => {
       addSearchInputElementBlurListener(element);
-      addSearchInputElementFocusListener(element);
+      // FIX: Pass config to focus listener
+      addSearchInputElementFocusListener(element, config);
       addSearchInputElementKeyupListener(element, config);
       element.setAttribute('autocomplete', 'off');
     });
@@ -2642,7 +2645,10 @@
         }
         addSearchInputElementListeners(config);
         addFormElementSubmitListener(config);
-        getAutosuggestSearchInputElement(config).setAttribute('autocomplete', 'off');
+        const elements = getAutosuggestSearchInputElements(config);
+        elements.forEach(element => {
+          element.setAttribute('autocomplete', 'off');
+        });
       }
     };
   }
