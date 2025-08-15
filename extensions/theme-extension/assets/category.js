@@ -3323,6 +3323,11 @@
   async function initiateSearch(config, options = {
     toReplace: false
   }) {
+    const rect = {
+      top: window.scrollY,
+      bottom: window.scrollY + window.innerHeight,
+    };
+
     updateCurrentSearchRequestState({
       request_id: generateRequestId()
     });
@@ -3346,7 +3351,16 @@
     const currentSearchRequestState = getCurrentSearchRequestState();
     if (currentSearchRequestState.is_first_request || !config.search.infinite_scroll || options.toReplace) {
       getSearchResultsContainerElement(config).innerHTML = ejs.render((config.search?.template || '').replace('%%-PRODUCT_LIST_TEMPLATE-%%', config.search?.product_list_template || '').replace(/%%-REQUEST_ID-%%/g, currentSearchRequestState.request_id.toString()), templateData);
-      window.scrollTo(0, 0);
+
+      if (rect.bottom < document.documentElement.scrollHeight) {
+        scrollTo(0, rect.top);
+      } else {
+        const results = document.querySelectorAll('.blm-product-search__result');
+        if (results.length > 0) {
+          results[results.length - 1].scrollIntoView();
+        }
+      }
+
       // Dispatch event after initial load or full replacement
       dispatchSearchResultsUpdatedEvent({
         action: 'full_update',
