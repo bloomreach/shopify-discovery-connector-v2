@@ -1,3 +1,9 @@
+## 2.2.12
+
+### Fixed
+
+- [`Fixed`]: Loading of page to proper position after change in filter(s) 
+
 ## 2.2.11
 
 ### Fixed
