@@ -1,8 +1,10 @@
 ---
 title: Shopify App v2 User Guide
-category: 61b785225c1c75017a430718
+category:
+  uri: /branches/1.0/categories/guides/Integrate%20with%20Search
+parent:
+  uri: discovery-connectors
 slug: shopify-app-user-guide
-parentDocSlug: discovery-connectors
 ---
 
 ## Getting started
@@ -11,7 +13,7 @@ There are two kinds of Shopify integrations, either headless or headful. For hea
 
 To integrate with Shopify two integrations need to be in place.
 
-1. The feed needs to be provided with catalog data from Shopify into Discovery catalogs. Our developer community offers a starting point for integrations using the [feed reference architecture](https://github.com/bloomreach/shopify-to-discovery-catalog-export) for new implementations.
+1. The feed needs to be provided with catalog data from Shopify into {user.search} catalogs. Our developer community offers a starting point for integrations using the [feed reference architecture](https://github.com/bloomreach/shopify-to-discovery-catalog-export) for new implementations.
 2. The pixel and search use-cases are covered out of the box through the [Shopify marketplace integration](https://apps.shopify.com/bloomreach-discovery-v2?st_source=autocomplete). This gives access to the theme editor and configurability of core search functionality within the Shopify dashboard. Extensions can be made using Shopify’s Liquid templating language. For an overview of the supported features, go to our [functional specification](https://documentation.bloomreach.com/discovery/docs/functional-specification-for-bloomreach-connectors#which-bloomreach-features-are-not-supported-in-the-connectors).
 
 ## Setup the integration
@@ -22,11 +24,11 @@ The app can be easily installed from the Shopify App Store. Head to the Bloomrea
 
 ![Shopify app page](https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/shopify-app-install.png)
 
-### Linking the app to your Bloomreach account
+### Linking the app to your {user.br} account
 
-When getting started with Bloomreach, you will first work with the Bloomreach team to create an account, import your product feed, configure searchable attributes and get your search APIs live.
+When getting started with {user.br}, you will first work with the {user.br} team to create an account, import your product feed, configure searchable attributes and get your search APIs live.
 
-Once you finish the initial account setup and configuration, you will receive access to your environment from the Bloomreach Support team. You can then use your Bloomreach account to authenticate with your Shopify app. To do this, enter your Bloomreach account credentials into the Shopify app. Your credentials are found on your Bloomreach Dashboard, under the **Setup** > **DevStudio** > **Account information** menu item.
+Once you finish the initial account setup and configuration, you will receive access to your environment from the {user.br} Support team. You can then use your {user.br} account to authenticate with your Shopify app. To do this, enter your {user.br} account credentials into the Shopify app. Your credentials are found on your {user.br} Dashboard, under the **Setup** > **DevStudio** > **Account information** menu item.
 
 [block:image]
 {
@@ -35,7 +37,7 @@ Once you finish the initial account setup and configuration, you will receive ac
       "image": [
         "https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/link-keys.png",
         null,
-        "Discovery API details"
+        "API details"
       ],
       "align": "center"
     }
@@ -71,13 +73,13 @@ The following fields are all needed for a successful integration:
   - If you [use subfolders for Shopify markets](https://help.shopify.com/en/manual/international/international-domains/setting-up-unique-urls/set-up-urls#set-up-target-markets-using-subfolders), you can use either a relative or absolute value, and check the **Automatically adjust for subfolders** checkbox, which will automatically insert the subfolder for the storefront’s localization (example: `/fr-ca`) into the search URL;
   - If you have a mixed setup (using both (sub-)domains and subfolders), you can use a relative value, and check the **Automatically adjust for subfolders** checkbox.
 
-## Setup Bloomreach product catalog(s)
+## Setup {user.br} product catalog(s)
 
 > 📘 Prerequisite
 > 
-> You must have already created at least one [Product Catalog](https://documentation.bloomreach.com/discovery/docs/discovery-glossary#catalog-type) in Bloomreach.
+> You must have already created at least one [Product Catalog](https://documentation.bloomreach.com/discovery/docs/discovery-glossary#catalog-type) in {user.br}.
 
-The connector app supports both a single catalog and multiple catalogs setup in Bloomreach. Either way, you need to first configure a default Bloomreach product catalog, which should contain all the products in your Shopify store. In most cases, it's your **Account Name** (such as "_pacific_supply_") in the **Account information** above. Depending on your Bloomreach account setup, you may choose another catalog in Bloomreach's [Catalog Management](https://documentation.bloomreach.com/discovery/docs/catalog-management) feature as your default one:
+The connector app supports both a single catalog and multiple catalogs setup in {user.br}. Either way, you need to first configure a default {user.br} product catalog, which should contain all the products in your Shopify store. In most cases, it's your **Account Name** (such as "_pacific_supply_") in the **Account information** above. Depending on your {user.br} account setup, you may choose another catalog in {user.br}'s [Catalog Management](https://documentation.bloomreach.com/discovery/docs/catalog-management) feature as your default one:
 
 [block:image]
 {
@@ -103,7 +105,7 @@ Fill the catalog's name in the settings form below:
       "image": [
         "https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/default-catalog.png",
         null,
-        "Default Bloomreach catalog"
+        "Default catalog"
       ],
       "align": "center"
     }
@@ -115,12 +117,12 @@ Fill the catalog's name in the settings form below:
 
 The Shopify connector app supports multi-lingual and -country use-cases using [Shopify’s markets support](https://www.shopify.com/blog/markets).  The following product catalogs setup scenarios are good to keep in mind:
 
-- Each Discovery product catalog must contain the same products as a [Shopify Market](https://shopify.dev/docs/apps/build/markets), and represents one of the language(s) in that market. 
-  - For example, a Bloomreach product catalog _mystore_na_en_ may contain the same products as in the Shopify Market _North America_, with the localization language _English (en)_.
-- It is not necessary to map all Shopify Market/language combinations to Bloomreach product catalogs. For those without a Bloomreach product catalog specified, the default product catalog will be used. However, the search experiences on those markets/languages might be affected.
-- If two or more Shopify markets share the same products, and contain the same language, they may also share the same Bloomreach product catalog.
+- Each {user.search} product catalog must contain the same products as a [Shopify Market](https://shopify.dev/docs/apps/build/markets), and represents one of the language(s) in that market. 
+  - For example, a {user.br} product catalog _mystore_na_en_ may contain the same products as in the Shopify Market _North America_, with the localization language _English (en)_.
+- It is not necessary to map all Shopify Market/language combinations to {user.br} product catalogs. For those without a {user.br} product catalog specified, the default product catalog will be used. However, the search experiences on those markets/languages might be affected.
+- If two or more Shopify markets share the same products, and contain the same language, they may also share the same {user.br} product catalog.
 
-If your Bloomreach account contains product catalogs that satisfy the above criteria, you can map them in the connector app, and take advantage of different product catalogs for your storefronts across multiple markets and languages. To do that, first select the **Enable multi-catalog support** checkbox in the **Bloomreach Catalogs** section, and the catalogs form will appear:
+If your {user.br} account contains product catalogs that satisfy the above criteria, you can map them in the connector app, and take advantage of different product catalogs for your storefronts across multiple markets and languages. To do that, first select the **Enable multi-catalog support** checkbox in the **Bloomreach Catalogs** section, and the catalogs form will appear:
 
 [block:image]
 {
@@ -137,18 +139,18 @@ If your Bloomreach account contains product catalogs that satisfy the above crit
 }
 [/block]
 
-The form should list all Shopify Market and language pairs in your store, and you can selectively fill in the corresponding Bloomreach product catalog for each of them. When your users land on a storefront using a particular market and language (usually determined by the URL), the Bloomreach product catalog for that market/language pair (or the default catalog if not found) will be used for your search experiences.
+The form should list all Shopify Market and language pairs in your store, and you can selectively fill in the corresponding {user.br} product catalog for each of them. When your users land on a storefront using a particular market and language (usually determined by the URL), the {user.br} product catalog for that market/language pair (or the default catalog if not found) will be used for your search experiences.
 
-### (Optional) Setup Bloomreach views
+### (Optional) Setup {user.br} views
 
 [Views](https://documentation.bloomreach.com/discovery/docs/discovery-glossary#views) allow you to display products with some different data variations across your customer base depending on who’s viewing the products or content. They are virtual snapshots of a catalog with distinct representations of a product or variant.
 
-The connector app supports the following [Bloomreach views](https://documentation.bloomreach.com/discovery/docs/discovery-glossary#views) setup scenario:
+The connector app supports the following [{user.br} views](https://documentation.bloomreach.com/discovery/docs/discovery-glossary#views) setup scenario:
 
-- The view should be based on countries. For example, you can have a Bloomreach view _US_ that contains product variations for selling in the United States.
+- The view should be based on countries. For example, you can have a {user.br} view _US_ that contains product variations for selling in the United States.
 - It's possible that two or more countries share the same view, given that they have the same product variations.
 
-If your Bloomreach account contains views that satisfy the above criteria, you can map them in the connector app, and take advantage of different views for your storefronts across multiple countries. To do that, fill in the corresponding Bloomreach view ID for the countries in the **Bloomreach Views** form, which is a parameter passed through the feed. When your users land on a storefront for a particular country (usually determined by the URL), the Bloomreach view for that country (if available) will be used for your search experiences.
+If your {user.br} account contains views that satisfy the above criteria, you can map them in the connector app, and take advantage of different views for your storefronts across multiple countries. To do that, fill in the corresponding {user.br} view ID for the countries in the **Bloomreach Views** form, which is a parameter passed through the feed. When your users land on a storefront for a particular country (usually determined by the URL), the {user.br} view for that country (if available) will be used for your search experiences.
 
 [block:image]
 {
@@ -157,7 +159,7 @@ If your Bloomreach account contains views that satisfy the above criteria, you c
       "image": [
         "https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/views.png",
         null,
-        "Bloomreach Views"
+        "Views"
       ],
       "align": "center"
     }
@@ -190,11 +192,11 @@ You can select one of the installed themes in your Shopify store as your working
 
 ### (Optional) Enable multi-currency support
 
-If your store supports multiple currencies for a market, you can turn on the **multi-currency support** in the connector. When enabled, the **displayed prices** in your search results powered by Bloomreach will be converted from your store's default currency to the user selected currency (local currency). You can learn more about currencies in Shopify [here](https://help.shopify.com/en/manual/international/pricing/exchange-rates).
+If your store supports multiple currencies for a market, you can turn on the **multi-currency support** in the connector. When enabled, the **displayed prices** in your search results powered by {user.br} will be converted from your store's default currency to the user selected currency (local currency). You can learn more about currencies in Shopify [here](https://help.shopify.com/en/manual/international/pricing/exchange-rates).
 
 > 📘 Note
 > 
-> - Bloomreach always stores prices in the default (store) currency.
+> - {user.br} always stores prices in the default (store) currency.
 > - If you are using custom templates, this feature might not work as expected. You can refer to the default templates on how to properly utilize this feature (implemented by the `format_money` JS function).
 
 [block:image]
@@ -226,13 +228,13 @@ There are nine pages with configuration options:
 6. [**Recommendations**](#recommendations): Recommendations Widgets settings and theme installation.
 7. [**Pixel**](#pixel): Pixel theme installation.
 8. **Optimize**: Information regarding search relevance.
-9. [**Settings**](#getting-started): Bloomreach account and other app settings.
+9. [**Settings**](#getting-started): {user.br} account and other app settings.
 
-The **Settings** page has been covered in [Getting started](#getting-started). The next few sections will go into details about configuring the Bloomreach features (Search, Autosuggest, Collections, Recommendations, and Pixels) supported by the connector app.
+The **Settings** page has been covered in [Getting started](#getting-started). The next few sections will go into details about configuring the {user.br} features (Search, Autosuggest, Collections, Recommendations, and Pixels) supported by the connector app.
 
 ### Enable Bloomreach Configurations App Embed Block
 
-All Bloomreach features require a common support module, which is installed into the theme by enabling the **Bloomreach Configurations App Embed**. To do that, navigate to one of the feature's pages, and click on the **Enable Bloomreach Configurations Embed Block** button to enable it on your working theme. Below shows an example from the **Bloomreach Search** feature: 
+All {user.br} features require a common support module, which is installed into the theme by enabling the **Bloomreach Configurations App Embed**. To do that, navigate to one of the feature's pages, and click on the **Enable Bloomreach Configurations Embed Block** button to enable it on your working theme. Below shows an example from the **Bloomreach Search** feature: 
 
 [block:image]
 {
@@ -241,7 +243,7 @@ All Bloomreach features require a common support module, which is installed into
       "image": [
         "https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/enable-embed-block.png",
         null,
-        "Enable Bloomreach Configurations Embed Block"
+        "Enable Configurations Embed Block"
       ],
       "align": "center"
     }
@@ -294,7 +296,7 @@ You can also enable the app embed block manually on any theme. To do that:
 }
 [/block]
 
-3. Switch on **Bloomreach Configurations** to enable Bloomreach features support for the theme.  
+3. Switch on **Bloomreach Configurations** to enable {user.br} features support for the theme.  
 
 [block:image]
 {
@@ -323,7 +325,7 @@ You can also enable the app embed block manually on any theme. To do that:
 
 #### Automatically enable on a theme
 
-To customize and start using the Bloomreach **search**/**collections** feature, navigate to the corresponding page, and click on the **Add Bloomreach Search App Block**/**Add Bloomreach Collections App Block** button. It will open the Shopify theme editor in a new tab and add the corresponding Bloomreach feature app block to your working theme.
+To customize and start using the {user.br} **search**/**collections** feature, navigate to the corresponding page, and click on the **Add Bloomreach Search App Block**/**Add Bloomreach Collections App Block** button. It will open the Shopify theme editor in a new tab and add the corresponding {user.br} feature app block to your working theme.
 
 [block:image]
 {
@@ -332,7 +334,7 @@ To customize and start using the Bloomreach **search**/**collections** feature, 
       "image": [
         "https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/theme-enable.png",
         null,
-        "Enable Bloomreach Search on a theme"
+        "Enable Search on a theme"
       ],
       "align": "center",
       "caption": "Showing the **Bloomreach Search** feature"
@@ -477,8 +479,8 @@ You can also add the **Bloomreach Search/Collections** app block manually on a t
 
 You can customize the default settings for the following options in the app. They will apply if you choose to **use default settings** in the app block.
 
-- **Endpoint** - Choose the Bloomreach Discovery Endpoint for the search results/collections. Can be either **Staging** or **Production**.
-- **Fields** - Set the product attribute fields that you want returned from Bloomreach, such as product IDs and prices.
+- **Endpoint** - Choose the {user.search} Endpoint for the search results/collections. Can be either **Staging** or **Production**.
+- **Fields** - Set the product attribute fields that you want returned from {user.br}, such as product IDs and prices.
 - **Items per page** - Set the number of items per page you wish to display.
 - **Display variants?** - Set whether you wish to display variants as individual products in the results.
 - **Include facets?** - Set whether you wish to include facets in your results.
@@ -525,7 +527,7 @@ You can customize the default settings for the following options in the app. The
 [/block]
 
 - **Custom CSS** - Add Custom CSS to alter the look of each feature.
-- **Additional parameters** - Set Additional parameters that will be sent to Bloomreach search API.
+- **Additional parameters** - Set Additional parameters that will be sent to {user.br} search API.
 
 #### App block settings
 
@@ -552,7 +554,7 @@ In each app block, you can choose to use the default settings (configured in the
 
 #### Customize templates
 
-You can customize the templates for Bloomreach search/collections to better suit your storefront design. You can also customize the templates for each Shopify market individually. To do that, navigate to the corresponding page, then go to the **Template** or **Product List Template** section:
+You can customize the templates for {user.br} search/collections to better suit your storefront design. You can also customize the templates for each Shopify market individually. To do that, navigate to the corresponding page, then go to the **Template** or **Product List Template** section:
 
 [block:image]
 {
@@ -595,7 +597,7 @@ When you have finished editing each template in the text box, click the **Save**
 
 ##### Updating the template version
 
-Bloomreach may release new templates from time to time. Those may contain new features, bug fixes, new API supports, etc. When the app detects a new version for a template, you will be notified with an info box like below:
+{user.br} may release new templates from time to time. Those may contain new features, bug fixes, new API supports, etc. When the app detects a new version for a template, you will be notified with an info box like below:
 
 [block:image]
 {
@@ -634,7 +636,7 @@ To customize and start using the **Bloomreach Autosuggest** feature, navigate to
       "image": [
         "https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/enable-embed-block-autosuggest.png",
         null,
-        "Enable Bloomreach Configurations Embed Block in Autosuggest"
+        "Enable Configurations Embed Block in Autosuggest"
       ],
       "align": "center"
     }
@@ -709,17 +711,17 @@ In the app, you can customize the default autosuggest settings, or settings for 
 
 You can customize the following autosuggest settings:
 
-- **Endpoint** - Choose the Bloomreach Endpoint for autosuggest. Can be either **Staging** or **Production**.
+- **Endpoint** - Choose the {user.br} Endpoint for autosuggest. Can be either **Staging** or **Production**.
 - **CSS Selector** - Set the CSS selector for the **search input box** you wish to use **Bloomreach Autosuggest**.
 - **Number of Terms** - Set the number of terms you wish to display in the suggested result.
 - **Number of Products** - Set the number of products you wish to display in the suggested result.
 - **Number of Collections** -Set the number of collections you wish to display in the suggested result.
 - **Custom CSS** - Add custom CSS to alter the look of the autosuggest feature.
-- **Additional parameters** - Set additional parameters that will be sent to Bloomreach autosuggest API.
+- **Additional parameters** - Set additional parameters that will be sent to {user.br} autosuggest API.
 
 #### Customize templates
 
-Similar to the [**Search**/**Collections**](#customize-templates), you can customize the template for Bloomreach autosuggest to better suit your storefront design in the **Template** section. You can also customize the autosuggest template for each Shopify market individually. The template is used for displaying the autosuggest dropdown box and is based on [EJS](https://ejs.co/) format.
+Similar to the [**Search**/**Collections**](#customize-templates), you can customize the template for {user.br} autosuggest to better suit your storefront design in the **Template** section. You can also customize the autosuggest template for each Shopify market individually. The template is used for displaying the autosuggest dropdown box and is based on [EJS](https://ejs.co/) format.
 
 When you have finished editing the template in the text box, click the **Save** or **Save All** button to persist your changes.
 
@@ -771,7 +773,7 @@ For example, if you have selected **Category**, a **Bloomreach Category Widget**
 
 #### Manually add a widget to a theme
 
-You can also manually add a Bloomreach Recommendations widget app block to a theme. To do that:
+You can also manually add a {user.br} Recommendations widget app block to a theme. To do that:
 
 1. Go to Shopify **Themes**, and click **Customize** next to a theme (it's recommended to customize an **unpublished** theme).
 
@@ -865,11 +867,11 @@ You can customize the default settings for the following options in the app. The
 
 The following options apply to all widgets in your store, and can only be customized in the app’s **Recommendations** page:
 
-- **Endpoint**: Choose the Bloomreach Discovery endpoint for the widgets. This can be either **Staging** or **Production**. 
-- **Fields**: Set the **product attribute fields** that you want returned from Bloomreach, such as product IDs and prices.
+- **Endpoint**: Choose the {user.search} endpoint for the widgets. This can be either **Staging** or **Production**. 
+- **Fields**: Set the **product attribute fields** that you want returned from {user.br}, such as product IDs and prices.
 - **How Many Items to Show**: Set the number of items to display initially in each widget.
 - **How Many Items to Fetch**: Set the number of items to fetch totally for each widget.
-- Set **Additional Parameters** that will be sent to Bloomreach Pathways & Recommendations API.
+- Set **Additional Parameters** that will be sent to {user.br} Pathways & Recommendations API.
 
 #### Customize settings for each widget app block
 
@@ -900,7 +902,7 @@ In each app block, you can choose to use the default settings (configured in the
 | Keyword      | <li>Widget Title</li> <li>Widget ID</li> <li>**Keyword**</li>     |
 | Personalized | <li>Widget Title</li> <li>Widget ID</li>                          |
 
-**IMPORTANT**: You must pair the widget added in Shopify to a widget you’ve created in the Bloomreach Dashboard using the **Widget ID** property. You can find it in the Bloomreach dashboard.
+**IMPORTANT**: You must pair the widget added in Shopify to a widget you’ve created in the {user.br} Dashboard using the **Widget ID** property. You can find it in the {user.br} dashboard.
 
 [block:image]
 {
@@ -923,7 +925,7 @@ In each app block, you can choose to use the default settings (configured in the
 
 #### Customize templates
 
-Similar to the [**Search**/**Collections**](#customize-templates), you can customize the template for Bloomreach Recommendations widget to better suit your storefront design in the **Template** section. You can also customize the recommendations template for each Shopify market individually. The template is based on [EJS](https://ejs.co/) format.
+Similar to the [**Search**/**Collections**](#customize-templates), you can customize the template for {user.br} Recommendations widget to better suit your storefront design in the **Template** section. You can also customize the recommendations template for each Shopify market individually. The template is based on [EJS](https://ejs.co/) format.
 
 When you have finished editing the template in the text box, click the **Save** or **Save All** button to persist your changes.
 
@@ -940,7 +942,7 @@ To start using the **Bloomreach Pixel** feature, navigate to the **Pixel** page,
       "image": [
         "https://raw.githubusercontent.com/bloomreach/shopify-discovery-connector-v2/main/docs/images/enable-embed-block-pixel.png",
         null,
-        "Enable Bloomreach Configurations Embed Block in Pixel"
+        "Enable Configurations Embed Block in Pixel"
       ],
       "align": "center"
     }
@@ -976,13 +978,13 @@ You can also enable the **Bloomreach Pixel** feature manually on any theme. To d
 
 #### Customize pixel settings
 
-Once **enabled**, the app will inject the pixel into your theme. The pixel will track users as they navigate and interact with your site. This information is passed back to Bloomreach and adds behavioral learning data to the Bloomreach algorithm.
+Once **enabled**, the app will inject the pixel into your theme. The pixel will track users as they navigate and interact with your site. This information is passed back to {user.br} and adds behavioral learning data to the {user.br} algorithm.
 
 In addition, you can customize the following options in the app embed settings:
 
-- **Enable debug mode**: Flag the pixel data as test data for real-time debugging purpose. You can track debug events using **Integration mode** in Bloomreach Dashboard's [Events Management](https://documentation.bloomreach.com/discovery/docs/events-management#21-mode). Note that debug events are discarded and don’t impact any production features. So you should turn this option **off** on your live site.
+- **Enable debug mode**: Flag the pixel data as test data for real-time debugging purpose. You can track debug events using **Integration mode** in {user.br} Dashboard's [Events Management](https://documentation.bloomreach.com/discovery/docs/events-management#21-mode). Note that debug events are discarded and don’t impact any production features. So you should turn this option **off** on your live site.
 - **Pixel Region**: Define to which region the pixel should send the pixel data. The region is depending on what region your account is provisioned in: North America or Europe
-- **Product ID field**: Specify the Shopify product field used as the unique **product_id** (**pid**) sent in your Bloomreach feed. Can be either **handle** or **id**. You should set this option based on your Bloomreach product feed data.
+- **Product ID field**: Specify the Shopify product field used as the unique **product_id** (**pid**) sent in your {user.br} feed. Can be either **handle** or **id**. You should set this option based on your {user.br} product feed data.
 
 #### Page View Pixels
 
@@ -998,7 +1000,7 @@ The app supports tracking 7 types of [page view pixels](https://documentation.bl
 
 #### Data collected by Page View Pixels
 
-On each page view the Bloomreach pixel collects page specific data including:
+On each page view the {user.br} pixel collects page specific data including:
 
 - Page URL
 - Customer ID
@@ -1018,7 +1020,7 @@ The app supports tracking the following types of [event pixels](https://document
 - Suggest Event: when user clicks on a suggested term or product in the autosuggest popup
 - Quick View Event: when user opens a product quick view (requires self-implementation of the "Quick view" button)
 
-**Search** and **Suggest** events are captured automatically by Bloomreach. However, if you wish to capture **Add-to-cart** and **Quick View** events, you will need to make changes to the **Add-to-cart** and **Quick View** buttons throughout your themes.
+**Search** and **Suggest** events are captured automatically by {user.br}. However, if you wish to capture **Add-to-cart** and **Quick View** events, you will need to make changes to the **Add-to-cart** and **Quick View** buttons throughout your themes.
 
 For example, if you are using Shopify’s Dawn theme, you can track Add-to-cart events on your product page by editing the `Snippets/buy-buttons.liquid` file and adding the following html data attributes to the **ProductSubmitButton** button:
 
@@ -1111,14 +1113,14 @@ data-blm-widget-add-to-cart
 
 #### Pixel Validator
 
-To validate and inspect the data captured by Bloomreach pixel events, you can:
+To validate and inspect the data captured by {user.br} pixel events, you can:
 
 - Install the [Bloomreach Pixel Validator](https://chrome.google.com/webstore/detail/bloomreach-pixel-validato/bednpgnjlfnlipjmglfhfbmjhecjeghc?hl=en) for Google Chrome. For more details on the Pixel Validator, read the [Pixel Validator documentation](https://documentation.bloomreach.com/discovery/docs/validating-pixels).
 - Use the [Events Management](https://documentation.bloomreach.com/discovery/docs/events-management) view to [test Pixel Tracking with Debug Events](https://documentation.bloomreach.com/discovery/docs/track-debug-events-in-integration-mode).
 
 ### Product feed delivery
 
-Please refer to the [Data Delivery](https://documentation.bloomreach.com/discovery/docs/milestone-3-data-delivery) milestone of the Discovery Technical Integration for guidance on delivering your feed via our [Catalog Management APIs](https://documentation.bloomreach.com/discovery/reference/api-based-catalog-data-management#product-catalog).
+Please refer to the [Data Delivery](https://documentation.bloomreach.com/discovery/docs/milestone-3-data-delivery) milestone of the {user.search} Technical Integration for guidance on delivering your feed via our [Catalog Management APIs](https://documentation.bloomreach.com/discovery/reference/api-based-catalog-data-management#product-catalog).
 
 Our suggested approach is to use the community-developed [Shopify Reference Architecture](https://github.com/bloomreach/shopify-to-discovery-catalog-export), which includes a set of reference codes that you can download, customize, and host.
 
@@ -1128,7 +1130,7 @@ This uses the most reliable and fast mechanism to pull the product feeds out of 
 
 ### Changes from v1.x
 
-The v1.x versions of the Bloomreach Discovery Shopify App was using Shopify’s deprecated legacy [Asset API](https://shopify.dev/docs/apps/build/online-store/asset-legacy) to edit themes. However, When Apps are injected directly into themes using the assets API, merchant themes can no longer get updates with the latest features. In addition, they do not have an easy way to uninstall the snippets of code that apps have left behind, even after uninstalling, leading to slower storefront performance. Starting from 2023, Shopify asked all who are using Asset API to make changes to theme files, to transition to [Theme App Extensions](https://shopify.dev/docs/apps/build/online-store/theme-app-extensions) to ensure a better and safer merchant experience. As a response to this requirement, Bloomreach rewrote the app to use the new Theme App Extensions for adding Bloomreach components to your themes. This resulted in the following changes:
+The v1.x versions of the Bloomreach Discovery Shopify App was using Shopify’s deprecated legacy [Asset API](https://shopify.dev/docs/apps/build/online-store/asset-legacy) to edit themes. However, When Apps are injected directly into themes using the assets API, merchant themes can no longer get updates with the latest features. In addition, they do not have an easy way to uninstall the snippets of code that apps have left behind, even after uninstalling, leading to slower storefront performance. Starting from 2023, Shopify asked all who are using Asset API to make changes to theme files, to transition to [Theme App Extensions](https://shopify.dev/docs/apps/build/online-store/theme-app-extensions) to ensure a better and safer merchant experience. As a response to this requirement, {user.br} rewrote the app to use the new Theme App Extensions for adding {user.br} components to your themes. This resulted in the following changes:
 
 - v2 only supports [Online Store 2.0](https://help.shopify.com/en/manual/online-store/themes/managing-themes/upgrading-themes) themes. If you are using a vintage theme and don’t wish to upgrade, you can still use the v1.x version of the app.
 - Most of the component settings (such as CSS selector, number of items, etc.) have been moved from the app’s UI to the theme editor. You can use [App embeds](https://help.shopify.com/en/manual/online-store/themes/theme-structure/extend/apps#app-embeds) (for non-widget components) and [App blocks](https://help.shopify.com/en/manual/online-store/themes/theme-structure/extend/apps#app-blocks) (for recommendations widgets) to manage them in themes. For more information, please refer to Shopify’s official documentation. Some complex settings such as template management however, are still retained in the app’s UI. This is to ensure the best user experience.
@@ -1144,7 +1146,7 @@ Please follow the steps below to migrate your data from v1.x to v2:
 
 1. [Make a duplication](https://help.shopify.com/en/manual/online-store/themes/managing-themes/duplicating-themes) of the theme(s) that you have edited with the v1.x app. They will later be used as a reference to reapply the changes.
 2. Install v2 version of the app following the [installation instructions](@docs:shopify-app-user-guide#installation).
-3. Fill in your [Bloomreach account details](@docs:shopify-app-user-guide#linking-the-application-to-your-bloomreach-account) in the new app (you can also copy them from v1.x).
+3. Fill in your [{user.br} account details](@docs:shopify-app-user-guide#linking-the-application-to-your-bloomreach-account) in the new app (you can also copy them from v1.x).
 4. If you have customized any templates, copy them to the corresponding places in the v2 app. You can follow the instructions for each component in [Configuring the app](@docs:shopify-app-user-guide#configuring-the-app).
 5. [Uninstall](@docs:shopify-app-v1-user-guide#uninstalling-bloomreach) the v1.x app. Make sure you have completely removed [all files](https://documentation.bloomreach.com/discovery/docs/shopify-app-user-guide#bloomreach-files) from the original themes. If you have any [customization](@docs:shopify-app-v1-user-guide#customizing-bloomreach), make sure to revert them too. However, leave the duplicated themes from step 1 untouched.
 6. Use the duplicated themes from step 1 as reference, reapply the components and widgets to the original themes. You can follow the instructions in [Configuring the app](@docs:shopify-app-user-guide#configuring-the-app) for each component/widget. Unlike the v2 app, the v1.x app only manages settings. So even if it was uninstalled, the components and widgets were left behind in the themes unless you chose to remove them.
@@ -1154,7 +1156,7 @@ Please follow the steps below to migrate your data from v1.x to v2:
 
 #### How to disable the default Shopify autosuggest dropdown
 
-After enabling the app, users can occasionally see both the default Shopify autosuggest & the Bloomreach Autosuggest on their frontend. Each Shopify theme handles the Shopify autosuggest slightly differently. To avoid this, we recommend hiding the predictive search overlay.
+After enabling the app, users can occasionally see both the default Shopify autosuggest & the {user.br} Autosuggest on their frontend. Each Shopify theme handles the Shopify autosuggest slightly differently. To avoid this, we recommend hiding the predictive search overlay.
 
 For example, if you are using Shopify’s Dawn theme, you can hide the **default Autosuggest overlay** by adding the following **Custom CSS**:
 
@@ -1164,7 +1166,7 @@ predictive-search .predictive-search { display: none !important; }
 
 #### Why am I seeing an empty widget with no products?
 
-Widgets fetch product data (from your Bloomreach catalog(s)) via client side JavaScript. Because this process happens client side (in your browser) if there are breaking errors in your JavaScript code (unrelated to the connector) you could see an empty result set within some of your widgets.
+Widgets fetch product data (from your {user.br} catalog(s)) via client side JavaScript. Because this process happens client side (in your browser) if there are breaking errors in your JavaScript code (unrelated to the connector) you could see an empty result set within some of your widgets.
 
 If you have any concerns related to the functionality of the connector, try to make sure that you don't have any console errors in the browser before raising an issue with our support team.
 
